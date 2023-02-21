@@ -1,0 +1,10 @@
+.dark .navbar {
+  background-color: rgb(12, 10, 10)!important;
+  color:white;
+}
+.dark .navbar a{
+  color:white;
+}
+.dark .navbar .navbar-toggler-icon{
+  background-color: white;
+}
