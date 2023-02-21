@@ -13,8 +13,8 @@ const Header = () => {
             toggleTheme(theme === "light" ? "dark" : "light")
             localStorage.setItem("mtTheme",theme === "dark"? "light":"dark")
           }} className="btn btn-primary btn-sm">dark mood</button>
-          <button className="btn btn-primary btn-sm">sign in</button>
-          <button className="btn btn-primary btn-sm">sign up</button>
+          <Link to={"/signin"} className="btn btn-primary btn-sm">sign in</Link>
+          <Link to={"/signup"} className="btn btn-primary btn-sm">sign up</Link>
           <button className="btn btn-danger btn-sm">sign out</button>
       </div>
       
