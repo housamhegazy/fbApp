@@ -7,6 +7,23 @@ import { useState } from "react";
 function Signup(){
   const [email,setemail] = useState("");
   const [password,setpassword] = useState("");
+  const [errorMsg,seterrorMsg] = useState("")
+  const Signup = (e)=>{
+    e.preventDefault();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log(user)
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        seterrorMsg(errorCode)
+        // ..
+      });
+  }
   return (
     <>
     <Header/>
@@ -20,23 +37,11 @@ function Signup(){
           setpassword(e.target.value)
         }} type="password" className="form-control my-2" placeholder="password" />
         <button onClick={(e)=>{
-          e.preventDefault();
-          createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-              // Signed in 
-              const user = userCredential.user;
-              console.log(user)
-              // ...
-            })
-            .catch((error) => {
-              const errorCode = error.code;
-              const errorMessage = error.message;
-              console.log(errorCode)
-              // ..
-            });
-        }} className="btn btn-primary mt-5" value={"submit"}>submit</button>
+          Signup()
+        }} className="btn btn-primary mt-3" value={"submit"}>submit</button>
       </div>
     </form>
+    <p>{errorMsg}</p>
     <Footer/>
     </>
   
