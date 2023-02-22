@@ -1,11 +1,12 @@
 import './App.css';
-import Home from './pages/Home'
+import Home from './pages/home/Home.jsx'
 import About from './pages/About'
 import Profile from './pages/Profile'
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import { useContext } from 'react';
 import ThemeContext from './context/Theme';
+import EditeTask from 'pages/edit-task/Edite-Task';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup/>,
+  },
+  {
+    path: "/edittask",
+    element: <EditeTask/>,
   },
 ]);
 function App() {

@@ -1,0 +1,9 @@
+.tasks{
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.task{
+  width:200px;
+  border-radius: 5px;
+}

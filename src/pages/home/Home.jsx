@@ -1,16 +1,13 @@
-import Header from "../comp/Header";
-import Footer from "../comp/Footer";
+import Header from "../../comp/Header";
+import Footer from "../../comp/Footer";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Helmet } from "react-helmet-async";
-import { auth } from "../firebase/config";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { auth } from "../../firebase/config";
 import {sendEmailVerification } from "firebase/auth";
-
+import Alltasks from "./Alltasks";
+import './home.css'
 function Home() {
-  const [user, loading, error] = useAuthState(auth);
-  const navigate = useNavigate();
-
+  const [user, loading, error] = useAuthState(auth)
   if (loading) {
     return (
       <>
@@ -25,6 +22,19 @@ function Home() {
       </>
     );
   }
+  if(!user){
+    return (
+      <>
+        <Helmet>
+          <meta name="home" content="home" />
+          <title>home  </title>
+        </Helmet>
+        <Header />
+        <main>hello please sign in</main>
+        <Footer />
+      </>
+    );
+}
     if (user) {
       if (!user.emailVerified) {
         return (
@@ -49,7 +59,6 @@ function Home() {
           </>
         );
       }
-    
     if (user.emailVerified) {
       return (
         <>
@@ -58,25 +67,13 @@ function Home() {
             <title>home</title>
           </Helmet>
           <Header />
-          <main>hello : {user.displayName}</main>
+          <main><Alltasks/></main>
           <Footer />
         </>
       );
     }
   }
-  if(!user){
-    return (
-      <>
-        <Helmet>
-          <meta name="home" content="home" />
-          <title>home  </title>
-        </Helmet>
-        <Header />
-        <main>hello please sign in</main>
-        <Footer />
-      </>
-    );
-}
+
 
 }
 
