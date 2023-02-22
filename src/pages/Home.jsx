@@ -10,11 +10,7 @@ import {sendEmailVerification } from "firebase/auth";
 function Home() {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!user) {
-      navigate("/signin");
-    }
-  }, []);
+
   if (loading) {
     return (
       <>
@@ -29,30 +25,31 @@ function Home() {
       </>
     );
   }
-  if (!user.emailVerified) {
-    return (
-      <>
-        <Helmet>
-          <meta name="home" content="home" />
-          <title>home</title>
-        </Helmet>
-        <Header />
-        <main>
-          hello {user.displayName} please verify your email , we send message
-          <button onClick={()=>{
-            sendEmailVerification(auth.currentUser)
-            .then(() => {
-              // Email verification sent!
-              // ...
-              console.log("Email verification sent")
-            });
-          }}>send another message</button>
-        </main>
-        <Footer />
-      </>
-    );
-  }
-  if (user) {
+    if (user) {
+      if (!user.emailVerified) {
+        return (
+          <>
+            <Helmet>
+              <meta name="home" content="home" />
+              <title>home</title>
+            </Helmet>
+            <Header />
+            <main>
+              hello {user.displayName} please verify your email , we send message
+              <button onClick={()=>{
+                sendEmailVerification(auth.currentUser)
+                .then(() => {
+                  // Email verification sent!
+                  // ...
+                  console.log("Email verification sent")
+                });
+              }}>send another message</button>
+            </main>
+            <Footer />
+          </>
+        );
+      }
+    
     if (user.emailVerified) {
       return (
         <>
@@ -67,5 +64,20 @@ function Home() {
       );
     }
   }
+  if(!user){
+    return (
+      <>
+        <Helmet>
+          <meta name="home" content="home" />
+          <title>home  </title>
+        </Helmet>
+        <Header />
+        <main>hello please sign in</main>
+        <Footer />
+      </>
+    );
 }
+
+}
+
 export default Home;

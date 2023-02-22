@@ -10,11 +10,13 @@ function About(){
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   useEffect(()=>{
-    if(!user){
+    if(!user && !loading){
       navigate("/")
     }
-    if(!user.emailVerified){
-      navigate("/")
+    if(user){
+      if(!user.emailVerified){
+        navigate("/")
+      }
     }
 },[])
 if(loading){

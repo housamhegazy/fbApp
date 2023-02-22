@@ -1,5 +1,4 @@
 import { Helmet } from "react-helmet-async";
-
 function Modal({ closeModel, children,backgroundColor="whitesmoke"}) {
   return (
     <div className="parent-of-modal">
@@ -12,9 +11,6 @@ function Modal({ closeModel, children,backgroundColor="whitesmoke"}) {
             left:0;
             width:100%;
             height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             background-color: #33333388;
             
           }
@@ -22,16 +18,19 @@ function Modal({ closeModel, children,backgroundColor="whitesmoke"}) {
             width: 400px;
             height: 333px;
             border-radius: 12px;
+            top:50%;
+            left:50%;
+            transform: translate(-50%,-50%);
             display: flex;
             align-items: center;
             justify-content: center;
             animation:mymove .8s ;
             overflow-y: auto;
           } 
-
+          
           @keyframes mymove{
-            0% {scale:0;  transform: translateY(-100vh);}
-            100% {scale:1;  transform: translateY(0);}
+            0% {scale:0;  transform: translate(-100vh,-100vh);}
+            100% {scale:1;  transform: translate(-50%,-50%);}
           }
           .close{
             position:absolute;
@@ -40,15 +39,15 @@ function Modal({ closeModel, children,backgroundColor="whitesmoke"}) {
           }
           .modal::-webkit-scrollbar {
             width: .5em;
-        }
-        .modal::-webkit-scrollbar-track {
+          }
+          .modal::-webkit-scrollbar-track {
           -webkit-box-shadow:inset 0 0 16px 2px rgb(44 8 78);
-      }
-      .modal::-webkit-scrollbar-thumb {
-        background-color: rgb(53 27 78);
-        -webkit-box-shadow:inset 0 0 6px 4px rgb(99 45 151);
-        border-radius:5px;
-      }
+          }
+          .modal::-webkit-scrollbar-thumb {
+          background-color: rgb(53 27 78);
+          -webkit-box-shadow:inset 0 0 6px 4px rgb(99 45 151);
+          border-radius:5px;
+          }
       
            `}
         </style>

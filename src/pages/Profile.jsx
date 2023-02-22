@@ -15,8 +15,10 @@ function Profile(){
     if(!user){
       navigate("/")
     }
-    if(!user.emailVerified){
-      navigate("/")
+    if(user){
+      if(!user.emailVerified){
+        navigate("/")
+      }
     }
 },[])
 const deleteAccount =()=>{

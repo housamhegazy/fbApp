@@ -19,7 +19,7 @@ useEffect(()=>{
   if(user && !loading){
     navigate("/")
   }
-})
+},[])
   const Signupfun = ()=>{
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {

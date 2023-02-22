@@ -22,7 +22,7 @@ function Signin(){
     if(user && !loading){
       navigate("/")
     }
-  })
+  },[])
   const closeModel = ()=>{
     setmodal(false)
   }
@@ -34,12 +34,10 @@ function Signin(){
   .then((userCredential) => {
     // Signed in 
     navigate("/")
-    const user = userCredential.user;
     // ...
   })
   .catch((error) => {
     const errorCode = error.code;
-    const errorMessage = error.message;
     seterrorMsg(errorCode)
   });
   }
@@ -75,7 +73,21 @@ sendPasswordResetEmail(auth, resetEmail)
       <title>sign in</title>
       </Helmet>
       <Header/>
-  
+      {modal && 
+      <Modal closeModel={closeModel} >
+          <form onSubmit={(e)=>{
+            e.preventDefault()
+          }} className="modalform">
+            <p>enter your email</p>
+            <input onChange={(e)=>{
+              setresetEmail(e.target.value)
+            }} type="text" />
+            <button onClick={()=>{
+              resetPass()
+            }}>submit</button>
+            <p>{resetResult}</p>
+          </form>
+      </Modal>}
       <form onSubmit={(e)=>{e.preventDefault()}}>
         <div className="content">
           <p>enter your email and password</p>
@@ -94,21 +106,6 @@ sendPasswordResetEmail(auth, resetEmail)
           openModal()
         }} className="btn btn-secondary">reset password</button>
       </form>
-      {modal && 
-      <Modal closeModel={closeModel} >
-          <form onSubmit={(e)=>{
-            e.preventDefault()
-          }} className="modalform">
-            <p>enter your email</p>
-            <input onChange={(e)=>{
-              setresetEmail(e.target.value)
-            }} type="text" />
-            <button onClick={()=>{
-              resetPass()
-            }}>submit</button>
-            <p>{resetResult}</p>
-          </form>
-      </Modal>}
       <Footer/>
       </>
       
