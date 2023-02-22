@@ -11,3 +11,11 @@ form{
 .dark p{
   color:white
 }
+
+.modalform{
+  height:100%;
+  background-color: white!important;
+}
+.modalform p{
+  color:black
+}
