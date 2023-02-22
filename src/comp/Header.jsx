@@ -31,22 +31,21 @@ const Header = () => {
             localStorage.setItem("mtTheme",theme === "dark"? "light":"dark")
           }} className="btn btn-primary btn-sm">dark mood</button>
           {!user && 
-          <>
-          <Link to={"/signin"} className="btn btn-primary btn-sm">sign in</Link>
-          <Link to={"/signup"} className="btn btn-primary btn-sm">sign up</Link>
-          </>}
+            <>
+            <Link to={"/signin"} className="btn btn-primary btn-sm">sign in</Link>
+            <Link to={"/signup"} className="btn btn-primary btn-sm">sign up</Link>
+            </>
+          }
           {user && 
           <button onClick={()=>{
             SignoutFun()
           }} className="btn btn-danger btn-sm">sign out</button>}
       </div>
-      
-      <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      {user && <>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon" />
       </button>
-    
-      {user && 
-      <div className="collapse navbar-collapse" id="navbarNav">
+        <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
         <li className="nav-item">
           <Link className="nav-link" to={"/about"}>About</Link>
@@ -55,7 +54,9 @@ const Header = () => {
           <Link className="nav-link " to={"/profile"}>Profile</Link>
         </li>
       </ul>
-    </div>}
+    </div>
+      </>
+      }
     </div>
   </nav>
   );

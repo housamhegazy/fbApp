@@ -1,57 +1,71 @@
-import Header from '../comp/Header'
-import Footer from '../comp/Footer'
-import MainContent from '../comp/MainContent';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { Helmet } from 'react-helmet-async';
-import { auth } from '../firebase/config';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-function Home(){
+import Header from "../comp/Header";
+import Footer from "../comp/Footer";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { Helmet } from "react-helmet-async";
+import { auth } from "../firebase/config";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import {sendEmailVerification } from "firebase/auth";
+
+function Home() {
   const [user, loading, error] = useAuthState(auth);
-  const navigate = useNavigate()
-  useEffect(()=>{
-      if(!user){
-        navigate("/signin")
-      }
-      
-  },[])
-  if(loading){
-    return(<><h1>loading ...........</h1></>)
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate("/signin");
+    }
+  }, []);
+  if (loading) {
+    return (
+      <>
+        <h1>loading ...........</h1>
+      </>
+    );
   }
-  if(error){
-    return(<><h1>error! ...........</h1></>)
+  if (error) {
+    return (
+      <>
+        <h1>{error.message} ...........</h1>
+      </>
+    );
   }
-  if(!user.emailVerified){
-    return (<>
-      <Helmet>
-      <meta
-          name="home"
-          content="home"
-        />
-        <title>home</title>
-        
-      </Helmet>
-      <Header/>
-        <MainContent content ={"verify email"}/>
-        <Footer/>
-        </>)
-  }
-  if(user){
-    if(user.emailVerified){
-      return (<>
+  if (!user.emailVerified) {
+    return (
+      <>
         <Helmet>
-        <meta
-            name="home"
-            content="home"
-          />
+          <meta name="home" content="home" />
           <title>home</title>
         </Helmet>
-        <Header/>
-        <MainContent content ={"home page"}/>
-        <Footer/>
-        </>)
+        <Header />
+        <main>
+          hello {user.displayName} please verify your email , we send message
+          <button onClick={()=>{
+            sendEmailVerification(auth.currentUser)
+            .then(() => {
+              // Email verification sent!
+              // ...
+              console.log("Email verification sent")
+            });
+          }}>send another message</button>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+  if (user) {
+    if (user.emailVerified) {
+      return (
+        <>
+          <Helmet>
+            <meta name="home" content="home" />
+            <title>home</title>
+          </Helmet>
+          <Header />
+          <main>hello : {user.displayName}</main>
+          <Footer />
+        </>
+      );
     }
   }
-
 }
-export default Home
+export default Home;
