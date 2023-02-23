@@ -33,7 +33,7 @@ const router = createBrowserRouter([
     element: <Signup/>,
   },
   {
-    path: "/edittask",
+    path: ":userId",
     element: <EditeTask/>,
   },
 ]);
