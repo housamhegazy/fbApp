@@ -5,8 +5,12 @@ import { Helmet } from 'react-helmet-async'
 import BtnsSection from './task-sections/BtnsSection'
 import TaskSection from './task-sections/TaskSection'
 import Titlesection from './task-sections/Titlesection'
-
+import { auth } from '../../firebase/config'
+import { useAuthState } from 'react-firebase-hooks/auth'
+import { useParams } from 'react-router-dom'
 export default function EditeTask() {
+  const [user,loading,error] = useAuthState(auth);
+  let { userId } = useParams();
   return (
     <>
     <Helmet>
@@ -15,7 +19,7 @@ export default function EditeTask() {
     <Header/>
     <main> 
       {/* input header */}
-      <Titlesection/>
+      <Titlesection userId={userId} user={user}/>
       {/* task */}
       <TaskSection/>
       {/* button */}

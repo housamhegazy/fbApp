@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
 import { db } from '../../firebase/config';
+import { useDocument } from "react-firebase-hooks/firestore";
 export default function Alltasks({openModale,user}) {
   const [value, loading, error] = useCollection(collection(db,user.uid ));
   return (
