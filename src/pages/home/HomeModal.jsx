@@ -1,7 +1,7 @@
 import { useState } from "react"
-import Modal from "../../shared/Modal"
-export default function HomeModal({ closeModel, showmodale, taskArray, setTitle, getinputfun, pushfunc }) {
-
+import Modal from "../../shared/Modal";
+ 
+export default function HomeModal({ closeModel, showmodale, taskArray, setTitle, getinputfun, pushfunc,addTofirebase }) {
   return (<>
     {showmodale && <Modal closeModel={closeModel}>
       <input onChange={(e) => {
@@ -23,7 +23,8 @@ export default function HomeModal({ closeModel, showmodale, taskArray, setTitle,
         }
       </ul>
       <button onClick={(e) => {
-        e.preventDefault()
+        e.preventDefault();
+        addTofirebase()
       }} className="btn btn-primary">add task</button>
     </Modal>}
   </>)

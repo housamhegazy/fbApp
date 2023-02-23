@@ -8,6 +8,8 @@ import Alltasks from "./Alltasks";
 import './home.css'
 import { useState } from "react";
 import HomeModal from "./HomeModal";
+import { db } from "../../firebase/config";
+import { doc, setDoc } from "firebase/firestore"; 
 function Home() {
   const [showmodale,setshowmodale] = useState(false)
   const [user, loading, error] = useAuthState(auth);
@@ -26,6 +28,15 @@ function Home() {
   const pushfunc = (e)=>{
     e.preventDefault();
     taskArray.push(inputvalue);
+  }
+  const userId = new Date().getTime()
+  const addTofirebase = async()=>{
+    await setDoc(doc(db, `${user.uid}`, `${userId}`), {
+      completed: false,
+      title:title,
+      id: userId,
+      tasks: taskArray,
+    });  
   }
   if (loading) {
     return (
@@ -87,7 +98,7 @@ function Home() {
           </Helmet>
           <Header />
           <main><Alltasks closeModel={closeModel} openModale = {openModale}/></main>
-          <HomeModal closeModel={closeModel} showmodale={showmodale} taskArray={taskArray} setTitle={setTitle} getinputfun={getinputfun} pushfunc={pushfunc}/>
+          <HomeModal closeModel={closeModel} showmodale={showmodale} taskArray={taskArray} setTitle={setTitle} getinputfun={getinputfun} pushfunc={pushfunc} addTofirebase={addTofirebase}/>
           <Footer />
         </>
       );
