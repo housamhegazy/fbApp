@@ -67,7 +67,7 @@ useEffect(()=>{
       <title>sign up</title>
       </Helmet>
       <Header/>
-        <form onSubmit={(e)=>{e.preventDefault()}}>
+        <form onSubmit={(e)=>{e.preventDefault()}} className="signupform">
         <div className="content">
           <input onChange={(e)=>{
             setUserName(e.target.value)

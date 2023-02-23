@@ -88,7 +88,7 @@ sendPasswordResetEmail(auth, resetEmail)
             <p>{resetResult}</p>
           </form>
       </Modal>}
-      <form onSubmit={(e)=>{e.preventDefault()}}>
+      <form onSubmit={(e)=>{e.preventDefault()}} className="signinform">
         <div className="content">
           <p>enter your email and password</p>
           <input onChange={(e)=>{

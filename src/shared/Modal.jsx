@@ -24,6 +24,7 @@ function Modal({ closeModel, children,backgroundColor="whitesmoke"}) {
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction:column;
             animation:mymove .8s ;
             overflow-y: auto;
           } 
