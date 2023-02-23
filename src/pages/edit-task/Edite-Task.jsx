@@ -9,7 +9,7 @@ import { auth } from '../../firebase/config'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useParams } from 'react-router-dom'
 export default function EditeTask() {
-  const [user,loading,error] = useAuthState(auth);
+  const [user, loading, error] = useAuthState(auth);
   let { userId } = useParams();
   return (
     <>
@@ -19,7 +19,7 @@ export default function EditeTask() {
     <Header/>
     <main> 
       {/* input header */}
-      <Titlesection userId={userId} user={user}/>
+      <Titlesection userId={userId} user={user.uid}/>
       {/* task */}
       <TaskSection/>
       {/* button */}

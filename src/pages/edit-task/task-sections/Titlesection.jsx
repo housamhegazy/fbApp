@@ -3,7 +3,7 @@ import { db } from '../../../firebase/config';
 import { useDocument } from "react-firebase-hooks/firestore";
 import { doc } from "firebase/firestore";
 export default function Titlesection({user,userId}) {
-  const [value, loading, error] = useDocument(doc(db, user.uid, userId));
+  const [value, loading, error] = useDocument(doc(db, user, userId));
   console.log(value.data())
   if(value){
     return (

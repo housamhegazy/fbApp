@@ -3,9 +3,14 @@ import { Link } from 'react-router-dom'
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
 import { db } from '../../firebase/config';
-import { useDocument } from "react-firebase-hooks/firestore";
 export default function Alltasks({openModale,user}) {
   const [value, loading, error] = useCollection(collection(db,user.uid ));
+  if(loading){
+    return(<h1>loading..........</h1>)
+  }
+  if(error){
+    return(<h1>{error.message}</h1>)
+  }
   return (
     <>
       {/* btns */}
@@ -22,7 +27,7 @@ export default function Alltasks({openModale,user}) {
       <div className="tasks container d-flex my-5 w-100">
       {value && value.docs.map((task)=>{
           return (
-          <Link  key={task.data().id} to={"/edittask"} className="task bg-white m-2">
+          <Link  key={task.data().id} to={`/edittask/${task.data().id}`} className="task bg-white m-2">
             <h2 className='text-center'>{task.data().title}</h2>
             <ul className="list-group">
               {task.data().tasks.map((ele ,index)=>{
