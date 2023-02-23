@@ -21,13 +21,16 @@ function Home() {
   }
   const closeModel =()=>{
     setshowmodale(false)
+    settaskarray([])
   }
   const getinputfun = (e)=>{
     setinputvalue(e.target.value)
   }
   const pushfunc = (e)=>{
     e.preventDefault();
-    taskArray.push(inputvalue);
+    if(!taskArray.includes(inputvalue)){
+      taskArray.push(inputvalue);
+    }
   }
   const userId = new Date().getTime()
   const addTofirebase = async()=>{
@@ -36,7 +39,9 @@ function Home() {
       title:title,
       id: userId,
       tasks: taskArray,
-    });  
+    }); 
+    closeModel()
+    console.log("Document written with ID: ")
   }
   if (loading) {
     return (
@@ -97,7 +102,7 @@ function Home() {
             <title>home</title>
           </Helmet>
           <Header />
-          <main><Alltasks closeModel={closeModel} openModale = {openModale}/></main>
+          <main><Alltasks closeModel={closeModel} openModale = {openModale} user={user}/></main>
           <HomeModal closeModel={closeModel} showmodale={showmodale} taskArray={taskArray} setTitle={setTitle} getinputfun={getinputfun} pushfunc={pushfunc} addTofirebase={addTofirebase}/>
           <Footer />
         </>

@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import Modal from '../../shared/Modal'
-import HomeModal from './HomeModal'
-export default function Alltasks({openModale,closeModel}) {
-
+import { useCollection } from "react-firebase-hooks/firestore";
+import { collection } from "firebase/firestore";
+import { db } from '../../firebase/config';
+export default function Alltasks({openModale,user}) {
+  const [value, loading, error] = useCollection(collection(db,user.uid ));
   return (
     <>
       {/* btns */}
@@ -18,36 +19,22 @@ export default function Alltasks({openModale,closeModel}) {
       </div>
       {/* tasks */}
       <div className="tasks container d-flex my-5 w-100">
-        <Link to={"/edittask"} className="task bg-white m-2">
-          <h2 className='text-center'>task</h2>
-          <ul className="list-group">
-            <li className="list-group-item">An item</li>
-            <li className="list-group-item">A second item</li>
-            <li className="list-group-item">A third item</li>
-            <li className="list-group-item">A fourth item</li>
-            <li className="list-group-item">And a fifth one</li>
-          </ul>
-        </Link>
-        <Link to={"/edittask"} className="task bg-white m-2">
-          <h2 className='text-center'>task</h2>
-          <ul className="list-group">
-            <li className="list-group-item">An item</li>
-            <li className="list-group-item">A second item</li>
-            <li className="list-group-item">A third item</li>
-            <li className="list-group-item">A fourth item</li>
-            <li className="list-group-item">And a fifth one</li>
-          </ul>
-        </Link>
-        <Link to={"/edittask"} className="task bg-white m-2">
-          <h2 className='text-center'>task</h2>
-          <ul className="list-group">
-            <li className="list-group-item">An item</li>
-            <li className="list-group-item">A second item</li>
-            <li className="list-group-item">A third item</li>
-            <li className="list-group-item">A fourth item</li>
-            <li className="list-group-item">And a fifth one</li>
-          </ul>
-        </Link>
+      {value && value.docs.map((task)=>{
+          return (
+          <Link  key={task.data().id} to={"/edittask"} className="task bg-white m-2">
+            <h2 className='text-center'>{task.data().title}</h2>
+            <ul className="list-group">
+              {task.data().tasks.map((ele ,index)=>{
+                if(index < 2){
+                  return (<li key={ele} className="list-group-item">{ele}</li>)
+                }
+              })}
+            </ul>
+          </Link>
+          
+          )
+        })}
+      
       </div>
       {/* btn */}
       <div className="add-task-btn">

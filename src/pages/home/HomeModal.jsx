@@ -6,11 +6,11 @@ export default function HomeModal({ closeModel, showmodale, taskArray, setTitle,
     {showmodale && <Modal closeModel={closeModel}>
       <input onChange={(e) => {
         setTitle(e.target.value)
-      }} type="text" className="my-5" />
+      }} type="text" className="my-5" required/>
       <div className="d-flex-row">
         <input onChange={(e) => {
           getinputfun(e)
-        }} type="text" className="mb-2" />
+        }} type="text" className="mb-2" required/>
         <button onClick={(e) => {
           pushfunc(e)
         }} className="btn btn-primary small">add</button>
