@@ -53,7 +53,7 @@ if(user){
       {/* input header */}
       <Titlesection userId={userId} user={user}/>
       {/* task */}
-      <TaskSection/>
+      <TaskSection userId={userId} user={user}/>
       {/* button */}
       <BtnsSection/>
     </main>
