@@ -1,5 +1,5 @@
-import Footer from 'comp/Footer'
-import Header from 'comp/Header'
+import Footer from '../../comp/Footer'
+import Header from '../../comp/Header'
 import React from 'react'
 import { Helmet } from 'react-helmet-async'
 import BtnsSection from './task-sections/BtnsSection'

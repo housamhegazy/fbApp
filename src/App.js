@@ -6,7 +6,7 @@ import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import { useContext } from 'react';
 import ThemeContext from './context/Theme';
-import EditeTask from 'pages/edit-task/Edite-Task';
+import EditeTask from './pages/edit-task/Edite-Task';
 import {
   createBrowserRouter,
   RouterProvider,
