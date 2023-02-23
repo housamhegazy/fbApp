@@ -53,7 +53,7 @@ function Modal({ closeModel, children,backgroundColor="whitesmoke"}) {
            `}
         </style>
       </Helmet>
-      <div style={{backgroundColor: `${backgroundColor}`}} className="modal">
+      <form style={{backgroundColor: `${backgroundColor}`}} className="modal">
         <div
           onClick={() => {
             closeModel();
@@ -63,7 +63,7 @@ function Modal({ closeModel, children,backgroundColor="whitesmoke"}) {
           <i className="bi bi-x-circle"></i>
         </div>
         {children}
-      </div>
+      </form>
     </div>
   );
 }

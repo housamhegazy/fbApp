@@ -6,8 +6,27 @@ import { auth } from "../../firebase/config";
 import {sendEmailVerification } from "firebase/auth";
 import Alltasks from "./Alltasks";
 import './home.css'
+import { useState } from "react";
+import HomeModal from "./HomeModal";
 function Home() {
-  const [user, loading, error] = useAuthState(auth)
+  const [showmodale,setshowmodale] = useState(false)
+  const [user, loading, error] = useAuthState(auth);
+  const [inputvalue,setinputvalue] = useState("")
+  const [taskArray,settaskarray] = useState([]);
+  const [title,setTitle] =useState("");
+  const openModale =()=>{
+    setshowmodale(true)
+  }
+  const closeModel =()=>{
+    setshowmodale(false)
+  }
+  const getinputfun = (e)=>{
+    setinputvalue(e.target.value)
+  }
+  const pushfunc = (e)=>{
+    e.preventDefault();
+    taskArray.push(inputvalue);
+  }
   if (loading) {
     return (
       <>
@@ -67,7 +86,8 @@ function Home() {
             <title>home</title>
           </Helmet>
           <Header />
-          <main><Alltasks/></main>
+          <main><Alltasks closeModel={closeModel} openModale = {openModale}/></main>
+          <HomeModal closeModel={closeModel} showmodale={showmodale} taskArray={taskArray} setTitle={setTitle} getinputfun={getinputfun} pushfunc={pushfunc}/>
           <Footer />
         </>
       );

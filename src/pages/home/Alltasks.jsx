@@ -2,14 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Modal from '../../shared/Modal'
 import HomeModal from './HomeModal'
-export default function Alltasks() {
-  const [showmodale,setshowmodale] = useState(false)
-  const openModale =()=>{
-    setshowmodale(true)
-  }
-  const closeModel =()=>{
-    setshowmodale(false)
-  }
+export default function Alltasks({openModale,closeModel}) {
 
   return (
     <>
@@ -62,6 +55,5 @@ export default function Alltasks() {
           openModale()
         }} className='btn btn-primary mb-4'>add task</button>
       </div>
-       <HomeModal closeModel ={closeModel} showmodale={showmodale}/>
       </>)
 }
