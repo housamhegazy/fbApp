@@ -3,16 +3,26 @@ import { Link } from 'react-router-dom'
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
 import { db } from '../../firebase/config';import Moment from 'react-moment';
-import { orderBy, query, limit } from "firebase/firestore";
+import { orderBy, query,where , limit } from "firebase/firestore";
 export default function Alltasks({openModale,user}) {
-  const [value, loading, error] = useCollection(collection(db,user.uid ));
+  const AlltasksData = query(collection(db, user.uid), orderBy("id"));
+  const newestData = query(collection(db, user.uid), orderBy("id", "desc"));
+  const oldestData = query(collection(db, user.uid), orderBy("id"));
+  const completedData = query(collection(db, user.uid), where("completed", "==", true))
+  const notcompletedData = query(collection(db, user.uid), where("completed", "==", false))
+  const [initailData ,setinitialdata] = useState(AlltasksData)
+  const [value, loading, error] = useCollection(initailData);
+  const [optvalue,setoptvalue] = useState();
+  
 
   const newestFun = ()=>{
-    query(collection(db, user.uid), orderBy("id"))
+    setinitialdata(newestData)
   }
   const oldestFun = ()=>{
-    query(collection(db, user.uid), orderBy("id", "desc"))
+    setinitialdata(oldestData)
   }
+
+
   if(loading){
     return(<h1>loading..........</h1>)
   }
@@ -29,8 +39,19 @@ export default function Alltasks({openModale,user}) {
         <button onClick={()=>{
           oldestFun()
         }} className='btn btn-primary mx-3'>oldest</button>
-        
-        <select className='form-select mx-3'>
+
+        <select value={optvalue} onChange={(e)=>{
+            setoptvalue(e.target.value)
+             if(e.target.value == "alltasks"){
+                setinitialdata(AlltasksData)
+              }
+              if(e.target.value == "completed"){
+                setinitialdata(completedData)
+              }
+              if(e.target.value == "notcompleted"){
+                setinitialdata(notcompletedData)
+              }
+          }} className='form-select mx-3'>
           <option value="alltasks">alltasks</option>
           <option value="completed">completed</option>
           <option value="notcompleted">notcompleted</option>
