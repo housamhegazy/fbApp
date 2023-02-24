@@ -1,3 +1,4 @@
+import './editTask.css';
 import Footer from '../../comp/Footer'
 import Header from '../../comp/Header'
 import React, { useEffect } from 'react'
@@ -9,6 +10,7 @@ import { auth } from '../../firebase/config'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+
  function EditeTask() {
   let { userId } = useParams();
   const [user, loading, error] = useAuthState(auth);

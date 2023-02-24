@@ -20,7 +20,7 @@ export default function Titlesection({user,userId}) {
   if(value){
     return (
       <div className="input-header d-flex align-center w-50">
-      <input type="text" className='form-control bg-transparent text-white text-center' defaultValue={value.data().title}/>
+      <input dir='auto' type="text" className='form-control bg-transparent text-white text-center' defaultValue={value.data().title}/>
       <i className="bi bi-pencil-square fs-3" role="button"></i>
     </div>
     )

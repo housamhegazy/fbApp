@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
-import { db } from '../../firebase/config';
+import { db } from '../../firebase/config';import Moment from 'react-moment';
 export default function Alltasks({openModale,user}) {
   const [value, loading, error] = useCollection(collection(db,user.uid ));
   if(loading){
@@ -27,17 +27,17 @@ export default function Alltasks({openModale,user}) {
       <div className="tasks container d-flex my-5 w-100">
       {value && value.docs.map((task)=>{
           return (
-          <Link  key={task.data().id} to={`/edittask/${task.data().id}`} className="task bg-white m-2">
-            <h2 className='text-center'>{task.data().title}</h2>
-            <ul className="list-group">
+          <Link dir='auto'  key={task.data().id} to={`/edittask/${task.data().id}`} className="task bg-white m-2">
+            <h2 className='text-center overflow-auto'>{task.data().title}</h2>
+            <ul className="list-group mx-1 px-1">
               {task.data().tasks.map((ele ,index)=>{
                 if(index < 2){
-                  return (<li key={ele} className="list-group-item">{ele}</li>)
+                  return (<li key={ele} className="list-group-item ">{ele}</li>)
                 }
               })}
-            </ul>
+            </ul> 
+            <p className='time'><Moment fromNow ago>{task.data().id}</Moment></p>
           </Link>
-          
           )
         })}
       

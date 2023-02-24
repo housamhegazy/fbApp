@@ -1,10 +1,25 @@
-.tasks{
+.tasks {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 }
-.task{
-  width:200px;
+
+.task {
+  width: 200px;
   border-radius: 5px;
   min-height: 200px;
+}
+.tasks .task{
+  position: relative;
+  border: 1px solid black;
+}
+.tasks .time{
+  position: absolute;
+  bottom:0px;
+  text-align: end;
+  width:100%;
+  padding: 0 10px
+}
+.dark .tasks .time {
+  color: black
 }

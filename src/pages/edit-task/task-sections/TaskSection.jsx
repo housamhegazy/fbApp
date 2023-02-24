@@ -1,24 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDocument } from "react-firebase-hooks/firestore";
  import { doc } from "firebase/firestore";
 import { db } from '../../../firebase/config';
+import Moment from 'react-moment';
+import { async } from '@firebase/util';
 export default function TaskSection({user,userId}) {
+  // const [checkbox,setcheckbox] = useState(false)
   const [value, loading, error] = useDocument(doc(db, user.uid, userId));
+
 
   if(value){
     return (
       <section className='w-50'>
       <div className="info d-flex justify-content-between mt-5 mb-4">
-        <div className="time">2hours ago</div>
+      <div className='time'><Moment fromNow ago>{value.data().id}</Moment></div>
         <div className="check d-flex">
-          <input type="checkbox" name="completed"/>
-          <p className='m-0'>completed</p>
+          <input checked={value.data().completed}
+
+
+
+
+           id='checkbox' type="checkbox" name="completed"/>
+          <label htmlFor='checkbox' className='m-0'>completed</label>
         </div>
       </div>
       <ul className="list-group ">
           {value.data().tasks.map((ele)=>{
               return(
-                <li key={ele} className="list-group-item d-flex justify-content-between">
+                <li dir='auto' key={ele} className="list-group-item d-flex justify-content-between">
                 <p className='text-black'>
                     {ele}
                 </p>
