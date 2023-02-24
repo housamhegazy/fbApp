@@ -10,12 +10,16 @@ import { useState } from "react";
 import HomeModal from "./HomeModal";
 import { db } from "../../firebase/config";
 import { doc, setDoc } from "firebase/firestore";
+import SnackBar from "../../shared/SnackBar";
+
 function Home() {
   const [user, loading, error] = useAuthState(auth);
   const [showmodale, setshowmodale] = useState(false);
   const [taskArray, settaskarray] = useState([]);
   const [inputvalue, setinputvalue] = useState("");
   const [title, setTitle] = useState("");
+  const [showLoading,setshowLoading] = useState(false)
+  const [showSnackbar, setshowSnackbar] = useState(false)
   const openModale = () => {
     setshowmodale(true);
   };
@@ -40,6 +44,8 @@ function Home() {
   };
   const userId = new Date().getTime();
   const addTofirebase = async () => {
+    setshowLoading(true)
+    
     await setDoc(doc(db, `${user.uid}`, `${userId}`), {
       completed: false,
       title: title,
@@ -47,7 +53,11 @@ function Home() {
       tasks: taskArray,
     });
     closeModel();
-    console.log("Document written with ID: ");
+    setshowLoading(false)
+    setshowSnackbar(true)
+    setInterval(() => {
+      setshowSnackbar(false)
+    }, 4000);
   };
   if (loading) {
     return (
@@ -129,7 +139,9 @@ function Home() {
             inputvalue={inputvalue}
             title={title}
             setTitlefun={setTitlefun}
+            showLoading={showLoading}
           />
+          <SnackBar showMsg ={showSnackbar}/>
           <Footer />
         </>
       );

@@ -1,7 +1,9 @@
 import { useState } from "react"
 import Modal from "../../shared/Modal";
- 
-export default function HomeModal({ closeModel,inputvalue,setTitlefun,title, showmodale, taskArray, setTitle, getinputfun, pushfunc,addTofirebase }) {
+import ReactLoading from 'react-loading';
+
+export default function HomeModal({ closeModel,inputvalue,setTitlefun,title, showmodale, taskArray, setTitle, getinputfun, pushfunc,addTofirebase ,showLoading}) {
+  
   return (<>
     {showmodale && <Modal closeModel={closeModel}>
       <input onChange={(e) => {
@@ -23,7 +25,10 @@ export default function HomeModal({ closeModel,inputvalue,setTitlefun,title, sho
       <button onClick={(e) => {
         e.preventDefault();
         addTofirebase()
-      }} className="btn btn-primary" type="submit">add task</button>
+      }} className="btn btn-primary" type="submit">
+          {showLoading && <ReactLoading type={"spin"} color={"red"} height={20} width={20} />}
+          {!showLoading && "add task"}
+        </button>
     </Modal>}
   </>)
 }

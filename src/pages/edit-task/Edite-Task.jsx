@@ -10,11 +10,16 @@ import { auth } from '../../firebase/config'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
-
+import { updateDoc } from 'firebase/firestore';
+import { useDocument } from "react-firebase-hooks/firestore";
+ import { doc } from "firebase/firestore";
+import { db } from '../../firebase/config';
  function EditeTask() {
   let { userId } = useParams();
   const [user, loading, error] = useAuthState(auth);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+
   useEffect(()=>{
     if(!user && !loading){
       navigate("/")
@@ -25,7 +30,24 @@ import { useNavigate } from 'react-router-dom'
       }
     }
   })
-
+//titlesection
+const changeTitle = async(e)=>{
+  await updateDoc(doc(db, user.uid, userId), {
+    title: e.target.value,
+  });
+}
+// subtasksectio
+const changeBoxFun = async(e)=>{
+  if(e.target.checked){
+    await updateDoc(doc(db, user.uid, userId), {
+      completed: true,
+    });
+  }else{
+    await updateDoc(doc(db, user.uid, userId), {
+      completed: false,
+    });
+  }
+}
   if (error) {
     return (
       <>
@@ -53,9 +75,9 @@ if(user){
     <Header/>
     <main> 
       {/* input header */}
-      <Titlesection userId={userId} user={user}/>
+      <Titlesection userId={userId} user={user} changeTitle={changeTitle}/>
       {/* task */}
-      <TaskSection userId={userId} user={user}/>
+      <TaskSection userId={userId} user={user} changeBoxFun={changeBoxFun}/>
       {/* button */}
       <BtnsSection/>
     </main>
