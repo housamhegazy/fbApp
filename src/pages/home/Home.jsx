@@ -12,6 +12,7 @@ import { db } from "../../firebase/config";
 import { doc, setDoc } from "firebase/firestore";
 import SnackBar from "../../shared/SnackBar";
 import MyClock from "../../comp/clock";
+import ReactLoading from "react-loading";
 
 function Home() {
   const [user, loading, error] = useAuthState(auth);
@@ -64,7 +65,7 @@ function Home() {
   if (loading) {
     return (
       <>
-        <h1>loading ...........</h1>
+        <ReactLoading type={"spin"} color={"red"} height={200} width={200} />
       </>
     );
   }

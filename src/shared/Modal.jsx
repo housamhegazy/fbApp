@@ -37,6 +37,9 @@ function Modal({ closeModel, children,backgroundColor="whitesmoke"}) {
             position:absolute;
             top:0;
             right:0;
+            cursor: pointer;
+            font-size: 20px;
+            color: red;
           }
           .modal::-webkit-scrollbar {
             width: .5em;
@@ -48,6 +51,9 @@ function Modal({ closeModel, children,backgroundColor="whitesmoke"}) {
           background-color: rgb(53 27 78);
           -webkit-box-shadow:inset 0 0 6px 4px rgb(99 45 151);
           border-radius:5px;
+          }
+          .dark .modal{
+            background-color: #000000d1!important;
           }
       
            `}

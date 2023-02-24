@@ -15,8 +15,9 @@ import { useDocument } from "react-firebase-hooks/firestore";
 import { doc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { async } from "@firebase/util";
-import Clock from 'react-live-clock';
 import MyClock from "../../comp/clock";
+import ReactLoading from 'react-loading';
+
 
 function EditeTask() {
   let { userId } = useParams();
@@ -48,6 +49,7 @@ function EditeTask() {
       await updateDoc(doc(db, user.uid, userId), {
         completed: true,
       });
+    
     } else {
       await updateDoc(doc(db, user.uid, userId), {
         completed: false,
@@ -96,7 +98,7 @@ function EditeTask() {
   }
 
   if (loading) {
-    return <h1>loading ..............</h1>;
+    return(<ReactLoading type={"spin"} color={"red"} height={200} width={200} />)
   }
 
   if (user) {
@@ -114,8 +116,7 @@ function EditeTask() {
               <Titlesection
                 userId={userId}
                 user={user}
-                changeTitle={changeTitle}
-              />
+                changeTitle={changeTitle}              />
               {/* task */}
               <TaskSection
                 userId={userId}
@@ -130,7 +131,7 @@ function EditeTask() {
                 inputvalue={inputvalue}
               />
               {/* button */}
-              <BtnsSection DeletTask={DeletTask} />
+              <BtnsSection DeletTask={DeletTask} user={user} userId = {userId} />
             </main>
             <Footer />
           </>

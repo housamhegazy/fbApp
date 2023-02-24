@@ -10,9 +10,14 @@
     0%{scale:0;transform: translateX(-100vh);}
     100%{scale:1;transform: translate(0);}
  }
+ .title-input{
+  border:none;
+  font-size: 25px;
+ }
 
  .dark .title-input{
-   color:white
+   color:white;
+
  }
  .list-group .list-group-item p{
    display: flex;

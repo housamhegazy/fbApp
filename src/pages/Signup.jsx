@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useAuthState } from 'react-firebase-hooks/auth';
+import ReactLoading from 'react-loading';
 
 function Signup(){
   const [user, loading, error] = useAuthState(auth);
@@ -15,13 +16,16 @@ function Signup(){
   const [password,setpassword] = useState("");
   const [userName,setUserName] = useState("")
   const [errorMsg,seterrorMsg] = useState("");
+  const [loadingBtn,setloadingBtn] = useState(false)
+
 useEffect(()=>{
   if(user && !loading){
     navigate("/")
   }
 },[])
-  const Signupfun = ()=>{
-    createUserWithEmailAndPassword(auth, email, password)
+  const Signupfun = async()=>{
+    setloadingBtn(true)
+   await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in 
         updateProfile(auth.currentUser, {
@@ -49,12 +53,19 @@ useEffect(()=>{
         seterrorMsg(errorCode)
         // ..
       });
+    setloadingBtn(false)
   }
   if(loading){
-    return(<><h1>loading ...........</h1></>)
+    return(<>
+    <Header/>
+    <main><ReactLoading type={"spin"} color={"red"} height={200} width={200} />
+    </main>
+    <Footer/>
+    </>
+    )
   }
   if(error){
-    return(<><h1>error! ...........</h1></>)
+    return(<><h1>{error.message}! ...........</h1></>)
   }
   if(!user){
     return (
@@ -80,7 +91,9 @@ useEffect(()=>{
           }} type="password" className="form-control my-2" placeholder="password" />
           <button onClick={(e)=>{
             Signupfun()
-          }} className="btn btn-primary mt-3" value={"submit"}>submit</button>
+          }} className="btn btn-primary mt-3" value={"submit"}>
+            {loadingBtn ? <ReactLoading type={"spin"} color={"red"} height={20} width={20} />: "signup"}
+          </button>
         </div>
         <p className="mt-3">{errorMsg}</p>
       </form>

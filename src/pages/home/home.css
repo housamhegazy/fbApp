@@ -31,3 +31,16 @@
 .task:hover{
   box-shadow: 0 0 5px 10px lightblue;
 }
+.dark .home-module input{
+    background-color: transparent;
+    color:white
+}
+
+.home-module ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dark .home-module ul{
+  color: white;
+}

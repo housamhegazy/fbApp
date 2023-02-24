@@ -4,6 +4,8 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
 import { db } from '../../firebase/config';import Moment from 'react-moment';
 import { orderBy, query,where , limit } from "firebase/firestore";
+import ReactLoading from 'react-loading';
+
 export default function Alltasks({openModale,user}) {
   const AlltasksData = query(collection(db, user.uid), orderBy("id"));
   const newestData = query(collection(db, user.uid), orderBy("id", "desc"));
@@ -12,8 +14,8 @@ export default function Alltasks({openModale,user}) {
   const notcompletedData = query(collection(db, user.uid), where("completed", "==", false))
   const [initailData ,setinitialdata] = useState(AlltasksData)
   const [value, loading, error] = useCollection(initailData);
-  const [optvalue,setoptvalue] = useState();
-  
+  const [optvalue,setoptvalue] = useState("alltasks");
+  const [showopacity,setopacity] = useState(true)
 
   const newestFun = ()=>{
     setinitialdata(newestData)
@@ -24,7 +26,7 @@ export default function Alltasks({openModale,user}) {
 
 
   if(loading){
-    return(<h1>loading..........</h1>)
+    return(<ReactLoading type={"spin"} color={"red"} height={200} width={200} />)
   }
   if(error){
     return(<h1>{error.message}</h1>)
@@ -33,12 +35,18 @@ export default function Alltasks({openModale,user}) {
     <>
       {/* btns */}
       <div className="filter-container d-flex my-5">
-        <button onClick={()=>{
+       {optvalue === "alltasks" && 
+        <>
+          <button style={{opacity:showopacity?"1":".5"}} onClick={()=>{
           newestFun()
+          setopacity(false)
         }} className='btn btn-primary mx-3'>newest</button>
-        <button onClick={()=>{
+        <button style={{opacity:showopacity?".5":"1"}} onClick={()=>{
           oldestFun()
+          setopacity(true)
         }} className='btn btn-primary mx-3'>oldest</button>
+        </>
+       }
 
         <select value={optvalue} onChange={(e)=>{
             setoptvalue(e.target.value)
@@ -58,8 +66,12 @@ export default function Alltasks({openModale,user}) {
         </select>
       </div>
       {/* tasks */}
+      {value.docs.length === 0 && <h3>congratulation , you finished all tasks</h3>}
+      
       <div className="tasks container d-flex my-5 w-100">
+        
       {value && value.docs.map((task)=>{
+        
           return (
           <Link dir='auto'  key={task.data().id} to={`/edittask/${task.data().id}`} className="task bg-white m-2">
             <h5 className='text-center py-2'>{task.data().title}</h5>

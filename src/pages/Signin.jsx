@@ -9,6 +9,8 @@ import { Helmet } from "react-helmet-async";
 import Modal from "../shared/Modal";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useEffect } from "react";
+import ReactLoading from 'react-loading';
+
 function Signin(){
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ function Signin(){
   const [modal,setmodal] = useState(false);
   const [resetEmail,setresetEmail] = useState("")
   const [resetResult,setresetResult] = useState("")
+  const [loadingBtn,setloadingBtn] = useState(false)
   useEffect(()=>{
     if(user && !loading){
       navigate("/")
@@ -29,8 +32,9 @@ function Signin(){
   const openModal = ()=>{
     setmodal(true)
   }
-  const Signinfun = ()=>{
-    signInWithEmailAndPassword(auth, email, password)
+  const Signinfun = async()=>{
+  setloadingBtn(true)
+  await signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     // Signed in 
     navigate("/")
@@ -40,6 +44,7 @@ function Signin(){
     const errorCode = error.code;
     seterrorMsg(errorCode)
   });
+  setloadingBtn(false)
   }
   const resetPass = ()=>{
 sendPasswordResetEmail(auth, resetEmail)
@@ -55,9 +60,14 @@ sendPasswordResetEmail(auth, resetEmail)
     // ..
   });
   }
-
   if(loading){
-    return(<><h1>loading ...........</h1></>)
+    return(<>
+    <Header/>
+    <main><ReactLoading type={"spin"} color={"red"} height={200} width={200} />
+    </main>
+    <Footer/>
+    </>
+    )
   }
   if(error){
     return(<><h1>error! ...........</h1></>)
@@ -77,14 +87,14 @@ sendPasswordResetEmail(auth, resetEmail)
       <Modal closeModel={closeModel} >
           <form onSubmit={(e)=>{
             e.preventDefault()
-          }} className="modalform">
-            <p>enter your email</p>
+          }} className="modalform form-control">
+            <p className="fs-3 text-center">enter your email</p>
             <input onChange={(e)=>{
               setresetEmail(e.target.value)
-            }} type="text" />
+            }} type="text" className="form-control"/>
             <button onClick={()=>{
               resetPass()
-            }}>submit</button>
+            }} className="btn btn-primary mt-3">submit</button>
             <p>{resetResult}</p>
           </form>
       </Modal>}
@@ -99,7 +109,9 @@ sendPasswordResetEmail(auth, resetEmail)
           }} type="password" className="form-control my-2" placeholder="password" />
           <button onClick={(e)=>{
             Signinfun()
-          }} className="btn btn-primary mt-5" value={"submit"}>submit</button>
+          }} className="btn btn-primary mt-5" value={"submit"}>
+            {loadingBtn ? <ReactLoading type={"spin"} color={"red"} height={20} width={20} />: "signin"}
+          </button>
         </div>
         <p className="mt-3">{errorMsg}</p>
         <button onClick={()=>{
