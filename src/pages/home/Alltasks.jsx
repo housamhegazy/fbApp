@@ -3,8 +3,16 @@ import { Link } from 'react-router-dom'
 import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
 import { db } from '../../firebase/config';import Moment from 'react-moment';
+import { orderBy, query, limit } from "firebase/firestore";
 export default function Alltasks({openModale,user}) {
   const [value, loading, error] = useCollection(collection(db,user.uid ));
+
+  const newestFun = ()=>{
+    query(collection(db, user.uid), orderBy("id"))
+  }
+  const oldestFun = ()=>{
+    query(collection(db, user.uid), orderBy("id", "desc"))
+  }
   if(loading){
     return(<h1>loading..........</h1>)
   }
@@ -15,8 +23,13 @@ export default function Alltasks({openModale,user}) {
     <>
       {/* btns */}
       <div className="filter-container d-flex my-5">
-        <button className='btn btn-primary mx-3'>newest</button>
-        <button className='btn btn-primary mx-3'>oldest</button>
+        <button onClick={()=>{
+          newestFun()
+        }} className='btn btn-primary mx-3'>newest</button>
+        <button onClick={()=>{
+          oldestFun()
+        }} className='btn btn-primary mx-3'>oldest</button>
+        
         <select className='form-select mx-3'>
           <option value="alltasks">alltasks</option>
           <option value="completed">completed</option>

@@ -15,6 +15,9 @@ import { useDocument } from "react-firebase-hooks/firestore";
 import { doc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { async } from "@firebase/util";
+import Clock from 'react-live-clock';
+import MyClock from "../../comp/clock";
+
 function EditeTask() {
   let { userId } = useParams();
   const [user, loading, error] = useAuthState(auth);
@@ -106,6 +109,7 @@ function EditeTask() {
             </Helmet>
             <Header />
             <main>
+              <MyClock/>
               {/* input header */}
               <Titlesection
                 userId={userId}

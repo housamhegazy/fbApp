@@ -11,6 +11,7 @@ import HomeModal from "./HomeModal";
 import { db } from "../../firebase/config";
 import { doc, setDoc } from "firebase/firestore";
 import SnackBar from "../../shared/SnackBar";
+import MyClock from "../../comp/clock";
 
 function Home() {
   const [user, loading, error] = useAuthState(auth);
@@ -59,6 +60,7 @@ function Home() {
       setshowSnackbar(false)
     }, 4000);
   };
+
   if (loading) {
     return (
       <>
@@ -121,7 +123,9 @@ function Home() {
             <title>home</title>
           </Helmet>
           <Header />
+          
           <main>
+            <MyClock/>
             <Alltasks
               closeModel={closeModel}
               openModale={openModale}

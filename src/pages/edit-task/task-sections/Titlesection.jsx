@@ -22,7 +22,7 @@ export default function Titlesection({user,userId,changeTitle}) {
       <div className="input-header d-flex align-center w-50">
       <input onChange={(e)=>{
         changeTitle(e)
-      }} dir='auto' type="text" className='form-control bg-transparent text-white text-center' defaultValue={value.data().title}/>
+      }} dir='auto' type="text" className='title-input form-control bg-transparent text-center' defaultValue={value.data().title}/>
       <i className="bi bi-pencil-square fs-3" role="button"></i>
     </div>
     )
