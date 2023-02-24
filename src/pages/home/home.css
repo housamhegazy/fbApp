@@ -23,3 +23,11 @@
 .dark .tasks .time {
   color: black
 }
+.task{
+  text-decoration: none;
+  box-shadow: 0 0 2px 5px lightblue;
+  transition: .3s;
+}
+.task:hover{
+  box-shadow: 0 0 5px 10px lightblue;
+}

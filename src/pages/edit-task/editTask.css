@@ -1,3 +1,12 @@
 .dark .info .time{
     color:white!important
 }
+
+ .subtask-section .addtask{
+    animation : move 1s
+ }
+
+ @keyframes move {
+    0%{scale:0;transform: translateX(-100vh);}
+    100%{scale:1;transform: translate(0);}
+ }

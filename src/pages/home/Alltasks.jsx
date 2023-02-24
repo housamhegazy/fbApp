@@ -28,7 +28,7 @@ export default function Alltasks({openModale,user}) {
       {value && value.docs.map((task)=>{
           return (
           <Link dir='auto'  key={task.data().id} to={`/edittask/${task.data().id}`} className="task bg-white m-2">
-            <h2 className='text-center overflow-auto'>{task.data().title}</h2>
+            <h5 className='text-center py-2'>{task.data().title}</h5>
             <ul className="list-group mx-1 px-1">
               {task.data().tasks.map((ele ,index)=>{
                 if(index < 2){
