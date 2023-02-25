@@ -92,7 +92,8 @@ sendPasswordResetEmail(auth, resetEmail)
             <input onChange={(e)=>{
               setresetEmail(e.target.value)
             }} type="text" className="form-control"/>
-            <button onClick={()=>{
+            <button onClick={(e)=>{
+              e.preventDefault();
               resetPass()
             }} className="btn btn-primary mt-3">submit</button>
             <p>{resetResult}</p>

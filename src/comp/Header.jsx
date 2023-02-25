@@ -12,6 +12,7 @@ const Header = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  
 
   const SignoutFun = ()=>{
     signOut(auth).then(() => {
@@ -33,20 +34,20 @@ const Header = () => {
                     i18n.changeLanguage("en");
                   }}>
                   <p className="m-0">english</p>
-                  {i18n.language == "en" && <i className="bi bi-check"></i>}
+                  {i18n.language === "en" && <i className="bi bi-check"></i>}
               </li>
               <li dir="auto" className="d-flex justify-content-start" onClick={()=>{
                     i18n.changeLanguage("ar");
                   }}>
                   
-                  {i18n.language == "ar" && <i className="bi bi-check"></i>}
+                  {i18n.language === "ar" && <i className="bi bi-check"></i>}
                   <p className="m-0">العربيه</p>
               </li>
               <li dir="auto" className="d-flex justify-content-start" onClick={()=>{
                     i18n.changeLanguage("fr");
                   }}>
                   <p className="m-0">france</p>
-                  {i18n.language == "fr" && <i className="bi bi-check"></i>}
+                  {i18n.language === "fr" && <i className="bi bi-check"></i>}
               </li>
             </ul>
           </button>
