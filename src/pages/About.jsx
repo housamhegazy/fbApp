@@ -5,6 +5,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase/config';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ReactLoading from "react-loading";
 
 function About(){
   const [user, loading, error] = useAuthState(auth);
@@ -20,7 +21,15 @@ function About(){
     }
 },[])
 if(loading){
-  return(<><h1>loading ...........</h1></>)
+  return (
+    <>
+      <Header/>
+      <main>
+      <ReactLoading type={"spin"} color={"red"} height={200} width={200} />
+      </main>
+      <Footer/>
+    </>
+  );
 }
 if(error){
   return(<><h1>{error.message} ...........</h1></>)

@@ -7,12 +7,14 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Moment from 'react-moment';
 import {  deleteUser } from "firebase/auth";
+import ReactLoading from "react-loading";
+
 
 function Profile(){
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
   useEffect(()=>{
-    if(!user){
+    if(!user && !loading){
       navigate("/")
     }
     if(user){
@@ -29,7 +31,15 @@ const deleteAccount =()=>{
   });
 }
 if(loading){
-  return(<><h1>loading ...........</h1></>)
+  return (
+    <>
+      <Header/>
+      <main>
+      <ReactLoading type={"spin"} color={"red"} height={200} width={200} />
+      </main>
+      <Footer/>
+    </>
+  );
 }
 if(error){
   return(<><h1>{error.message} ...........</h1></>)

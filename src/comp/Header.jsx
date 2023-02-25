@@ -33,20 +33,20 @@ const Header = () => {
                     i18n.changeLanguage("en");
                   }}>
                   <p className="m-0">english</p>
-                  {i18n.changeLanguage && <i className="bi bi-check"></i>}
+                  {i18n.language == "en" && <i className="bi bi-check"></i>}
               </li>
               <li dir="auto" className="d-flex justify-content-start" onClick={()=>{
                     i18n.changeLanguage("ar");
                   }}>
                   
-                  {i18n.changeLanguage && <i className="bi bi-check"></i>}
+                  {i18n.language == "ar" && <i className="bi bi-check"></i>}
                   <p className="m-0">العربيه</p>
               </li>
               <li dir="auto" className="d-flex justify-content-start" onClick={()=>{
                     i18n.changeLanguage("fr");
                   }}>
                   <p className="m-0">france</p>
-                  {i18n.changeLanguage && <i className="bi bi-check"></i>}
+                  {i18n.language == "fr" && <i className="bi bi-check"></i>}
               </li>
             </ul>
           </button>
@@ -62,20 +62,24 @@ const Header = () => {
           </div>
           {!user && 
             <>
-            <Link to={"/signin"} className="btn btn-primary btn-sm">{t("signin")}</Link>
-            <Link to={"/signup"} className="btn btn-primary btn-sm">{t("signup")}</Link>
+            <Link to={"/signin"} className="btn btn-primary btn-sm mx-2">{t("signin")}</Link>
+            <Link to={"/signup"} className="btn btn-primary btn-sm mx-2">{t("signup")}</Link>
             </>
           }
           {user && 
+          <>
           <button onClick={()=>{
             SignoutFun()
-          }} className="btn btn-danger btn-sm mx-3">{t("signout")}</button>}
+          }} className="btn btn-danger btn-sm mx-3">{t("signout")}</button>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon" />
+          </button>
+          </>
+          }
       </div>
+
       {user && <>
-      <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span className="navbar-toggler-icon" />
-      </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+    <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
         <li className="nav-item">
           <Link className="nav-link" to={"/about"}>{t("support")}</Link>

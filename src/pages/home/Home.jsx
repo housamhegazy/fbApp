@@ -13,6 +13,8 @@ import { doc, setDoc } from "firebase/firestore";
 import SnackBar from "../../shared/SnackBar";
 import MyClock from "../../comp/clock";
 import ReactLoading from "react-loading";
+import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function Home() {
   const [user, loading, error] = useAuthState(auth);
@@ -22,6 +24,8 @@ function Home() {
   const [title, setTitle] = useState("");
   const [showLoading,setshowLoading] = useState(false)
   const [showSnackbar, setshowSnackbar] = useState(false)
+  const { t, i18n } = useTranslation();
+
   const openModale = () => {
     setshowmodale(true);
   };
@@ -88,7 +92,16 @@ function Home() {
           <title>home </title>
         </Helmet>
         <Header />
-        <main>hello please sign in</main>
+        <main><h3>
+           
+            {i18n.language === "en" && "hello: please "}
+            {i18n.language === "ar" && " مرحبا من فضلك "}
+            {i18n.language === "fr" && "Bonjour! S'il vous plait "}
+          <Link to={"/signin"}>
+            {i18n.language === "en" && "sign in"}
+            {i18n.language === "ar" && "سجل الدخول"}
+            {i18n.language === "fr" && "s'identifier"}
+        </Link></h3></main>
         <Footer />
       </>
     );

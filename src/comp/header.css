@@ -51,6 +51,30 @@
 .dark .bi-brightness-high-fill{
   display:none
 }
+
 .container-fluid .btns{
   display: flex;
+  justify-content: space-between;
+  width:100%
+}
+.container-fluid{
+  flex-wrap: nowrap;
+}
+.navbar-brand{
+  width:100%;
+  text-align: center;
+}
+@media(max-width:975px){
+  .container-fluid{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  .container-fluid .btns{
+    display: flex;
+    justify-content: space-between;
+    width:100%
+  }
 }
