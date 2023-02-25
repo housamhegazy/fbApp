@@ -8,3 +8,21 @@
 .dark .navbar .navbar-toggler-icon{
   background-color: white;
 }
+.language{
+  position: relative;
+}
+.language .opt-langs{
+  position: absolute;
+  top:100%;
+  left:0;
+  border-radius: 5px;
+  list-style: none;
+  transform: scale(0);
+  transition: .3s;
+}
+.language:hover .opt-langs{
+  transform: scale(1);
+}
+.language .opt-langs li{
+  padding: 5px;
+}

@@ -4,6 +4,7 @@ import { doc } from "firebase/firestore";
 import { db } from "../../../firebase/config";
 import Moment from "react-moment";
 import { async } from "@firebase/util";
+import { useTranslation } from "react-i18next";
 export default function TaskSection({
   user,
   userId,
@@ -18,7 +19,7 @@ export default function TaskSection({
 }) {
   // const [checkbox,setcheckbox] = useState(false)
   const [value, loading, error] = useDocument(doc(db, user.uid, userId));
-
+  const { t, i18n } = useTranslation();
   if (value) {
     return (
       <section className="subtask-section w-50">
@@ -49,14 +50,14 @@ export default function TaskSection({
               <li
                 dir="auto"
                 key={ele}
-                className="list-group-item d-flex justify-content-between my-2 py-0 "
+                className="list-group-item d-flex justify-content-between my-2 py-0"
               >
-                <p className="text-black">{ele}</p>
+                <p className="text-white">{ele}</p>
                 <i
                   onClick={() => {
                     trashFun(ele);
                   }}
-                  className="bi bi-trash fs-3 text-danger"
+                  className="bi bi-trash fs-3"
                   role="button"
                 ></i>
               </li>
@@ -75,7 +76,7 @@ export default function TaskSection({
               className="btn btn-primary mx-2"
               type="submit"
             >
-              add
+              {t("add")}
             </button>
             <button
               onClick={(e) => {
@@ -83,7 +84,7 @@ export default function TaskSection({
               }}
               className="btn btn-danger mx-2"
             >
-              cancel
+              {t("cancel")}
             </button>
           </form>
         )}
@@ -94,7 +95,7 @@ export default function TaskSection({
             }}
             className="btn btn-primary"
           >
-            add more
+            {t("add more")}
           </button>
         </div>
       </section>

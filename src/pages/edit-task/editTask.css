@@ -26,3 +26,28 @@
    justify-content: center;
    align-items: center;
  }
+ .subtask-section .list-group li{
+  background-color: teal;
+  cursor: pointer;
+  box-shadow: 0 0 2px 2px rgb(104, 98, 98);
+  transition: .2s;
+  border-radius: 4px;
+ }
+.subtask-section .list-group li .bi-trash{
+  color:white
+ }
+ .dark .subtask-section .list-group li{
+  background-color: rgba(17, 17, 17, 0.705);
+  box-shadow: 0 0 2px 2px whitesmoke;
+ }
+ .dark .subtask-section .list-group li .bi-trash{
+  color:red
+ }
+ .subtask-section .list-group li:hover{
+  box-shadow: 0 0 5px 5px rgb(99, 97, 97);
+  transform: scale(1.01);
+ }
+ .dark .subtask-section .list-group li:hover{
+  box-shadow: 0 0 5px 5px whitesmoke;
+  transform: scale(1.01);
+ }

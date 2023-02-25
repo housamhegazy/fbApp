@@ -5,6 +5,7 @@ import { collection } from "firebase/firestore";
 import { db } from '../../firebase/config';import Moment from 'react-moment';
 import { orderBy, query,where , limit } from "firebase/firestore";
 import ReactLoading from 'react-loading';
+import { useTranslation } from "react-i18next";
 
 export default function Alltasks({openModale,user}) {
   const AlltasksData = query(collection(db, user.uid), orderBy("id"));
@@ -16,6 +17,7 @@ export default function Alltasks({openModale,user}) {
   const [value, loading, error] = useCollection(initailData);
   const [optvalue,setoptvalue] = useState("alltasks");
   const [showopacity,setopacity] = useState(true)
+  const { t, i18n } = useTranslation();
 
   const newestFun = ()=>{
     setinitialdata(newestData)
@@ -40,15 +42,23 @@ export default function Alltasks({openModale,user}) {
           <button style={{opacity:showopacity?"1":".5"}} onClick={()=>{
           newestFun()
           setopacity(false)
-        }} className='btn btn-primary mx-3'>newest</button>
+        }} className='btn btn-primary mx-3'>
+          {i18n.language === "en" && "newest"}
+          {i18n.language === "ar" && "الاحدث"}
+          {i18n.language === "fr" && "récent"}
+        </button>
         <button style={{opacity:showopacity?".5":"1"}} onClick={()=>{
           oldestFun()
           setopacity(true)
-        }} className='btn btn-primary mx-3'>oldest</button>
+        }} className='btn btn-primary mx-3'>
+          {i18n.language === "en" && "oldest"}
+          {i18n.language === "ar" && "الاقدم"}
+          {i18n.language === "fr" && "ancien"}
+          </button>
         </>
        }
 
-        <select value={optvalue} onChange={(e)=>{
+        <select dir='auto' value={optvalue} onChange={(e)=>{
             setoptvalue(e.target.value)
              if(e.target.value == "alltasks"){
                 setinitialdata(AlltasksData)
@@ -60,13 +70,30 @@ export default function Alltasks({openModale,user}) {
                 setinitialdata(notcompletedData)
               }
           }} className='form-select mx-3'>
-          <option value="alltasks">alltasks</option>
-          <option value="completed">completed</option>
-          <option value="notcompleted">notcompleted</option>
+          <option value="alltasks">
+            {i18n.language === "en" && "alltasks"}
+            {i18n.language === "ar" && "جميع المهام"}
+            {i18n.language === "fr" && "Toutes les tâches"}
+          </option>
+          <option value="completed">
+            {i18n.language === "en" && "completed"}
+            {i18n.language === "ar" && "المكتمله"}
+            {i18n.language === "fr" && "complété"}
+          </option>
+          <option value="notcompleted">
+            {i18n.language === "en" && "notcompleted"}
+            {i18n.language === "ar" && "غير مكتمله"}
+            {i18n.language === "fr" && "pas achevé"}
+          </option>
         </select>
       </div>
       {/* tasks */}
-      {value.docs.length === 0 && <h3>congratulation , you finished all tasks</h3>}
+      {value.docs.length === 0 && <h3>
+        
+            {i18n.language === "en" && "congratulation , you finished all tasks"}
+            {i18n.language === "ar" && "تهانينا.. لقد تم الانتهاء من جميع المهام "}
+            {i18n.language === "fr" && "félicitations, vous avez terminé toutes les tâches"}
+        </h3>}
       
       <div className="tasks container d-flex my-5 w-100">
         
@@ -92,7 +119,11 @@ export default function Alltasks({openModale,user}) {
       <div className="add-task-btn">
         <button onClick={()=>{
           openModale()
-        }} className='btn btn-primary mb-4'>add task</button>
+        }} className='btn btn-primary mb-4'>
+            {i18n.language === "en" && "add task"}
+            {i18n.language === "ar" && "اضافة مهمه"}
+            {i18n.language === "fr" && "Ajouter une tâche"}
+          </button>
       </div>
       </>)
 }
