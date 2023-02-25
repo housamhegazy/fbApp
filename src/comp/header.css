@@ -55,7 +55,8 @@
 .container-fluid .btns{
   display: flex;
   justify-content: space-between;
-  width:100%
+  width:100%;
+  align-items: center;
 }
 .container-fluid{
   flex-wrap: nowrap;
@@ -77,4 +78,9 @@
     justify-content: space-between;
     width:100%
   }
+}
+ul.navbar-nav{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
