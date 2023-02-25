@@ -12,6 +12,7 @@
 
 .language{
   position: relative;
+  min-width: 50px;
 }
 .language .opt-langs{
   position: absolute;
@@ -21,9 +22,11 @@
   list-style: none;
   transform: scale(0);
   transition: .3s;
-  padding: 0;
+  padding: 5px 10px;
   width:100px;
-  background-color: rgba(19, 19, 18, 0.63);;
+  
+  border-radius: 5px;;;
+  
 }
 .language:hover .opt-langs{
   transform: scale(1);
@@ -31,14 +34,13 @@
 .language .opt-langs li{
   padding: 5px;
   align-items: center;
-  background-color: #1990d7de;
   border-radius: 5px;
   margin:5px 0;
   transition: .3s;
 }
 .language .opt-langs li:hover{
   transform: scale(1.03);
-  background-color: rgb(17, 172, 120);
+  box-shadow: 0 0 2px 2px #1990d7de;
 }
 .light .bi-moon-fill{
     display: none;
@@ -83,4 +85,12 @@ ul.navbar-nav{
   display: flex;
   justify-content: center;
   align-items: center;
+  width:max-content
+}
+
+.nav-link.active{
+  background-color: aqua;
+  color: brown;
+  border-radius: 5px;
+  padding:5px
 }

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useContext } from "react";
 import ThemeContext from "../context/Theme";
 import './header.css'
@@ -6,7 +6,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from "../firebase/config";
 import {signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 const Header = () => {
   const [user, loading, error] = useAuthState(auth);
   const { theme, toggleTheme } = useContext(ThemeContext);
@@ -28,7 +28,7 @@ const Header = () => {
       <Link className="navbar-brand" to={"/"}>H.HEGAZY</Link>
       <div className="btns">
           <button className="language btn btn-primary btn-sm mx-3">{t("lang")}
-            <ul dir="auto" className="opt-langs">
+            <ul dir="auto" className="opt-langs bg-primary">
               <li dir="auto" className="d-flex justify-content-start" onClick={()=>{
                     i18n.changeLanguage("en");
                   }}>
@@ -82,10 +82,10 @@ const Header = () => {
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
         <li className="nav-item">
-          <Link dir="auto" className="nav-link text-start" to={"/about"}>{t("support")}</Link>
+          <NavLink dir="auto" className="nav-link text-start" to={"/about"}>{t("support")}</NavLink>
         </li>
         <li className="nav-item">
-          <Link dir="auto" className="nav-link " to={"/profile"}>{t("profile")}</Link>
+          <NavLink dir="auto" className="nav-link" to={"/profile"}>{t("profile")}</NavLink>
         </li>
       </ul>
     </div>
