@@ -82,10 +82,10 @@ const Header = () => {
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
         <li className="nav-item">
-          <Link className="nav-link" to={"/about"}>{t("support")}</Link>
+          <Link dir="auto" className="nav-link text-start" to={"/about"}>{t("support")}</Link>
         </li>
         <li className="nav-item">
-          <Link className="nav-link " to={"/profile"}>{t("profile")}</Link>
+          <Link dir="auto" className="nav-link " to={"/profile"}>{t("profile")}</Link>
         </li>
       </ul>
     </div>
