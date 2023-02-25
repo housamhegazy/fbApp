@@ -65,7 +65,11 @@ function Home() {
   if (loading) {
     return (
       <>
+        <Header/>
+        <main>
         <ReactLoading type={"spin"} color={"red"} height={200} width={200} />
+        </main>
+        <Footer/>
       </>
     );
   }

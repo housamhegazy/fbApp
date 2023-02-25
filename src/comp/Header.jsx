@@ -27,7 +27,7 @@ const Header = () => {
     <div className="container-fluid ">
       <Link className="navbar-brand" to={"/"}>H.HEGAZY</Link>
       <div className="btns">
-          <button className="language btn btn-primary btn-sm">{t("lang")}
+          <button className="language btn btn-primary btn-sm mx-3">{t("lang")}
             <ul dir="auto" className="opt-langs">
               <li dir="auto" className="d-flex justify-content-start" onClick={()=>{
                     i18n.changeLanguage("en");
@@ -50,10 +50,16 @@ const Header = () => {
               </li>
             </ul>
           </button>
-          <button onClick={()=>{
-            toggleTheme(theme === "light" ? "dark" : "light")
-            localStorage.setItem("mtTheme",theme === "dark"? "light":"dark")
-          }} className="btn btn-primary btn-sm">dark mood</button>
+          <div className="theme-togg mx-3">
+            <i onClick={()=>{
+              toggleTheme(theme === "light" ? "dark" : "light")
+              localStorage.setItem("mtTheme",theme === "dark"? "light":"dark")
+            }} className="bi bi-moon-fill"></i>
+            <i onClick={()=>{
+              toggleTheme(theme === "light" ? "dark" : "light")
+              localStorage.setItem("mtTheme",theme === "dark"? "light":"dark")
+            }} className="bi bi-brightness-high-fill"></i>
+          </div>
           {!user && 
             <>
             <Link to={"/signin"} className="btn btn-primary btn-sm">{t("signin")}</Link>
@@ -63,7 +69,7 @@ const Header = () => {
           {user && 
           <button onClick={()=>{
             SignoutFun()
-          }} className="btn btn-danger btn-sm">{t("signout")}</button>}
+          }} className="btn btn-danger btn-sm mx-3">{t("signout")}</button>}
       </div>
       {user && <>
       <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
