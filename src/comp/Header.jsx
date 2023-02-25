@@ -28,16 +28,26 @@ const Header = () => {
       <Link className="navbar-brand" to={"/"}>H.HEGAZY</Link>
       <div className="btns">
           <button className="language btn btn-primary btn-sm">{t("lang")}
-            <ul className="opt-langs bg-primary">
-              <li onClick={()=>{
+            <ul dir="auto" className="opt-langs">
+              <li dir="auto" className="d-flex justify-content-start" onClick={()=>{
                     i18n.changeLanguage("en");
-                  }}>english</li>
-              <li onClick={()=>{
+                  }}>
+                  <p className="m-0">english</p>
+                  {i18n.changeLanguage && <i className="bi bi-check"></i>}
+              </li>
+              <li dir="auto" className="d-flex justify-content-start" onClick={()=>{
                     i18n.changeLanguage("ar");
-                  }}>العربيه</li>
-              <li onClick={()=>{
+                  }}>
+                  
+                  {i18n.changeLanguage && <i className="bi bi-check"></i>}
+                  <p className="m-0">العربيه</p>
+              </li>
+              <li dir="auto" className="d-flex justify-content-start" onClick={()=>{
                     i18n.changeLanguage("fr");
-                  }}>france</li>
+                  }}>
+                  <p className="m-0">france</p>
+                  {i18n.changeLanguage && <i className="bi bi-check"></i>}
+              </li>
             </ul>
           </button>
           <button onClick={()=>{

@@ -19,10 +19,22 @@
   list-style: none;
   transform: scale(0);
   transition: .3s;
+  padding: 0;
+  width:100px;
+  background-color: rgba(195, 206, 178, 0.788);
 }
 .language:hover .opt-langs{
   transform: scale(1);
 }
 .language .opt-langs li{
   padding: 5px;
+  align-items: center;
+  background-color: teal;
+  border-radius: 5px;
+  margin:5px 0;
+  transition: .3s;
+}
+.language .opt-langs li:hover{
+  transform: scale(1.03);
+  background-color: rgb(17, 172, 120);
 }
