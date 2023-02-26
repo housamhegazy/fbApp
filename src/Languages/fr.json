@@ -8,5 +8,6 @@
     "add" : "ajouter",
     "cancel":"Annuler",
     "add more":"ajouter plus",
-    "delete Task":"supprimer la tâche"
+    "delete Task":"supprimer la tâche",
+    "add task" : "Ajouter une tâche"
   }

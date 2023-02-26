@@ -4,8 +4,8 @@
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Task",
+  "name": "Task",
   "icons": [
     {
       "src": "icon2.png",

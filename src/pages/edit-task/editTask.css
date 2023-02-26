@@ -1,6 +1,11 @@
 .dark .info .time{
     color:white!important
 }
+@media(max-width:767px){
+  .subtask-section{
+    width:80%!important
+  }
+}
 
  .subtask-section .addtask{
     animation : move 1s

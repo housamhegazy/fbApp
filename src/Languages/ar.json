@@ -8,5 +8,6 @@
     "add": "اضافه",
     "cancel":"اغلاق",
     "add more":"اضافة المزيد",
-    "delete Task":"حذف المهمه"
+    "delete Task":"حذف المهمه",
+    "add task" : "اضافة مهمه"
   }

@@ -8,5 +8,6 @@
     "add" : "add",
     "cancel":"cancel",
     "add more":"add more",
-    "delete Task":"delete Task"
+    "delete Task":"delete Task",
+    "add task" : "add task"
   }

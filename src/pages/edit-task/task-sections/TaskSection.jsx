@@ -73,7 +73,7 @@ export default function TaskSection({
               onClick={(e) => {
                 sendnewTaskTofireBaseFun(e);
               }}
-              className="btn btn-primary mx-2"
+              className="btn btn-primary mx-lg-2 mx-md-0"
               type="submit"
             >
               {t("add")}
@@ -82,7 +82,7 @@ export default function TaskSection({
               onClick={(e) => {
                 cancelAddTaskSampleFun(e);
               }}
-              className="btn btn-danger mx-2"
+              className="btn btn-danger mx-lg-2 mx-md-1"
             >
               {t("cancel")}
             </button>
