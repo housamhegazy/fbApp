@@ -37,6 +37,7 @@ const router = createBrowserRouter([
     element: <EditeTask/>,
   },
 ]);
+
 function App() {
   const { theme } = useContext(ThemeContext);
   return (
