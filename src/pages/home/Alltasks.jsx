@@ -95,7 +95,7 @@ export default function Alltasks({openModale,user}) {
             {i18n.language === "fr" && "félicitations, vous avez terminé toutes les tâches"}
         </h3>}
       
-      <div className="tasks container d-flex my-5 w-100">
+      <div className="tasks d-flex my-5 w-100">
         
       {value && value.docs.map((task)=>{
         

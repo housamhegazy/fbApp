@@ -9,6 +9,7 @@ import { Helmet } from "react-helmet-async";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import ReactLoading from 'react-loading';
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 function Signup(){
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
@@ -95,6 +96,13 @@ useEffect(()=>{
           }} className="btn btn-primary mt-3" value={"submit"}>
             {loadingBtn ? <ReactLoading type={"spin"} color={"red"} height={20} width={20} />: `${t("signup")}`}
           </button>
+          <p className="account mt-4">
+               
+              {i18n.language === "en" && "Already hava an account"}
+              {i18n.language === "ar" && "هل لديك حساب ? "}
+              {i18n.language === "fr" && "Vous avez déjà un compte"} 
+              <Link to="/signin">{t("signin")}</Link>
+            </p>
           <p className="mt-3">{errorMsg}</p>
         </div>
         

@@ -11,6 +11,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { useEffect } from "react";
 import ReactLoading from 'react-loading';
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 function Signin(){
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
@@ -124,6 +125,13 @@ sendPasswordResetEmail(auth, resetEmail)
           </button>
         </div>
         <p className="mt-3">{errorMsg}</p>
+        <p className="account">
+            
+            {i18n.language === "en" && "Don't hava an account? "}
+            {i18n.language === "ar" && "ليس لديك حساب؟ "}
+            {i18n.language === "fr" && "Vous n'avez pas de compte  ? "}   
+          <Link to="/signup"> {t("signup")}</Link>
+          </p>
         <button onClick={()=>{
           openModal()
         }} className="btn btn-secondary"> 
