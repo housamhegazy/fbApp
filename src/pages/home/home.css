@@ -4,14 +4,18 @@
   justify-content: center;
 }
 
-.task {
-  width: 200px;
-  border-radius: 5px;
-  min-height: 200px;
-}
 .tasks .task{
   position: relative;
   border: 1px solid black;
+  width: 200px;
+  border-radius: 5px;
+  min-height: 200px;
+  text-decoration: none;
+  box-shadow: 0 0 1px 2px lightblue;
+  transition: .3s;
+}
+.task:hover{
+  box-shadow: 0 0 5px 10px lightblue;
 }
 .tasks .time{
   position: absolute;
@@ -23,14 +27,8 @@
 .dark .tasks .time {
   color: black
 }
-.task{
-  text-decoration: none;
-  box-shadow: 0 0 2px 5px lightblue;
-  transition: .3s;
-}
-.task:hover{
-  box-shadow: 0 0 5px 10px lightblue;
-}
+
+
 .dark .home-module input{
     background-color: transparent;
     color:white

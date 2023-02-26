@@ -25,7 +25,7 @@ const Header = () => {
   }
   return (
     <nav className="navbar navbar-expand-lg bg-info">
-    <div className="container-fluid ">
+    <div className="container ">
       <Link className="navbar-brand" to={"/"}>H.HEGAZY</Link>
       <div className="btns">
           <button className="language btn btn-primary btn-sm mx-3">{t("lang")}
@@ -39,9 +39,9 @@ const Header = () => {
               <li dir="auto" className="d-flex justify-content-start" onClick={()=>{
                     i18n.changeLanguage("ar");
                   }}>
-                  
-                  {i18n.language === "ar" && <i className="bi bi-check"></i>}
                   <p className="m-0">العربيه</p>
+                  {i18n.language === "ar" && <i className="bi bi-check"></i>}
+                  
               </li>
               <li dir="auto" className="d-flex justify-content-start" onClick={()=>{
                     i18n.changeLanguage("fr");
