@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import ReactLoading from 'react-loading';
-
+import { useTranslation } from "react-i18next";
 function Signup(){
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ function Signup(){
   const [userName,setUserName] = useState("")
   const [errorMsg,seterrorMsg] = useState("");
   const [loadingBtn,setloadingBtn] = useState(false)
+  const { t, i18n } = useTranslation();
 
 useEffect(()=>{
   if(user && !loading){
@@ -92,10 +93,11 @@ useEffect(()=>{
           <button onClick={(e)=>{
             Signupfun()
           }} className="btn btn-primary mt-3" value={"submit"}>
-            {loadingBtn ? <ReactLoading type={"spin"} color={"red"} height={20} width={20} />: "signup"}
+            {loadingBtn ? <ReactLoading type={"spin"} color={"red"} height={20} width={20} />: `${t("signup")}`}
           </button>
+          <p className="mt-3">{errorMsg}</p>
         </div>
-        <p className="mt-3">{errorMsg}</p>
+        
       </form>
       <Footer/>
       </>

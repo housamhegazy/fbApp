@@ -10,7 +10,7 @@ import Modal from "../shared/Modal";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useEffect } from "react";
 import ReactLoading from 'react-loading';
-
+import { useTranslation } from "react-i18next";
 function Signin(){
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
@@ -21,6 +21,7 @@ function Signin(){
   const [resetEmail,setresetEmail] = useState("")
   const [resetResult,setresetResult] = useState("")
   const [loadingBtn,setloadingBtn] = useState(false)
+  const { t, i18n } = useTranslation();
   useEffect(()=>{
     if(user && !loading){
       navigate("/")
@@ -88,20 +89,28 @@ sendPasswordResetEmail(auth, resetEmail)
           <form onSubmit={(e)=>{
             e.preventDefault()
           }} className="modalform form-control">
-            <p className="fs-3 text-center">enter your email</p>
+            <p className="fs-3 text-center">
+            {i18n.language === "en" && "enter your email"}
+            {i18n.language === "ar" && "أدخل بريدك الإلكتروني"}
+            {i18n.language === "fr" && "entrer votre Email"}
+              </p>
             <input onChange={(e)=>{
               setresetEmail(e.target.value)
             }} type="text" className="form-control"/>
             <button onClick={(e)=>{
               e.preventDefault();
               resetPass()
-            }} className="btn btn-primary mt-3">submit</button>
+            }} className="btn btn-primary mt-3">{t("signin")}</button>
             <p>{resetResult}</p>
           </form>
       </Modal>}
       <form onSubmit={(e)=>{e.preventDefault()}} className="signinform">
         <div className="content">
-          <p>enter your email and password</p>
+          <p dir="auto"> 
+            {i18n.language === "en" && "enter your email and password"}
+            {i18n.language === "ar" && "أدخل بريدك الإلكتروني وكلمة المرور"}
+            {i18n.language === "fr" && "entrez votre email et votre mot de passe"}
+            </p>
           <input onChange={(e)=>{
             setemail(e.target.value)
           }} type="email" className="form-control my-2" placeholder="email" />
@@ -111,13 +120,17 @@ sendPasswordResetEmail(auth, resetEmail)
           <button onClick={(e)=>{
             Signinfun()
           }} className="btn btn-primary mt-5" value={"submit"}>
-            {loadingBtn ? <ReactLoading type={"spin"} color={"red"} height={20} width={20} />: "signin"}
+            {loadingBtn ? <ReactLoading type={"spin"} color={"red"} height={20} width={20} />: `${t("signin")}`}
           </button>
         </div>
         <p className="mt-3">{errorMsg}</p>
         <button onClick={()=>{
           openModal()
-        }} className="btn btn-secondary">reset password</button>
+        }} className="btn btn-secondary"> 
+        {i18n.language === "en" && "reset password"}
+        {i18n.language === "ar" && "إعادة تعيين كلمة المرور"}
+        {i18n.language === "fr" && "réinitialiser le mot de passe"}
+        </button>
       </form>
       <Footer/>
       </>

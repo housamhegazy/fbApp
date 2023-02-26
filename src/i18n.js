@@ -26,7 +26,7 @@ i18n.use(LanguageDetector)
   .init({
     resources,
     detection:{  
-    order: [ 'htmlTag','localStorage'],
+    order: [ 'localStorage','htmlTag'],
     caches: ['localStorage'],
     },
 
