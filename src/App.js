@@ -12,10 +12,12 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import ErrorPage from './pages/ErrorPage';
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home/>,
+    errorElement:<ErrorPage/>
   },
   {
     path: "/about",
