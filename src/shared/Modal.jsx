@@ -33,10 +33,16 @@ function Modal({ closeModel, children,backgroundColor="whitesmoke"}) {
             0% {scale:0;  transform: translate(-100vh,-100vh);}
             100% {scale:1;  transform: translate(-50%,-50%);}
           }
+          @media(max-width:767px){
+            .modal{
+              width:90%
+            }
+          }
+          
           .close{
             position:absolute;
-            top:0;
-            right:0;
+            top:10px;
+            right:10px;
             cursor: pointer;
             font-size: 20px;
             color: red;
