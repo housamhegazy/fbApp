@@ -1,7 +1,14 @@
 // firebase get data
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../firebase/config";
-import { doc, updateDoc, deleteDoc,collection, orderBy, query } from "firebase/firestore";
+import {
+  doc,
+  updateDoc,
+  deleteDoc,
+  collection,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import {
   Avatar,
   Box,
@@ -47,10 +54,10 @@ export default function GetPosts({ user }) {
     setAnchorEl(null);
   };
   //delete item from firebase
-const handelDelete = async(val)=>{
-  console.log(val)
-  await deleteDoc(doc(db,user.uid,val))
-}
+  const handelDelete = async (val) => {
+    console.log(val);
+    await deleteDoc(doc(db, user.uid, val));
+  };
   const renderMenu = (
     <Menu
       id="basic-menu"
@@ -68,9 +75,7 @@ const handelDelete = async(val)=>{
   );
 
   if (loading) {
-    return (
-      <Loading/>
-    )
+    return <Loading />;
   }
   if (value) {
     return (
@@ -131,11 +136,17 @@ const handelDelete = async(val)=>{
                   checkedIcon={<Bookmark />}
                 />
               </CardActions>
-
-
-
-
-              <Button sx={{mx:"auto",mb:"10px",display:"block"}} variant="contained" color="error" onClick={()=>{handelDelete(item.id)}}>delete</Button>
+                {/* delete card btn */}
+              <Button
+                sx={{ mx: "auto", mb: "10px", display: "block" }}
+                variant="contained"
+                color="error"
+                onClick={() => {
+                  handelDelete(item.id);
+                }}
+              >
+                delete
+              </Button>
               {renderMenu}
             </Card>
           );
