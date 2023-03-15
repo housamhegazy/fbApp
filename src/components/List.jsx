@@ -82,7 +82,7 @@ export default function Listt({ darkmoodFunc, theme, showList,setshowList }) {
   const myList = [
     { title: "profile", icon: <AccountBoxIcon />, pathname: "/profile" },
     { title: "home", icon: <InboxIcon />, pathname: "/" },
-    { title: "pages", icon: <ArticleIcon />, pathname: "/pages" },
+    { title: "articles", icon: <ArticleIcon />, pathname: "/articles" },
     { title: "groups", icon: <GroupsIcon />, pathname: "/groups" },
     {
       title: "marketplace",

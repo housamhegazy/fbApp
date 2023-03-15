@@ -20,6 +20,8 @@ export default function Profile() {
         // ...
       });
   };
+
+ 
   useEffect(() => {
     if (!user && !loading) {
       navigate("/");
@@ -67,6 +69,7 @@ export default function Profile() {
         >
           Delete Account
         </Button>
+        
       </Box>
     );
   }
