@@ -46,11 +46,13 @@ useEffect(()=>{
         upload image
       </Button>
       {/* map image list */}
+      <Box>
       {imageList.map((url)=>{
         return (
-            <img src={url} alt="" />
+            <img src={url} width="200px" alt="" />
         )
       })}
+      </Box>
     </Box>
   );
 }
