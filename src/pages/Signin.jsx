@@ -1,150 +1,115 @@
-import Footer from "../comp/Footer"
-import Header from "../comp/Header"
-import './signin.css'
-import { signInWithEmailAndPassword ,sendPasswordResetEmail} from "firebase/auth";
+import { Box, Button, Skeleton, Stack, TextField, Typography } from "@mui/material";
+import { NavLink, useNavigate } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
-import Modal from "../shared/Modal";
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useEffect } from "react";
-import ReactLoading from 'react-loading';
-import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
-function Signin(){
+import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useForm } from "react-hook-form";
+import ResetEmail from "./ResetEmail";
+import { useTheme } from "@mui/system";
+import Loading from "components/Loading";
+
+export default function Signin() {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
-  const [email,setemail] = useState("");
-  const [password,setpassword] = useState("");
-  const [errorMsg,seterrorMsg] = useState("");
-  const [modal,setmodal] = useState(false);
-  const [resetEmail,setresetEmail] = useState("")
-  const [resetResult,setresetResult] = useState("")
-  const [loadingBtn,setloadingBtn] = useState(false)
-  const { t, i18n } = useTranslation();
-  useEffect(()=>{
-    if(user && !loading){
-      navigate("/")
-    }
-  },[])
-  const closeModel = ()=>{
-    setmodal(false)
-  }
-  const openModal = ()=>{
-    setmodal(true)
-  }
-  const Signinfun = async()=>{
-  setloadingBtn(true)
-  await signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    navigate("/")
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    seterrorMsg(errorCode)
-  });
-  setloadingBtn(false)
-  }
-  const resetPass = ()=>{
-sendPasswordResetEmail(auth, resetEmail)
-  .then(() => {
-    // Password reset email sent!
-    setresetResult("password sent")
-    // ..
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    setresetResult(errorCode)
-    // ..
-  });
-  }
-  if(loading){
-    return(<>
-    <Header/>
-    <main><ReactLoading type={"spin"} color={"red"} height={200} width={200} />
-    </main>
-    <Footer/>
-    </>
-    )
-  }
-  if(error){
-    return(<><h1>error! ...........</h1></>)
-  }
-  if(!user){
-    return (
-      <>
-      <Helmet>
-      <meta
-        name="signin"
-        content="signin"
-      />
-      <title>sign in</title>
-      </Helmet>
-      <Header/>
-      {modal && 
-      <Modal closeModel={closeModel} >
-          <form onSubmit={(e)=>{
-            e.preventDefault()
-          }} className="modalform form-control">
-            <p className="fs-3 text-center">
-            {i18n.language === "en" && "enter your email"}
-            {i18n.language === "ar" && "أدخل بريدك الإلكتروني"}
-            {i18n.language === "fr" && "entrer votre Email"}
-              </p>
-            <input onChange={(e)=>{
-              setresetEmail(e.target.value)
-            }} type="text" className="form-control"/>
-            <button onClick={(e)=>{
-              e.preventDefault();
-              resetPass()
-            }} className="btn btn-primary mt-3">{t("signin")}</button>
-            <p>{resetResult}</p>
-          </form>
-      </Modal>}
-      <form onSubmit={(e)=>{e.preventDefault()}} className="signinform">
-        <div className="content">
-          <p dir="auto"> 
-            {i18n.language === "en" && "enter your email and password"}
-            {i18n.language === "ar" && "أدخل بريدك الإلكتروني وكلمة المرور"}
-            {i18n.language === "fr" && "entrez votre email et votre mot de passe"}
-            </p>
-          <input onChange={(e)=>{
-            setemail(e.target.value)
-          }} type="email" className="form-control my-2" placeholder="email" />
-          <input onChange={(e)=>{
-            setpassword(e.target.value)
-          }} type="password" className="form-control my-2" placeholder="password" />
-          <button onClick={(e)=>{
-            Signinfun()
-          }} className="btn btn-primary mt-5" value={"submit"}>
-            {loadingBtn ? <ReactLoading type={"spin"} color={"red"} height={20} width={20} />: `${t("signin")}`}
-          </button>
-        </div>
-        <p className="mt-3">{errorMsg}</p>
-        <p className="account">
-            
-            {i18n.language === "en" && "Don't hava an account? "}
-            {i18n.language === "ar" && "ليس لديك حساب؟ "}
-            {i18n.language === "fr" && "Vous n'avez pas de compte  ? "}   
-          <Link to="/signup"> {t("signup")}</Link>
-          </p>
-        <button onClick={()=>{
-          openModal()
-        }} className="btn btn-secondary"> 
-        {i18n.language === "en" && "reset password"}
-        {i18n.language === "ar" && "إعادة تعيين كلمة المرور"}
-        {i18n.language === "fr" && "réinitialiser le mot de passe"}
-        </button>
-      </form>
-      <Footer/>
-      </>
-      
-    )
-  }
+  const theme = useTheme()
 
+  //login error code state
+  const [errorCodeMessage, seterrorCodeMessage] = useState("");
+  //login function
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) =>
+    signInWithEmailAndPassword(auth, data.email, data.password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        // ...
+        navigate("/");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        seterrorCodeMessage(errorCode);
+      });
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  });
+  {
+    loading && (
+      <Loading/>
+    );
+  }
+  if (!user) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          height: "90vh",
+          alignItems: "center",
+        }}
+      >
+        <Box
+          component="form"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            "& .MuiTextField-root": { m: 1, width: "25ch" },
+            width: "50%",
+            mx: "auo",
+            alignItems: "center",
+          }}
+          noValidate
+          autoComplete="off"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <TextField
+            {...register("email", {
+              required: { value: true, message: "required field" },
+              maxLength: { value: 20, message: "max length 20" },
+            })}
+            error={Boolean(errors.email)}
+            helperText={
+              Boolean(errors.email) ? `${errors.email.message}` : null
+            }
+            label="email"
+            placeholder="email:"
+          />
+          <TextField
+            {...register("password", {
+              required: { value: true, message: "required field" },
+              maxLength: { value: 20, message: "max length 20" },
+            })}
+            error={Boolean(errors.password)}
+            helperText={
+              Boolean(errors.password) ? `${errors.password.message}` : null
+            }
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+          />
+          <Button type="submit" variant="contained">
+            Sign in
+          </Button>
+
+          <Typography sx={{ my: "20px" }} variant="body1">
+            {" "}
+            you dont have account <NavLink style={{color:theme.palette.text.primary}} to="/signup">sign up </NavLink>
+          </Typography>
+          <Typography sx={{ my: "20px", color: "red" }} variant="body1">
+            {errorCodeMessage}
+          </Typography>
+          {/* forget password */}
+          <ResetEmail />
+        </Box>
+      </Box>
+    );
+  }
 }
-export default Signin

@@ -1,9 +1,0 @@
-.signupform{
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.dark form{
-  background-color: rgb(73, 69, 69);
-}
