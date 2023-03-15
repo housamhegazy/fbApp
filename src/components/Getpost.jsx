@@ -1,10 +1,11 @@
 // firebase get data
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../firebase/config";
-import { collection, deleteDoc, orderBy, query } from "firebase/firestore";
+import { doc, updateDoc, deleteDoc,collection, orderBy, query } from "firebase/firestore";
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardActions,
   CardContent,
@@ -28,7 +29,7 @@ import { useState } from "react";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Loading from "./Loading";
-import { doc, updateDoc, deleteField } from "firebase/firestore";
+
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export default function GetPosts({ user }) {
@@ -45,7 +46,11 @@ export default function GetPosts({ user }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  //delete item from firebase
+const handelDelete = async(val)=>{
+  console.log(val)
+  await deleteDoc(doc(db,user.uid,val))
+}
   const renderMenu = (
     <Menu
       id="basic-menu"
@@ -58,7 +63,7 @@ export default function GetPosts({ user }) {
     >
       <MenuItem onClick={handleClose}>Profile</MenuItem>
       <MenuItem onClick={handleClose}>My account</MenuItem>
-      <MenuItem onClick={handleClose}>delete</MenuItem>
+      <MenuItem onClick={handleClose}>info</MenuItem>
     </Menu>
   );
 
@@ -126,6 +131,11 @@ export default function GetPosts({ user }) {
                   checkedIcon={<Bookmark />}
                 />
               </CardActions>
+
+
+
+
+              <Button sx={{mx:"auto",mb:"10px",display:"block"}} variant="contained" color="error" onClick={()=>{handelDelete(item.id)}}>delete</Button>
               {renderMenu}
             </Card>
           );
