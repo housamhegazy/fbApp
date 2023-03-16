@@ -118,8 +118,8 @@ export default function Signin() {
           </Typography>
           {/* forget password */}
         </Box>
-        <SigninGoogle />
         <ResetEmail />
+        <SigninGoogle />
       </Box>
     );
   }

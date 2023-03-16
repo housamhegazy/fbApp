@@ -40,7 +40,6 @@ import Loading from "./Loading";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export default function GetPosts({ user }) {
-  //   const [value, loading, error] = useCollection(collection(db, user.uid));
   const [value, loading, error] = useCollection(
     query(collection(db, user.uid), orderBy("id", "desc"))
   );
