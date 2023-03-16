@@ -15,15 +15,18 @@ export default function ResetEmail() {
   const theme = useTheme();
   const [resetPassError, setresetpass] = useState("");
   const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
+    register: register2,
+    formState: { errors: errors2 },
+    handleSubmit: handleSubmit2,
+    // register,
+    // handleSubmit,
+    // watch,
+    // formState: { errors },
   } = useForm();
   // open modal of forget pssword
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open1, setOpen1] = useState(false);
+  const handleOpen1 = () => setOpen1(true);
+  const handleClose1 = () => setOpen1(false);
   const style = {
     position: "absolute",
     top: "50%",
@@ -40,8 +43,8 @@ export default function ResetEmail() {
     flexDirection: "column",
   };
 
-  const onSubmit = (data) =>
-    sendPasswordResetEmail(auth, data.email)
+  const onSubmitEmail = (data) =>
+    sendPasswordResetEmail(auth, data.email1)
       .then(() => {
         setresetpass("message send to email check it");
       })
@@ -57,18 +60,22 @@ export default function ResetEmail() {
       <Button
         variant="outlined"
         onClick={() => {
-          handleOpen();
+          handleOpen1();
         }}
       >
         forget password{" "}
       </Button>
       <Modal
-        open={open}
-        onClose={handleClose}
+        open={open1}
+        onClose={handleClose1}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} component="form" onSubmit={handleSubmit(onSubmit)}>
+        <Box
+          sx={style}
+          component="form"
+          onSubmit={handleSubmit2(onSubmitEmail)}
+        >
           <Typography
             sx={{ my: "20px" }}
             id="modal-modal-title"
@@ -78,15 +85,15 @@ export default function ResetEmail() {
             type your email
           </Typography>
           <TextField
-            {...register("email", {
+            {...register2("email1", {
               required: { value: true, message: "required field" },
               maxLength: { value: 20, message: "max length 20" },
             })}
             id="outlined-required"
-            label="email"
-            error={Boolean(errors.email)}
+            label="email1"
+            error={Boolean(errors2.email1)}
             helperText={
-              Boolean(errors.email) ? `${errors.email.message}` : null
+              Boolean(errors2.email1) ? `${errors2.email1.message}` : null
             }
           />
           <Button sx={{ my: "20px" }} variant="contained" type="submit">

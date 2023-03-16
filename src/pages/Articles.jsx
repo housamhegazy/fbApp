@@ -3,7 +3,13 @@
 import { Box, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { storage } from "../firebase/config";
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
+import {
+  ref,
+  uploadBytes,
+  listAll,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { v4 } from "uuid";
 export default function Articles() {
   //store image from button onchange
@@ -36,10 +42,12 @@ export default function Articles() {
       });
     });
   }, []);
+  //delete image
 
   return (
     <Box>
       <input
+        id="fileinpu"
         type="file"
         onChange={(eo) => {
           setimageUpload(eo.target.files[0]);
@@ -62,7 +70,12 @@ export default function Articles() {
         }}
       >
         {imageList.map((url) => {
-          return <img key={url} src={url} width="200px" alt="" />;
+          return (
+            <Box key={url}>
+              <img src={url} width="200px" alt="" />
+              <Button>delete</Button>
+            </Box>
+          );
         })}
       </Box>
     </Box>

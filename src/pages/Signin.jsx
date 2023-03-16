@@ -1,4 +1,12 @@
-import { Box, Button, Skeleton, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
+import SigninGoogle from "./SigninGoogle";
 import { NavLink, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
@@ -12,7 +20,7 @@ import Loading from "components/Loading";
 export default function Signin() {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
-  const theme = useTheme()
+  const theme = useTheme();
 
   //login error code state
   const [errorCodeMessage, seterrorCodeMessage] = useState("");
@@ -42,15 +50,14 @@ export default function Signin() {
     }
   });
   {
-    loading && (
-      <Loading/>
-    );
+    loading && <Loading />;
   }
   if (!user) {
     return (
       <Box
         sx={{
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           height: "90vh",
           alignItems: "center",
@@ -101,14 +108,18 @@ export default function Signin() {
 
           <Typography sx={{ my: "20px" }} variant="body1">
             {" "}
-            you dont have account <NavLink style={{color:theme.palette.text.primary}} to="/signup">sign up </NavLink>
+            you dont have account{" "}
+            <NavLink style={{ color: theme.palette.text.primary }} to="/signup">
+              sign up{" "}
+            </NavLink>
           </Typography>
           <Typography sx={{ my: "20px", color: "red" }} variant="body1">
             {errorCodeMessage}
           </Typography>
           {/* forget password */}
-          <ResetEmail />
         </Box>
+        <SigninGoogle />
+        <ResetEmail />
       </Box>
     );
   }
