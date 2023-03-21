@@ -1,4 +1,4 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,7 @@ import { storage } from "../firebase/config";
 import { confirm } from "react-confirm-box";
 import Posts from "../components/Posts";
 import { useTheme } from "@mui/system";
+import AddPost from "../components/AddPost";
 import {
   ref,
   uploadBytes,
@@ -111,7 +112,7 @@ export default function Profile() {
               src={image}
             />
             <Typography
-              sx={{ mx: "20px",mt:"20px", color: theme.palette.text.main }}
+              sx={{ mx: "20px", mt: "20px", color: theme.palette.text.main }}
               variant="body1"
             >
               {user.displayName}
@@ -124,35 +125,54 @@ export default function Profile() {
             variant="fullWidth"
             component="div"
           />
-
-          <Stack sx={{}}>
-            <Typography variant="body1">{`Username: ${user.displayName}`}</Typography>
-            <Typography
-              sx={{ py: .5 }}
-              variant="body1"
-            >{`Email: ${user.email}`}</Typography>
-            <Typography variant="body1">
-              {`Last login from :`}
-              <Moment fromNow>{user.metadata.lastSignInTime}</Moment>
-            </Typography>
-            <Typography sx={{ py: .5 }} variant="body1">
-              {" "}
-              {`Account created from: `}{" "}
-              <Moment fromNow>{user.metadata.creationTime}</Moment>
-            </Typography>
-          </Stack>
-          <Button
-            sx={{ my: "5px" }}
-            variant="contained"
-            color="error"
-            onClick={() => {
-              onClick();
-            }}
-          >
-            Delete Account
-          </Button>
         </Box>
-        <Posts />
+
+        <Stack direction="row" sx={{ width: "100%" }}>
+          <Box sx={{ width: "100%" }}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <TextField
+                sx={{
+                  width: { xs: "90%", sm: "70%" },
+                }}
+                id="standard-multiline-static"
+                multiline
+                rows={4}
+                placeholder="what is in your mind?"
+                variant="standard"
+              />
+            </Box>
+            <Posts />
+          </Box>
+          <Box>
+            <Stack sx={{ display: { xs: "none", md: "block" } }}>
+              <Typography variant="body1">{`Username: ${user.displayName}`}</Typography>
+              <Typography
+                sx={{ py: 0.5 }}
+                variant="body1"
+              >{`Email: ${user.email}`}</Typography>
+              <Typography variant="body1">
+                {`Last login from :`}
+                <Moment fromNow>{user.metadata.lastSignInTime}</Moment>
+              </Typography>
+              <Typography sx={{ py: 0.5 }} variant="body1">
+                {" "}
+                {`Account created from: `}{" "}
+                <Moment fromNow>{user.metadata.creationTime}</Moment>
+              </Typography>
+              <Button
+                sx={{ my: "5px" }}
+                variant="contained"
+                color="error"
+                onClick={() => {
+                  onClick();
+                }}
+              >
+                Delete Account
+              </Button>
+            </Stack>
+          </Box>
+        </Stack>
+         <AddPost />}
       </Box>
     );
   }
