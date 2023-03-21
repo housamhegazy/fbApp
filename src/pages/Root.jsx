@@ -2,12 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Home from "./Home";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config";
-import {
-  createTheme,
-  CssBaseline,
-  ThemeProvider,
-  Box,
-} from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider, Box } from "@mui/material";
 import getDesignTokens from "../styles/MuTheme";
 import Appbar from "components/AppBar";
 
@@ -15,9 +10,9 @@ import { Outlet } from "react-router-dom";
 import Listt from "components/List";
 import Loading from "components/Loading";
 
-export default function Root(){
+export default function Root() {
   const [user, loading, error] = useAuthState(auth);
-      //showlist
+  //showlist
   const [showList, setshowList] = useState("none");
   const localTheme = localStorage.getItem("localTheme");
   const [mode, setmode] = useState(
@@ -33,23 +28,20 @@ export default function Root(){
     );
     setmode(theme.palette.mode === "light" ? "dark" : "light");
   };
-if(loading){
-  return(
-    <Loading/>
-  )
-}
-    return(
-        <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Box className={theme.palette.mode}>
-          <Appbar setshowList={setshowList} showList={showList} />
-          <Listt {...{ setshowList,darkmoodFunc, theme, showList }} />
-        </Box>
-
-        <Box sx={{ml:{xs:"0",md:"240px"},mt:"69px"}}>
-            <Outlet/>
-        </Box>
-      </ThemeProvider>
-    );
+  if (loading) {
+    return <Loading />;
   }
-  
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box className={theme.palette.mode}>
+        <Appbar setshowList={setshowList} showList={showList} />
+        <Listt {...{ setshowList, darkmoodFunc, theme, showList }} />
+      </Box>
+
+      <Box sx={{ ml: { xs: "0", md: "240px" }, mt: {xs:'56px',sm:"64px"} }}>
+        <Outlet />
+      </Box>
+    </ThemeProvider>
+  );
+}

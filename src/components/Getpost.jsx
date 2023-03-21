@@ -32,11 +32,13 @@ import {
   BookmarkBorder,
   Bookmark,
 } from "@mui/icons-material";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { useState, useEffect } from "react";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Loading from "./Loading";
-
+import { confirm } from "react-confirm-box";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export default function GetPosts({ user }) {
@@ -45,6 +47,10 @@ export default function GetPosts({ user }) {
   );
   //icon menu
   const [anchorEl, setAnchorEl] = useState(null);
+  const [image, setimage] = useState(
+    "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg"
+  );
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -57,7 +63,27 @@ export default function GetPosts({ user }) {
     console.log(val);
     await deleteDoc(doc(db, user.uid, val));
   };
-  const renderMenu = (
+  //confirmation message option
+  const options = {
+    labels: {
+      confirmable: "Confirm",
+      cancellable: "Cancel",
+    },
+  };
+  const message = (
+    <h4 style={{ color: "black" }}>
+      Are you sure , you want delete your post?!!{" "}
+    </h4>
+  );
+  const onClick = async (id) => {
+    const result = await confirm(message, options);
+    if (result) {
+      handelDelete(id);
+      return;
+    }
+    console.log("You click No!");
+  };
+  const renderMenu = (id) => (
     <Menu
       id="basic-menu"
       anchorEl={anchorEl}
@@ -68,10 +94,21 @@ export default function GetPosts({ user }) {
       }}
     >
       <MenuItem onClick={handleClose}>Profile</MenuItem>
-      <MenuItem onClick={handleClose}>My account</MenuItem>
-      <MenuItem onClick={handleClose}>info</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleClose();
+          onClick(id);
+        }}
+      >
+        delete
+      </MenuItem>
     </Menu>
   );
+  useEffect(() => {
+    if (user) {
+      setimage(user.photoURL);
+    }
+  }, [user]);
 
   if (loading) {
     return <Loading />;
@@ -92,7 +129,7 @@ export default function GetPosts({ user }) {
                       bgcolor: "red",
                       color: "white",
                     }}
-                    aria-label="recipe"
+                    src={image}
                   >
                     {`${user.displayName}`.charAt(0)}
                   </Avatar>
@@ -104,14 +141,6 @@ export default function GetPosts({ user }) {
                 }
                 title={user.displayName}
                 subheader={"2 years ago"}
-              />
-              <CardMedia
-                component="img"
-                height="194"
-                image={
-                  "https://images.pexels.com/photos/103123/pexels-photo-103123.jpeg?auto=compress&cs=tinysrgb&w=600"
-                }
-                alt="Paella dish"
               />
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
@@ -135,18 +164,8 @@ export default function GetPosts({ user }) {
                   checkedIcon={<Bookmark />}
                 />
               </CardActions>
-                {/* delete card btn */}
-              <Button
-                sx={{ mx: "auto", mb: "10px", display: "block" }}
-                variant="contained"
-                color="error"
-                onClick={() => {
-                  handelDelete(item.id);
-                }}
-              >
-                delete
-              </Button>
-              {renderMenu}
+              {/* delete card btn */}
+              {renderMenu(item.id)}
             </Card>
           );
         })}

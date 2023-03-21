@@ -19,7 +19,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config";
 import { signOut } from "firebase/auth";
 
-export default function Listt({ darkmoodFunc, theme, showList,setshowList }) {
+export default function Listt({ darkmoodFunc, theme, showList, setshowList }) {
   const [user, loading, error] = useAuthState(auth);
   const location = useLocation();
   const navigate = useNavigate();
@@ -73,10 +73,10 @@ export default function Listt({ darkmoodFunc, theme, showList,setshowList }) {
   const signout = () => {
     signOut(auth)
       .then(() => {
-        console.log("Sign-out successful.")
+        console.log("Sign-out successful.");
       })
       .catch((error) => {
-        console.log(error.message)
+        console.log(error.message);
       });
   };
   const myList = [
@@ -95,7 +95,6 @@ export default function Listt({ darkmoodFunc, theme, showList,setshowList }) {
       icon: <SettingsApplicationsIcon />,
       pathname: "/settings",
     },
-    
   ];
 
   return (
@@ -117,7 +116,7 @@ export default function Listt({ darkmoodFunc, theme, showList,setshowList }) {
       <List
         sx={{
           position: "fixed",
-          top: "66px",
+          top: { xs: "56px", sm: "64px" },
           bottom: "0",
           backgroundColor: theme.palette.background.default,
           zIndex: "5",
@@ -130,14 +129,13 @@ export default function Listt({ darkmoodFunc, theme, showList,setshowList }) {
                 <ListItemButton
                   onClick={(eo) => {
                     navigate(item.pathname);
-                    setshowList("none")
+                    setshowList("none");
                   }}
                   sx={{
                     backgroundColor:
                       location.pathname === item.pathname
                         ? theme.palette.primary.main
                         : null,
-                      
                   }}
                 >
                   <ListItemIcon>{item.icon}</ListItemIcon>
@@ -179,15 +177,20 @@ export default function Listt({ darkmoodFunc, theme, showList,setshowList }) {
         )}
 
         {/* sign out */}
-        {user &&<ListItem disablePadding>
-          <ListItemButton onClick={() => {signout()}}>
-            <ListItemIcon>
-              <Logout />
-            </ListItemIcon>
-            <ListItemText primary={"sign out"} />
-          </ListItemButton>
-        </ListItem> }
-   
+        {user && (
+          <ListItem disablePadding>
+            <ListItemButton
+              onClick={() => {
+                signout();
+              }}
+            >
+              <ListItemIcon>
+                <Logout />
+              </ListItemIcon>
+              <ListItemText primary={"sign out"} />
+            </ListItemButton>
+          </ListItem>
+        )}
 
         {/* dark mood */}
         <ListItem disablePadding sx={{ mt: 1 }}>
