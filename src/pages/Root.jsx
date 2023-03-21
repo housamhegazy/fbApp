@@ -39,7 +39,9 @@ export default function Root() {
         <Listt {...{ setshowList, darkmoodFunc, theme, showList }} />
       </Box>
 
-      <Box sx={{ ml: { xs: "0", md: "240px" }, mt: {xs:'56px',sm:"64px"} }}>
+      <Box
+        sx={{ ml: { xs: "0", md: "240px" }, mt: { xs: "56px", sm: "64px" } }}
+      >
         <Outlet />
       </Box>
     </ThemeProvider>
