@@ -59,7 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function Appbar({ setshowList, showList }) {
+export default function Appbar({ drawerWidth, handleDrawerToggle }) {
   const [user, loading, error] = useAuthState(auth);
   const [showMobilemenu, setshowMobilemenu] = useState(false);
   const rerfmenuMobile = useRef(null);
@@ -67,10 +67,10 @@ export default function Appbar({ setshowList, showList }) {
     "https://img.freepik.com/free-icon/user_318-159711.jpghttps://img.freepik.com/free-icon/user_318-159711.jpg"
   );
   useEffect(() => {
-    if(user){
+    if (user) {
       setphotourl(user.photoURL);
     }
-  },[user]);
+  }, [user]);
   const [showMenu, setshowMenu] = useState(false);
   const rerfmenu = useRef(null);
   //menu mobile screan
@@ -154,13 +154,16 @@ export default function Appbar({ setshowList, showList }) {
   );
 
   return (
-    <AppBar>
+    <AppBar
+      sx={{
+        width: { sm: `calc(100% - ${drawerWidth}px)` },
+        ml: { sm: `${drawerWidth}px` },
+      }}
+    >
       <Toolbar>
         <IconButton
-          onClick={() => {
-            setshowList(showList === "none" ? "block" : "none");
-          }}
-          sx={{ display: { md: "none", mr: 2 } }}
+          onClick={handleDrawerToggle}
+          sx={{ display: { sm: "none" } }}
           size="large"
           edge="start"
           color="inherit"

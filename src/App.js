@@ -12,7 +12,6 @@ import Signup from "pages/Signup";
 import ErrorPage from "pages/Errorpage";
 import Profile from "pages/Profile";
 import Articles from "pages/Articles";
-
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
@@ -26,6 +25,7 @@ const router = createBrowserRouter(
     </Route>
   )
 );
+
 function App() {
   return (
     <div className="App">

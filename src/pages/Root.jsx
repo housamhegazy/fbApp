@@ -7,13 +7,21 @@ import getDesignTokens from "../styles/MuTheme";
 import Appbar from "components/AppBar";
 
 import { Outlet } from "react-router-dom";
-import Listt from "components/List";
+
 import Loading from "components/Loading";
+import ResponsiveDrawer from "components/myDrawer";
 
 export default function Root() {
   const [user, loading, error] = useAuthState(auth);
   //showlist
   const [showList, setshowList] = useState("none");
+  const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+  const drawerWidth = 240;
+  ///
   const localTheme = localStorage.getItem("localTheme");
   const [mode, setmode] = useState(
     localTheme === null ? "light" : localTheme === "light" ? "light" : "dark"
@@ -34,13 +42,26 @@ export default function Root() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Box className={theme.palette.mode}>
-        <Appbar setshowList={setshowList} showList={showList} />
-        <Listt {...{ setshowList, darkmoodFunc, theme, showList }} />
+      <Box className={`${theme.palette.mode}`}>
+        <Appbar {...{ handleDrawerToggle, drawerWidth }} />
+        <ResponsiveDrawer
+          {...{
+            handleDrawerToggle,
+            mobileOpen,
+            darkmoodFunc,
+            theme,
+            user,
+            drawerWidth,
+          }}
+        />
       </Box>
 
       <Box
-        sx={{ ml: { xs: "0", md: "240px" }, mt: { xs: "56px", sm: "64px" } }}
+        className={`${theme.palette.mode}`}
+        sx={{
+          ml: { xs: "0", sm: `${drawerWidth}px` },
+          mt: { xs: "56px", sm: "64px" },
+        }}
       >
         <Outlet />
       </Box>

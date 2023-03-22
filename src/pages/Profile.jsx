@@ -132,7 +132,7 @@ export default function Profile() {
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <TextField
                 sx={{
-                  width: { xs: "90%", sm: "70%" },
+                  width: { xs: "90%", sm: "350px", },
                 }}
                 id="standard-multiline-static"
                 multiline
