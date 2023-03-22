@@ -60,9 +60,9 @@ export default function GetPosts({ user }) {
   };
   //delete item from firebase
   const handelDelete = async (val) => {
-    console.log(val);
     await deleteDoc(doc(db, user.uid, val));
   };
+
   //confirmation message option
   const options = {
     labels: {
@@ -75,15 +75,8 @@ export default function GetPosts({ user }) {
       Are you sure , you want delete your post?!!{" "}
     </h4>
   );
-  const onClick = async (id) => {
-    const result = await confirm(message, options);
-    if (result) {
-      handelDelete(id);
-      return;
-    }
-    console.log("You click No!");
-  };
-  const renderMenu = (id) => (
+
+  const renderMenu = () => (
     <Menu
       id="basic-menu"
       anchorEl={anchorEl}
@@ -97,13 +90,13 @@ export default function GetPosts({ user }) {
       <MenuItem
         onClick={() => {
           handleClose();
-          onClick(id);
         }}
       >
         delete
       </MenuItem>
     </Menu>
-  );
+  )
+  
   useEffect(() => {
     if (user) {
       setimage(user.photoURL);
@@ -165,7 +158,19 @@ export default function GetPosts({ user }) {
                 />
               </CardActions>
               {/* delete card btn */}
-              {renderMenu(item.id)}
+              <Button
+                onClick={async (id) => {
+                  const result = await confirm(message, options);
+                  if (result) {
+                    handelDelete(item.id);
+                    return;
+                  }
+                  return;
+                }}
+              >
+                delete
+              </Button>
+              {renderMenu()}
             </Card>
           );
         })}

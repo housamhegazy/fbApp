@@ -1,4 +1,3 @@
-import Listt from "components/List";
 import Posts from "components/Posts";
 import Rightbar from "components/Rightbar";
 import AddPost from "components/AddPost";

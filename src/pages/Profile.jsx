@@ -132,7 +132,7 @@ export default function Profile() {
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <TextField
                 sx={{
-                  width: { xs: "90%", sm: "350px", },
+                  width: { xs: "90%", sm: "350px" },
                 }}
                 id="standard-multiline-static"
                 multiline
@@ -172,7 +172,7 @@ export default function Profile() {
             </Stack>
           </Box>
         </Stack>
-         <AddPost />}
+        <AddPost />
       </Box>
     );
   }
