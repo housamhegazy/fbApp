@@ -4,7 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { collection, addDoc } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/config";
-
+import "./addpost.css";
 import {
   Tooltip,
   Fab,
@@ -24,7 +24,7 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { CalendarMonth } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
-export default function AddPost() {
+export default function AddPost({ handleClick }) {
   const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -76,11 +76,13 @@ export default function AddPost() {
         aria-describedby="modal-modal-description"
       >
         <Box
+          className="mymodal"
           component={"form"}
           sx={style}
           onSubmit={(e) => {
             e.preventDefault();
             sendData();
+            handleClick();
           }}
         >
           <Typography sx={{ textAlign: "center" }} variant="h6" component="h2">

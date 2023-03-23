@@ -15,7 +15,7 @@ export default function Root() {
   const [user, loading, error] = useAuthState(auth);
   //showlist
   const [showList, setshowList] = useState("none");
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -52,6 +52,7 @@ export default function Root() {
             theme,
             user,
             drawerWidth,
+            setMobileOpen
           }}
         />
       </Box>

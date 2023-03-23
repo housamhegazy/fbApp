@@ -9,11 +9,24 @@ import { auth } from "../firebase/config";
 
 import { Stack, Box, Divider, Typography, Skeleton } from "@mui/material";
 import Loading from "components/Loading";
-
+import CustomizedSnackbars from "../components/AlertSnack";
 export default function HomePage() {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
+  //alert
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
   if (!user && !loading) {
     return (
       <Box>
@@ -35,9 +48,7 @@ export default function HomePage() {
   }
 
   {
-    loading && (
-      <Loading/>
-    );
+    loading && <Loading />;
   }
 
   if (user) {
@@ -49,7 +60,10 @@ export default function HomePage() {
         <Posts />
 
         <Rightbar />
-        <AddPost />
+        <AddPost {...{ handleClick }} />
+        <CustomizedSnackbars {...{ open, setOpen, handleClick, handleClose }}>
+          post added successfully
+        </CustomizedSnackbars>
       </Stack>
     );
   }

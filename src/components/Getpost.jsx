@@ -26,6 +26,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import CustomizedSnackbars from "./AlertSnack";
 import {
   FavoriteBorder,
   Favorite,
@@ -47,9 +48,6 @@ export default function GetPosts({ user }) {
   );
   //icon menu
   const [anchorEl, setAnchorEl] = useState(null);
-  const [image, setimage] = useState(
-    "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg"
-  );
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -95,13 +93,7 @@ export default function GetPosts({ user }) {
         delete
       </MenuItem>
     </Menu>
-  )
-  
-  useEffect(() => {
-    if (user) {
-      setimage(user.photoURL);
-    }
-  }, [user]);
+  );
 
   if (loading) {
     return <Loading />;
@@ -122,7 +114,7 @@ export default function GetPosts({ user }) {
                       bgcolor: "red",
                       color: "white",
                     }}
-                    src={image}
+                    src={user.photoURL}
                   >
                     {`${user.displayName}`.charAt(0)}
                   </Avatar>

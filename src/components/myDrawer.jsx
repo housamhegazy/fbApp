@@ -35,6 +35,7 @@ function ResponsiveDrawer({
   mobileOpen,
   user,
   drawerWidth,
+  setMobileOpen,
 }) {
   const location = useLocation();
   const navigate = useNavigate();
@@ -45,18 +46,30 @@ function ResponsiveDrawer({
       icon: <AccountBoxIcon color="primary" />,
       pathname: "/profile",
     },
-    { title: "home", icon: <HomeIcon color="primary"/>, pathname: "/" },
-    { title: "articles", icon: <ArticleIcon color="primary"/>, pathname: "/articles" },
-    { title: "groups", icon: <GroupsIcon color="primary"/>, pathname: "/groups" },
+    { title: "home", icon: <HomeIcon color="primary" />, pathname: "/" },
+    {
+      title: "articles",
+      icon: <ArticleIcon color="primary" />,
+      pathname: "/articles",
+    },
+    {
+      title: "groups",
+      icon: <GroupsIcon color="primary" />,
+      pathname: "/groups",
+    },
     {
       title: "marketplace",
-      icon: <StorefrontIcon color="primary"/>,
+      icon: <StorefrontIcon color="primary" />,
       pathname: "/marketplace",
     },
-    { title: "friends", icon: <PeopleOutlineIcon color="primary"/>, pathname: "/friends" },
+    {
+      title: "friends",
+      icon: <PeopleOutlineIcon color="primary" />,
+      pathname: "/friends",
+    },
     {
       title: "settings",
-      icon: <SettingsApplicationsIcon color="primary"/>,
+      icon: <SettingsApplicationsIcon color="primary" />,
       pathname: "/settings",
     },
   ];
@@ -144,7 +157,7 @@ function ResponsiveDrawer({
               <ListItemButton
                 onClick={(eo) => {
                   navigate(item.pathname);
-                  handleDrawerToggle();
+                  setMobileOpen(false);
                 }}
                 sx={{
                   backgroundColor:
@@ -168,7 +181,7 @@ function ResponsiveDrawer({
                 }}
               >
                 <ListItemIcon>
-                  <Login color="primary"/>
+                  <Login color="primary" />
                 </ListItemIcon>
                 <ListItemText primary={"sign in"} />
               </ListItemButton>
@@ -180,7 +193,7 @@ function ResponsiveDrawer({
                 }}
               >
                 <ListItemIcon>
-                  <HowToReg color="primary"/>
+                  <HowToReg color="primary" />
                 </ListItemIcon>
                 <ListItemText primary={"sign up"} />
               </ListItemButton>
@@ -190,16 +203,16 @@ function ResponsiveDrawer({
 
         {/* sign out */}
         {user && (
-          <ListItem disablePadding sx={{mt:3}}>
+          <ListItem disablePadding sx={{ mt: 3 }}>
             <ListItemButton
               onClick={() => {
                 signout();
               }}
             >
               <ListItemIcon>
-                <Logout color="error"/>
+                <Logout color="error" />
               </ListItemIcon>
-              <ListItemText primary={"sign out"} sx={{color:"red"}}/>
+              <ListItemText primary={"sign out"} sx={{ color: "red" }} />
             </ListItemButton>
           </ListItem>
         )}

@@ -20,13 +20,9 @@ import {
 } from "firebase/storage";
 import { BorderBottomRounded } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
-
 export default function Profile() {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
-  const [image, setimage] = useState(
-    "https://images.pexels.com/photos/268533/pexels-photo-268533.jpeg?cs=srgb&dl=pexels-pixabay-268533.jpg&fm=jpg"
-  );
   const navigate = useNavigate();
   const DeleteUser = () => {
     deleteUser(user)
@@ -62,10 +58,7 @@ export default function Profile() {
     if (!user && !loading) {
       navigate("/");
     }
-    if (user) {
-      setimage(user.photoURL);
-    }
-  }, [user]);
+  }, []);
 
   {
     loading && <Loading />;
@@ -109,7 +102,7 @@ export default function Profile() {
                 height: "80px",
                 borderRadius: "50%",
               }}
-              src={image}
+              src={user.photoURL}
             />
             <Typography
               sx={{ mx: "20px", mt: "20px", color: theme.palette.text.main }}
