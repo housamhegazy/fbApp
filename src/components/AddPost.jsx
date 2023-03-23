@@ -24,7 +24,7 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { CalendarMonth } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
-export default function AddPost({ handleClick }) {
+export default function AddPost({handleClick}) {
   const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);

@@ -178,6 +178,7 @@ function ResponsiveDrawer({
               <ListItemButton
                 onClick={() => {
                   navigate("/signin");
+                  setMobileOpen(false);
                 }}
               >
                 <ListItemIcon>
@@ -190,6 +191,7 @@ function ResponsiveDrawer({
               <ListItemButton
                 onClick={() => {
                   navigate("/signup");
+                  setMobileOpen(false);
                 }}
               >
                 <ListItemIcon>
@@ -207,6 +209,7 @@ function ResponsiveDrawer({
             <ListItemButton
               onClick={() => {
                 signout();
+                setMobileOpen(false);
               }}
             >
               <ListItemIcon>

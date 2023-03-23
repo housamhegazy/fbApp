@@ -101,6 +101,17 @@ export default function GetPosts({ user }) {
   if (value) {
     return (
       <Box sx={{ flexGrow: "3" }} component="main">
+        {value.docs.length < 1 && (
+          <Stack direction={"column"} sx={{height:"200px",alignItems:"center",justifyContent:"center"}}>
+            <Typography sx={{ textAlign: "center" }}>
+              Welcome To META {" "}
+            </Typography>
+            <Typography sx={{ textAlign: "center" }}>
+              no posts yet , start adding new posts ...{" "}
+            </Typography>
+          </Stack>
+        )}
+
         {value.docs.map((item) => {
           return (
             <Card
@@ -152,6 +163,7 @@ export default function GetPosts({ user }) {
               {/* delete card btn */}
               <Button
                 onClick={async (id) => {
+                  // @ts-ignore
                   const result = await confirm(message, options);
                   if (result) {
                     handelDelete(item.id);

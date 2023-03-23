@@ -60,7 +60,7 @@ export default function HomePage() {
         <Posts />
 
         <Rightbar />
-        <AddPost {...{ handleClick }} />
+        <AddPost handleClick={handleClick}/>
         <CustomizedSnackbars {...{ open, setOpen, handleClick, handleClose }}>
           post added successfully
         </CustomizedSnackbars>

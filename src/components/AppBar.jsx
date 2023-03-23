@@ -63,14 +63,6 @@ export default function Appbar({ drawerWidth, handleDrawerToggle }) {
   const [user, loading, error] = useAuthState(auth);
   const [showMobilemenu, setshowMobilemenu] = useState(false);
   const rerfmenuMobile = useRef(null);
-  const [photourl, setphotourl] = useState(
-    "https://img.freepik.com/free-icon/user_318-159711.jpghttps://img.freepik.com/free-icon/user_318-159711.jpg"
-  );
-  useEffect(() => {
-    if (user) {
-      setphotourl(user.photoURL);
-    }
-  }, [user]);
   const [showMenu, setshowMenu] = useState(false);
   const rerfmenu = useRef(null);
   //menu mobile screan
@@ -177,7 +169,7 @@ export default function Appbar({ drawerWidth, handleDrawerToggle }) {
           component="div"
           sx={{ display: { xs: "none", sm: "block" } }}
         >
-          Articles
+          META
         </Typography>
         <Search>
           <SearchIconWrapper>
@@ -228,7 +220,7 @@ export default function Appbar({ drawerWidth, handleDrawerToggle }) {
                 <Avatar
                   sx={{ width: "37px", height: "37px" }}
                   alt="housam"
-                  src={photourl}
+                  src={user.photoURL}
                 />
               </IconButton>
             </Box>

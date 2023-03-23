@@ -1,4 +1,4 @@
-import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import { Box,Avatar, Button, Stack, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ import {
 } from "firebase/storage";
 import { BorderBottomRounded } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
-export default function Profile() {
+export default function Profile({handleClick}) {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
@@ -47,6 +47,7 @@ export default function Profile() {
     </h4>
   );
   const onClick = async () => {
+    // @ts-ignore
     const result = await confirm(message, options);
     if (result) {
       DeleteUser();
@@ -79,7 +80,6 @@ export default function Profile() {
               width: "100%",
               justifyContent: "end",
               alignItems: "center",
-              mb: 5,
               borderBottomRightRadius: "20px",
               borderBottomLeftRadius: "20px",
             }}
@@ -90,22 +90,15 @@ export default function Profile() {
             sx={{
               justifyContent: "space-between",
               alignItems: "center",
-              mt: "-70px",
+              position:"relative",
+              mt:"-40px",
               mb: 2,
             }}
           >
-            <img
-              alt="housam"
-              style={{
-                mt: "10px",
-                width: "80px",
-                height: "80px",
-                borderRadius: "50%",
-              }}
-              src={user.photoURL}
-            />
+            <Avatar sx={{width: "80px",
+                height: "80px"}} alt="Travis Howard" src={user.photoURL} />
             <Typography
-              sx={{ mx: "20px", mt: "20px", color: theme.palette.text.main }}
+              sx={{ mx: "20px", mt: "30px", color: theme.palette.text.main }}
               variant="body1"
             >
               {user.displayName}
@@ -137,7 +130,7 @@ export default function Profile() {
             <Posts />
           </Box>
           <Box>
-            <Stack sx={{ display: { xs: "none", md: "block" } }}>
+            <Stack sx={{ display: { xs: "none", md: "block" } ,mx:"20px"}}>
               <Typography variant="body1">{`Username: ${user.displayName}`}</Typography>
               <Typography
                 sx={{ py: 0.5 }}
@@ -165,7 +158,7 @@ export default function Profile() {
             </Stack>
           </Box>
         </Stack>
-        <AddPost />
+        <AddPost handleClick={handleClick} />
       </Box>
     );
   }
