@@ -29,13 +29,31 @@ export default function HomePage() {
   };
   if (!user && !loading) {
     return (
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          height: "90vh",
+        }}
+      >
         <Typography
           sx={{
-            height: "90vh",
+            textAlign: "center",
+            color: theme.palette.primary.main,
+            fontSize: "25px",
+            mb:2
+          }}
+        >
+          Welcome To META{" "}
+        </Typography>
+        <Typography
+          sx={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            fontSize: "18px",
           }}
         >
           {` please  `}
@@ -60,7 +78,7 @@ export default function HomePage() {
         <Posts />
 
         <Rightbar />
-        <AddPost handleClick={handleClick}/>
+        <AddPost handleClick={handleClick} />
         <CustomizedSnackbars {...{ open, setOpen, handleClick, handleClose }}>
           post added successfully
         </CustomizedSnackbars>

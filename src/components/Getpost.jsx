@@ -25,6 +25,7 @@ import {
   Skeleton,
   Stack,
   Typography,
+  useTheme
 } from "@mui/material";
 import CustomizedSnackbars from "./AlertSnack";
 import {
@@ -40,6 +41,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Loading from "./Loading";
 import { confirm } from "react-confirm-box";
+import { ThemeConsumer } from "styled-components";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export default function GetPosts({ user }) {
@@ -48,6 +50,7 @@ export default function GetPosts({ user }) {
   );
   //icon menu
   const [anchorEl, setAnchorEl] = useState(null);
+  const theme=useTheme()
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -103,7 +106,7 @@ export default function GetPosts({ user }) {
       <Box sx={{ flexGrow: "3" }} component="main">
         {value.docs.length < 1 && (
           <Stack direction={"column"} sx={{height:"200px",alignItems:"center",justifyContent:"center"}}>
-            <Typography sx={{ textAlign: "center" }}>
+            <Typography sx={{ textAlign: "center" ,color:theme.palette.primary.main,fontSize:"25px"}}>
               Welcome To META {" "}
             </Typography>
             <Typography sx={{ textAlign: "center" }}>
