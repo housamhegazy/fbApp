@@ -4,21 +4,32 @@ import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 
-export default function ErrorPage(){
+export default function ErrorPage() {
+  const [user, loading, error] = useAuthState(auth);
+  const navigate = useNavigate();
 
-    const [user, loading, error] = useAuthState(auth);
-    const navigate = useNavigate();
-
-    useEffect(()=>{
-        if(!user){
-          navigate("/")
-        }
-      })
-
-
-    if(user){
-        return (
-            <h1>sorry.. page not found , come back another time ..</h1>
-        )
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
     }
+  });
+
+  if (user) {
+    return (
+      <Box
+        sx={{
+          height: "90vh",
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+          flexDirection:"column"
+        }}
+      >
+        <Typography>
+          sorry.. this page under Maintenance , come back another time ..
+        </Typography>
+        <img alt="maintain" style={{width:"200px"}} src={"./maintain.png"}/>
+      </Box>
+    );
+  }
 }
