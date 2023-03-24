@@ -6,24 +6,50 @@ import Moment from "react-moment";
 import { auth } from "../firebase/config";
 import { deleteUser } from "firebase/auth";
 import Loading from "components/Loading";
-import { storage } from "../firebase/config";
 import { confirm } from "react-confirm-box";
 import Posts from "../components/Posts";
 import { useTheme } from "@mui/system";
 import AddPost from "../components/AddPost";
-import {
-  ref,
-  uploadBytes,
-  listAll,
-  getDownloadURL,
-  deleteObject,
-} from "firebase/storage";
-import { BorderBottomRounded } from "@mui/icons-material";
 import Divider from "@mui/material/Divider";
-export default function Profile({handleClick}) {
+import Snackbar from '@mui/material/Snackbar';
+
+export default function Profile() {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
+
+
+
+
+
+  const [open, setOpen] = useState(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+ 
+  const snackbar = (
+    <div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="post added successfully"
+        // action={action}
+        sx={{backgroundColor:"green"}}
+      />
+    </div>
+  )
+
+//end snack bar
+
+
   const DeleteUser = () => {
     deleteUser(user)
       .then(() => {
@@ -59,11 +85,17 @@ export default function Profile({handleClick}) {
     if (!user && !loading) {
       navigate("/");
     }
-  }, []);
-
-  {
-    loading && <Loading />;
+  }, [navigate,user,loading]);
+  if (error) {
+    return <Typography>error......</Typography>;
   }
+  if(loading){
+    return(
+      <Loading />
+    )
+  }
+
+
   if (user) {
     return (
       <Box>
@@ -117,9 +149,6 @@ export default function Profile({handleClick}) {
           <Box sx={{ width: "100%" }}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <TextField
-              onClick={()=>{
-               
-              }}
                 sx={{
                   width: { xs: "90%", sm: "350px" },
                   mt:"20px",
@@ -162,7 +191,8 @@ export default function Profile({handleClick}) {
             </Stack>
           </Box>
         </Stack>
-        <AddPost handleClick={handleClick} />
+        <AddPost handleClick={handleClick}/>
+        {snackbar}
       </Box>
     );
   }

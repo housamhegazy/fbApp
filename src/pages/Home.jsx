@@ -3,30 +3,56 @@ import Rightbar from "components/Rightbar";
 import AddPost from "components/AddPost";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useTheme } from "@mui/system";
-import React, { useMemo, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { auth } from "../firebase/config";
 
-import { Stack, Box, Divider, Typography, Skeleton } from "@mui/material";
+import { Stack, Box, Divider, Typography } from "@mui/material";
 import Loading from "components/Loading";
-import CustomizedSnackbars from "../components/AlertSnack";
+
+
+import Snackbar from '@mui/material/Snackbar';
+
+import {  useState } from "react";
+import React from "react";
+
 export default function HomePage() {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
-  const navigate = useNavigate();
-  //alert
-  const [open, setOpen] = useState(false);
 
+
+//start snackbar
+  const [open, setOpen] = useState(false);
   const handleClick = () => {
     setOpen(true);
   };
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
 
     setOpen(false);
   };
+
+  
+  const snackbar = (
+    <div>
+      {/* <Button onClick={handleClick}>Open simple snackbar</Button> */}
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="added succesfully"
+        sx={{backgroundColor:"green"}}
+      />
+    </div>
+  )
+
+//end snack bar
+
+
+  if (error) {
+    return <Typography>error......</Typography>;
+  }
   if (!user && !loading) {
     return (
       <Box
@@ -65,6 +91,7 @@ export default function HomePage() {
     );
   }
 
+  // eslint-disable-next-line no-lone-blocks
   {
     loading && <Loading />;
   }
@@ -78,10 +105,8 @@ export default function HomePage() {
         <Posts />
 
         <Rightbar />
-        <AddPost handleClick={handleClick} />
-        <CustomizedSnackbars {...{ open, setOpen, handleClick, handleClose }}>
-          post added successfully
-        </CustomizedSnackbars>
+        <AddPost {...{handleClick}}/>
+        {snackbar}
       </Stack>
     );
   }

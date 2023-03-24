@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
-import Home from "./Home";
+import React, { useMemo, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config";
-import { createTheme, CssBaseline, ThemeProvider, Box } from "@mui/material";
+import { createTheme, CssBaseline, ThemeProvider, Box, Typography } from "@mui/material";
 import getDesignTokens from "../styles/MuTheme";
 import Appbar from "components/AppBar";
 
@@ -13,10 +12,10 @@ import ResponsiveDrawer from "components/myDrawer";
 
 export default function Root() {
   const [user, loading, error] = useAuthState(auth);
-  //showlist
-  const [showList, setshowList] = useState("none");
-  const [mobileOpen, setMobileOpen] = useState(false);
 
+  //showlist
+
+  const [mobileOpen, setMobileOpen] = useState(false);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -36,6 +35,9 @@ export default function Root() {
     );
     setmode(theme.palette.mode === "light" ? "dark" : "light");
   };
+  if (error) {
+    return <Typography>error......</Typography>;
+  }
   if (loading) {
     return <Loading />;
   }

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 //firestore
-import { collection, addDoc } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/config";
 import "./addpost.css";
@@ -24,6 +23,7 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { CalendarMonth } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Loading from "./Loading";
 export default function AddPost({handleClick}) {
   const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = useState(false);
@@ -53,7 +53,12 @@ export default function AddPost({handleClick}) {
     });
     handleClose();
   };
-
+  if (error) {
+    return <Typography>error......</Typography>;
+  }
+  if (loading) {
+    return <Loading/>;
+  }
   return (
     <Box>
       <Tooltip
@@ -82,7 +87,8 @@ export default function AddPost({handleClick}) {
           onSubmit={(e) => {
             e.preventDefault();
             sendData();
-            handleClick();
+            handleClick()
+            
           }}
         >
           <Typography sx={{ textAlign: "center" }} variant="h6" component="h2">
