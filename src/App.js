@@ -12,6 +12,7 @@ import Signup from "pages/Signup";
 import ErrorPage from "pages/Errorpage";
 import Profile from "pages/Profile";
 import Articles from "pages/Articles";
+import Groups from 'pages/Groups';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
@@ -20,6 +21,7 @@ const router = createBrowserRouter(
       <Route path="signup" element={<Signup />} />
       <Route path="profile" element={<Profile />} />
       <Route path="articles" element={<Articles />} />
+      <Route path="groups" element={<Groups />} />
       <Route path="*" element={<ErrorPage />} />
       {/* ... etc. */}
     </Route>

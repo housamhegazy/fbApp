@@ -3,7 +3,6 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../firebase/config";
 import {
   doc,
-  updateDoc,
   deleteDoc,
   collection,
   orderBy,
@@ -17,31 +16,31 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  CardMedia,
+
   Checkbox,
   IconButton,
   Menu,
   MenuItem,
-  Skeleton,
+
   Stack,
   Typography,
   useTheme
 } from "@mui/material";
-import CustomizedSnackbars from "./AlertSnack";
+
 import {
   FavoriteBorder,
   Favorite,
   BookmarkBorder,
   Bookmark,
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
 
-import { useState, useEffect } from "react";
+
+import { useState } from "react";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Loading from "./Loading";
 import { confirm } from "react-confirm-box";
-import { ThemeConsumer } from "styled-components";
+
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 export default function GetPosts({ user }) {
