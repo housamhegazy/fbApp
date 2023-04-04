@@ -24,6 +24,7 @@ export default function Marketplace() {
         return;
     }
     //image ref to upload image
+    // هنا بنشئ اسم للثوره عند رفعها
     const imageRef = ref(storage, `imagesList/${image.name} + v4()`);
     // @ts-ignore
     uploadBytes(imageRef, image)
@@ -95,7 +96,7 @@ export default function Marketplace() {
             style={{ borderRadius: "50%" }}
           />
           <button onClick={()=>{
-            deleteFunc()
+            // deleteFunc()
           }}>delete</button>
           </div>
         );
