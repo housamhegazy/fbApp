@@ -3,50 +3,44 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useEffect, useState } from "react";
 
 export default function Articles() {
-
+  //=========================
+  //== profile image variables
+  //==========================
   //store profile image from input
-  const [myimage, setmyimage] = useState("");
-  //store image from input and send it to list
-  const [imageToList, setimageToList] = useState("");
+  const [profileimage, setprofileimage] = useState(null);
   // store image from firebase link (from db to local)
-  const [imageUrl, setimageUrl] = useState("");
+  const [profileUrl, setprofileUrl] = useState("");
   // Get a reference to the storage service, which is used to create references in your storage bucket
   const storage = getStorage();
-
-  // Create a storage reference from our storage service
   const imageRef = ref(storage, `profile/profimage`);
-
-  // Create a storage reference from our storage service
-  const imagesList = ref(storage, `imagesList/${imageToList.name}`);
-//==================================
-//==================================
-//send files to reference in storage
-//==================================
-//==================================
-const sendFile= ()=>{
-  // send file to storage
-  uploadBytes(imageRef, myimage).then((snapshot) => {
-    // هنا بنحصل على الرابط حتى يحدث تحديث فوري للصوره 
-    getDownloadURL(ref(storage, `profile/profimage`))
-      .then((url) => {
-        // Insert url into an <img> tag to "download"
-        setimageUrl(url)
+  //==================================
+  //==================================
+  //send profile photo to reference in storage
+  //==================================
+  //==================================
+  const sendprofileImage = () => {
+    // send file to storage
+    uploadBytes(imageRef, profileimage)
+      .then((snapshot) => {
+        // هنا بنحصل على الرابط حتى يحدث تحديث فوري للصوره
+        getDownloadURL(ref(storage, `profile/profimage`)).then((url) => {
+          setprofileUrl(url);
+        });
       })
-    
-  }).then(()=>console.log('uploaded'))
-}
+      .then(() => console.log("uploaded"));
+  };
 
-//==================================
-//==================================
-//get file from firebase storage
-//==================================
-//==================================
+  //==================================
+  //==================================
+  //get profile photo from firebase storage
+  //==================================
+  //==================================
 
   useEffect(() => {
     getDownloadURL(ref(storage, `images/profile`))
       .then((url) => {
         // Insert url into an <img> tag to "download"
-        setimageUrl(url)
+        setprofileUrl(url);
       })
       .catch((error) => {
         // A full list of error codes is available at
@@ -71,32 +65,42 @@ const sendFile= ()=>{
             // Unknown error occurred, inspect the server response
             console.log(" Unknown error occurred, inspect the server response");
             break;
+          default :
+          console.log(" downloaded succesfully");
         }
       });
-  },[]);
-
+  }, []);
 
   return (
-   <div>
-     <form>
-      <input
-        onChange={(e) => {
-          setmyimage(e.target.files[0]);
-        }}
-        type="file"
+    <div>
+      <form>
+        <input
+          onChange={(e) => {
+            setprofileimage(e.target.files[0]);
+          }}
+          type="file"
+        />
+        <Button
+          onClick={() => {
+            sendprofileImage();
+          }}
+          variant="outlined"
+        >
+          send
+        </Button>
+      </form>
+      <img
+        alt="profile"
+        src={`${profileUrl}`}
+        width="200px"
+        height={"200px"}
+        style={{ borderRadius: "50%" }}
       />
-      <Button
-        onClick={() => {
-          sendFile()
-        }}
-        variant="outlined"
-      >
-        send
-      </Button>
+
+      {/* ========================= */}
       
-    </form>
-    <img src={`${imageUrl}`} width='200px' height={'200px'} style={{borderRadius:"50%"}}/>
-   </div>
+
+    </div>
   );
 }
 

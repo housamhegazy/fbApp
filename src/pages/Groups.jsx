@@ -93,11 +93,11 @@ export default function Groups() {
         {value &&
           value.docs.map((item) => {
             return (
-              <>
+              <div key={item.id}>
                 <Typography>{item.data().email}</Typography>
                 <Typography>{item.data().password}</Typography>
                 <Typography>{item.data().id}</Typography>
-              </>
+              </div>
             );
           })}
       </Box>
