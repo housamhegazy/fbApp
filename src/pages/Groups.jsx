@@ -1,17 +1,26 @@
 import React from "react";
 import { app, auth, db } from "../firebase/config";
-import { collection, addDoc, getDocs, setDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  setDoc,
+  doc,
+  query,
+} from "firebase/firestore";
 import { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Divider, Stack } from "@mui/material";
+import { Box, Divider, Stack, Typography } from "@mui/material";
+import { useCollection } from "react-firebase-hooks/firestore";
 export default function Groups() {
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const [data, setdata] = useState({ email: "", password: "" });
+  //get data from fileRef
+  const [value, loading, error] = useCollection(
+    query(collection(db, user.uid))
+  );
 
-
-  
   const id = new Date().getTime();
-
   //send data to database by setDoc
   const sendData = async () => {
     await setDoc(doc(db, user.uid, `${id}`), {
@@ -22,23 +31,14 @@ export default function Groups() {
   };
   //send data to database by addDoc
   // الفرق ان هنا بيعمل اي دي عشوائي
-
   const AdddocFunc = async () => {
     // Add a new document with a generated id.
     await addDoc(collection(db, user.uid), {
+      id: id,
       email: data.email,
       password: data.password,
-    });
+    }).then(() => console.log("data send ok2"));
   };
-
-  //get data from firestore by getData ()
-  const getdata = async () => {
-  await getDocs( collection(db, user.uid))
-      .then((response) => {console.log(response.docs.map((item) => {return item.data()}))})
-      .catch((err) => err.message);
-   
-  };
- 
 
   return (
     <Stack>
@@ -88,10 +88,19 @@ export default function Groups() {
         />
         <button type="submit">submit</button>
       </form>
-      <button onClick={()=>{
-         getdata()
-      }}>click</button>
-    
+      {/* get data from firestore */}
+      <Box>
+        {value &&
+          value.docs.map((item) => {
+            return (
+              <>
+                <Typography>{item.data().email}</Typography>
+                <Typography>{item.data().password}</Typography>
+                <Typography>{item.data().id}</Typography>
+              </>
+            );
+          })}
+      </Box>
     </Stack>
   );
 }
