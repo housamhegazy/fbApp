@@ -25,6 +25,12 @@ export default function Profile() {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
+  //start upload profile image
+  // const [profileimage, setprofileimage] = useState(null);
+  // const [profileUrl, setprofileUrl] = useState("");
+  // const storage = getStorage();
+  // const imageRef = ref(storage, `profile2/profimage`);
+
 
   const [open, setOpen] = useState(false);
   const handleClick = () => {
@@ -90,48 +96,70 @@ export default function Profile() {
     }
   }, [navigate, user, loading]);
 
-  //start upload profile image
-  const [profimage, setprofimage] = useState(null);
-  const [profileimageUrl, setprofimageUrl] = useState("");
+  const [profileimage, setprofileimage] = useState(null);
+  // store image from firebase link (from db to local)
+  const [profileUrl, setprofileUrl] = useState("");
+  // Get a reference to the storage service, which is used to create references in your storage bucket
   const storage = getStorage();
   
-  const uploadProfileImage = () => {
-    if(profimage === null){
+  //==================================
+  //==================================
+  //send profile photo to reference in storage
+  //==================================
+  //==================================
+  const sendprofileImage = () => {
+    if(profileimage === null ){
       return;
     }
-    const profileRef = ref(storage, `profile/${profimage.name}`);
-    uploadBytes(profileRef, profimage).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
-    });
+    const imageRef = ref(storage, `profile/profimage`);
+    // send file to storage
+    uploadBytes(imageRef, profileimage)
+      .then((snapshot) => {
+        // هنا بنحصل على الرابط حتى يحدث تحديث فوري للصوره
+        getDownloadURL(ref(storage, 'profile/profimage')).then((url) => {
+          setprofileUrl(url);
+        });
+      })
+      .then(() => console.log("uploaded"));
   };
 
-  //download profile photo function
+  //==================================
+  //==================================
+  //get profile photo from firebase storage
+  //==================================
+  //==================================
+
   useEffect(() => {
-    if (profimage === null) {
-      return;
-    }
-    const starsRef = ref(storage, "profile/profimage");
-    getDownloadURL(starsRef)
+    getDownloadURL(ref(storage, `profile/`))
       .then((url) => {
-        setprofimageUrl(url);
+        // Insert url into an <img> tag to "download"
+        setprofileUrl(url);
       })
       .catch((error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
         switch (error.code) {
           case "storage/object-not-found":
             // File doesn't exist
+            console.log("File doesnt exist");
             break;
           case "storage/unauthorized":
             // User doesn't have permission to access the object
+            console.log(" User doesnt have permission to access the object");
             break;
           case "storage/canceled":
             // User canceled the upload
+            console.log(" storage/canceled");
             break;
 
           // ...
 
           case "storage/unknown":
             // Unknown error occurred, inspect the server response
+            console.log(" Unknown error occurred, inspect the server response");
             break;
+          default :
+          console.log(" downloaded succesfully");
         }
       });
   }, []);
@@ -177,17 +205,17 @@ export default function Profile() {
             <Avatar
               sx={{ width: "80px", height: "80px" }}
               alt="Travis Howard"
-              src={profileimageUrl}
+              src={profileUrl}
             />
             <input
               onChange={(e) => {
-                setprofimage(e.target.value);
+                setprofileimage(e.target.files[0]);
               }}
               type="file"
             />
             <Button
               onClick={() => {
-                uploadProfileImage();
+                sendprofileImage();
               }}
             >
               send

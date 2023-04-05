@@ -12,7 +12,7 @@ export default function Articles() {
   const [profileUrl, setprofileUrl] = useState("");
   // Get a reference to the storage service, which is used to create references in your storage bucket
   const storage = getStorage();
-  const imageRef = ref(storage, `profile/profimage`);
+  const imageRef = ref(storage, `profile/profimage.jpg`);
   //==================================
   //==================================
   //send profile photo to reference in storage
@@ -23,7 +23,7 @@ export default function Articles() {
     uploadBytes(imageRef, profileimage)
       .then((snapshot) => {
         // هنا بنحصل على الرابط حتى يحدث تحديث فوري للصوره
-        getDownloadURL(ref(storage, `profile/profimage`)).then((url) => {
+        getDownloadURL(ref(storage, `profile/profimage.jpg`)).then((url) => {
           setprofileUrl(url);
         });
       })
