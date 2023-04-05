@@ -200,6 +200,7 @@ export default function Profile() {
               mb: 2,
             }}
           >
+            <div>
             <Avatar
               sx={{ width: "80px", height: "80px" }}
               alt="Travis Howard"
@@ -211,19 +212,23 @@ export default function Profile() {
               }}
               type="file"
             />
-            <Button
+             <Button
               onClick={() => {
                 sendprofileImage();
               }}
             >
-              send
+              change profile photo
             </Button>
+            </div>
+            
+           
             <Typography
               sx={{ mx: "20px", mt: "30px", color: theme.palette.text.main }}
               variant="body1"
             >
               {user.displayName}
             </Typography>
+           
           </Stack>
 
           <Divider
@@ -232,6 +237,7 @@ export default function Profile() {
             variant="fullWidth"
             component="div"
           />
+           
         </Box>
 
         <Stack direction="row" sx={{ width: "100%" }}>

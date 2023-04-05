@@ -1,3 +1,4 @@
+// send list of images to local storage and download it to page and delete
 import React from "react";
 import { Box, Button } from "@mui/material";
 import {

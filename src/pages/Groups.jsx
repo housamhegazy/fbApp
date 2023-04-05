@@ -1,3 +1,4 @@
+//send docs to firestore and view it in page 
 import React from "react";
 import { app, auth, db } from "../firebase/config";
 import {
