@@ -25,12 +25,11 @@ export default function Profile() {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
-  //start upload profile image
-  // const [profileimage, setprofileimage] = useState(null);
-  // const [profileUrl, setprofileUrl] = useState("");
-  // const storage = getStorage();
-  // const imageRef = ref(storage, `profile2/profimage`);
-
+  useEffect(() => {
+    if (!user && !loading) {
+      navigate("/");
+    }
+  }, [user, loading, navigate]);
 
   const [open, setOpen] = useState(false);
   const handleClick = () => {
@@ -90,33 +89,35 @@ export default function Profile() {
     }
     console.log("You click No!");
   };
-  useEffect(() => {
-    if (!user && !loading) {
-      navigate("/");
-    }
-  }, [navigate, user, loading]);
 
+  // start profile photo
   const [profileimage, setprofileimage] = useState(null);
   // store image from firebase link (from db to local)
-  const [profileUrl, setprofileUrl] = useState("");
+  const [profileUrl, setprofileUrl] = useState(
+    user
+      ? user.photoURL ||
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+      : null
+  );
   // Get a reference to the storage service, which is used to create references in your storage bucket
   const storage = getStorage();
-  
+
   //==================================
   //==================================
   //send profile photo to reference in storage
   //==================================
   //==================================
   const sendprofileImage = () => {
-    if(profileimage === null ){
+    if (profileimage === null) {
       return;
     }
-    const imageRef = ref(storage, `profile/profimage`);
+    const imageRef = ref(storage, `UsersProfileImage/${user.uid}/profimage`);
     // send file to storage
     uploadBytes(imageRef, profileimage)
       .then((snapshot) => {
-        // هنا بنحصل على الرابط حتى يحدث تحديث فوري للصوره
-        getDownloadURL(ref(storage, 'profile/profimage')).then((url) => {
+        getDownloadURL(
+          ref(storage, `UsersProfileImage/${user.uid}/profimage`)
+        ).then((url) => {
           setprofileUrl(url);
         });
       })
@@ -130,38 +131,35 @@ export default function Profile() {
   //==================================
 
   useEffect(() => {
-    getDownloadURL(ref(storage, `profile/`))
-      .then((url) => {
-        // Insert url into an <img> tag to "download"
-        setprofileUrl(url);
-      })
-      .catch((error) => {
-        // A full list of error codes is available at
-        // https://firebase.google.com/docs/storage/web/handle-errors
-        switch (error.code) {
-          case "storage/object-not-found":
-            // File doesn't exist
-            console.log("File doesnt exist");
-            break;
-          case "storage/unauthorized":
-            // User doesn't have permission to access the object
-            console.log(" User doesnt have permission to access the object");
-            break;
-          case "storage/canceled":
-            // User canceled the upload
-            console.log(" storage/canceled");
-            break;
-
-          // ...
-
-          case "storage/unknown":
-            // Unknown error occurred, inspect the server response
-            console.log(" Unknown error occurred, inspect the server response");
-            break;
-          default :
-          console.log(" downloaded succesfully");
-        }
-      });
+    if (!user && !loading) {
+      navigate("/");
+    }
+    if (user) {
+      getDownloadURL(ref(storage, `UsersProfileImage/${user.uid}/profimage`))
+        .then((url) => {
+          setprofileUrl(url);
+        })
+        .catch((error) => {
+          switch (error.code) {
+            case "storage/object-not-found":
+              console.log("File doesnt exist");
+              break;
+            case "storage/unauthorized":
+              console.log(" User doesnt have permission to access the object");
+              break;
+            case "storage/canceled":
+              console.log(" storage/canceled");
+              break;
+            case "storage/unknown":
+              console.log(
+                " Unknown error occurred, inspect the server response"
+              );
+              break;
+            default:
+              console.log(" downloaded succesfully");
+          }
+        });
+    }
   }, []);
 
   if (error) {

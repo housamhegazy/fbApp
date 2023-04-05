@@ -124,7 +124,7 @@ function ResponsiveDrawer({
   const signout = () => {
     signOut(auth)
       .then(() => {
-        console.log("Sign-out successful.");
+       navigate("/")
       })
       .catch((error) => {
         console.log(error.message);
