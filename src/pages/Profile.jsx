@@ -1,4 +1,11 @@
-import { Box,Avatar, Button, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Avatar,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
@@ -11,29 +18,26 @@ import Posts from "../components/Posts";
 import { useTheme } from "@mui/system";
 import AddPost from "../components/AddPost";
 import Divider from "@mui/material/Divider";
-import Snackbar from '@mui/material/Snackbar';
+import Snackbar from "@mui/material/Snackbar";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 export default function Profile() {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
 
-
-
-
-
   const [open, setOpen] = useState(false);
   const handleClick = () => {
     setOpen(true);
   };
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
     setOpen(false);
   };
- 
+
   const snackbar = (
     <div>
       <Snackbar
@@ -42,13 +46,12 @@ export default function Profile() {
         onClose={handleClose}
         message="post added successfully"
         // action={action}
-        sx={{backgroundColor:"green"}}
+        sx={{ backgroundColor: "green" }}
       />
     </div>
-  )
+  );
 
-//end snack bar
-
+  //end snack bar
 
   const DeleteUser = () => {
     deleteUser(user)
@@ -85,16 +88,60 @@ export default function Profile() {
     if (!user && !loading) {
       navigate("/");
     }
-  }, [navigate,user,loading]);
+  }, [navigate, user, loading]);
+
+  //start upload profile image
+  const [profimage, setprofimage] = useState(null);
+  const [profileimageUrl, setprofimageUrl] = useState("");
+  const storage = getStorage();
+  
+  const uploadProfileImage = () => {
+    if(profimage === null){
+      return;
+    }
+    const profileRef = ref(storage, `profile/${profimage.name}`);
+    uploadBytes(profileRef, profimage).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+    });
+  };
+
+  //download profile photo function
+  useEffect(() => {
+    if (profimage === null) {
+      return;
+    }
+    const starsRef = ref(storage, "profile/profimage");
+    getDownloadURL(starsRef)
+      .then((url) => {
+        setprofimageUrl(url);
+      })
+      .catch((error) => {
+        switch (error.code) {
+          case "storage/object-not-found":
+            // File doesn't exist
+            break;
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+
+          // ...
+
+          case "storage/unknown":
+            // Unknown error occurred, inspect the server response
+            break;
+        }
+      });
+  }, []);
+
   if (error) {
     return <Typography>error......</Typography>;
   }
-  if(loading){
-    return(
-      <Loading />
-    )
+  if (loading) {
+    return <Loading />;
   }
-
 
   if (user) {
     return (
@@ -122,13 +169,29 @@ export default function Profile() {
             sx={{
               justifyContent: "space-between",
               alignItems: "center",
-              position:"relative",
-              mt:"-40px",
+              position: "relative",
+              mt: "-40px",
               mb: 2,
             }}
           >
-            <Avatar sx={{width: "80px",
-                height: "80px"}} alt="Travis Howard" src={user.photoURL} />
+            <Avatar
+              sx={{ width: "80px", height: "80px" }}
+              alt="Travis Howard"
+              src={profileimageUrl}
+            />
+            <input
+              onChange={(e) => {
+                setprofimage(e.target.value);
+              }}
+              type="file"
+            />
+            <Button
+              onClick={() => {
+                uploadProfileImage();
+              }}
+            >
+              send
+            </Button>
             <Typography
               sx={{ mx: "20px", mt: "30px", color: theme.palette.text.main }}
               variant="body1"
@@ -151,7 +214,7 @@ export default function Profile() {
               <TextField
                 sx={{
                   width: { xs: "90%", sm: "350px" },
-                  mt:"20px",
+                  mt: "20px",
                 }}
                 id="standard-multiline-static"
                 multiline
@@ -163,7 +226,7 @@ export default function Profile() {
             <Posts />
           </Box>
           <Box>
-            <Stack sx={{ display: { xs: "none", md: "block" } ,mx:"20px"}}>
+            <Stack sx={{ display: { xs: "none", md: "block" }, mx: "20px" }}>
               <Typography variant="body1">{`Username: ${user.displayName}`}</Typography>
               <Typography
                 sx={{ py: 0.5 }}
@@ -191,7 +254,7 @@ export default function Profile() {
             </Stack>
           </Box>
         </Stack>
-        <AddPost handleClick={handleClick}/>
+        <AddPost handleClick={handleClick} />
         {snackbar}
       </Box>
     );
