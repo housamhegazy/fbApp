@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 //firestore
 import { doc, setDoc } from "firebase/firestore";
-import { auth, db } from "../firebase/config";
+import { auth, db } from "../../firebase/config";
 import "./addpost.css";
 import {
   Tooltip,
@@ -23,7 +23,7 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { CalendarMonth } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Loading from "./Loading";
+import Loading from "./../Loading";
 export default function AddPost({handleClick}) {
   const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = useState(false);

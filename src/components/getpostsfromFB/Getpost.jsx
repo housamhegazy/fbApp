@@ -1,6 +1,6 @@
 // firebase get data
 import { useCollection } from "react-firebase-hooks/firestore";
-import { db } from "../firebase/config";
+import { db } from "../../firebase/config";
 import {
   doc,
   deleteDoc,
@@ -38,7 +38,7 @@ import {
 import { useState } from "react";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Loading from "./Loading";
+import Loading from "../Loading";
 import { confirm } from "react-confirm-box";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };

@@ -13,9 +13,7 @@ import ErrorPage from "pages/Errorpage";
 import Profile from "pages/Profile";
 import Articles from "pages/Articles";
 import Groups from 'pages/Groups';
-import Marketplace from 'pages/Marketplace';
-
-import Friends from 'pages/Friends';
+import Marketplace from 'pages/Marketplace'
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
@@ -26,7 +24,7 @@ const router = createBrowserRouter(
       <Route path="articles" element={<Articles />} />
       <Route path="groups" element={<Groups />} />
       <Route path="Marketplace" element={<Marketplace />} />
-      <Route path="friends" element={<Friends />} />
+
       <Route path="*" element={<ErrorPage />} />
       {/* ... etc. */}
     </Route>

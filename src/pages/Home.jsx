@@ -1,6 +1,6 @@
-import Posts from "components/Posts";
+import Posts from "components/getpostsfromFB/Posts";
 import Rightbar from "components/Rightbar";
-import AddPost from "components/AddPost";
+import AddPost from "components/addPostsToFB/AddPost";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useTheme } from "@mui/system";
 import { NavLink } from "react-router-dom";

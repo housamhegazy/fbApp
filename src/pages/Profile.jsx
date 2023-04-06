@@ -3,7 +3,6 @@ import {
   Avatar,
   Button,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -14,12 +13,13 @@ import { auth } from "../firebase/config";
 import { deleteUser } from "firebase/auth";
 import Loading from "components/Loading";
 import { confirm } from "react-confirm-box";
-import Posts from "../components/Posts";
+import Posts from "../components/getpostsfromFB/Posts";
 import { useTheme } from "@mui/system";
-import AddPost from "../components/AddPost";
+import AddPost from "../components/addPostsToFB/AddPost";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+
 
 export default function Profile() {
   const theme = useTheme();
@@ -121,7 +121,7 @@ export default function Profile() {
           setprofileUrl(url);
         });
       })
-      .then(() => console.log("uploaded"));
+      .then(() => console.log("uploaded")).catch((err)=>console.log(err.message))
   };
 
   //==================================
@@ -200,61 +200,48 @@ export default function Profile() {
               mb: 2,
             }}
           >
-            <div>
             <Avatar
               sx={{ width: "80px", height: "80px" }}
               alt="Travis Howard"
               src={profileUrl}
             />
-            <input
-              onChange={(e) => {
-                setprofileimage(e.target.files[0]);
-              }}
-              type="file"
-            />
-             <Button
-              onClick={() => {
-                sendprofileImage();
-              }}
-            >
-              change profile photo
-            </Button>
-            </div>
-            
-           
+
             <Typography
               sx={{ mx: "20px", mt: "30px", color: theme.palette.text.main }}
               variant="body1"
             >
               {user.displayName}
             </Typography>
-           
           </Stack>
+          <Stack>
+            <label htmlFor="upload">choose image</label>
 
+            <input
+              style={{ display: "none" }}
+              onChange={(e) => {
+                setprofileimage(e.target.files[0]);
+              }}
+              type="file"
+              id="upload"
+            />
+            <Button
+              onClick={() => {
+                sendprofileImage();
+              }}
+            >
+              submit
+            </Button>
+          </Stack>
           <Divider
             sx={{ width: "100%" }}
             orientation="horizontal"
             variant="fullWidth"
             component="div"
           />
-           
         </Box>
 
         <Stack direction="row" sx={{ width: "100%" }}>
           <Box sx={{ width: "100%" }}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <TextField
-                sx={{
-                  width: { xs: "90%", sm: "350px" },
-                  mt: "20px",
-                }}
-                id="standard-multiline-static"
-                multiline
-                rows={4}
-                placeholder="what is in your mind?"
-                variant="standard"
-              />
-            </Box>
             <Posts />
           </Box>
           <Box>
