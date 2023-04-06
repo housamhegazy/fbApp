@@ -17,6 +17,8 @@ import {
   CardContent,
   CardHeader,
 
+  CardMedia,
+
   Checkbox,
   IconButton,
   Menu,
@@ -35,11 +37,12 @@ import {
 } from "@mui/icons-material";
 
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Loading from "../Loading";
 import { confirm } from "react-confirm-box";
+import { getDownloadURL,getStorage,listAll,ref } from "firebase/storage";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -96,7 +99,27 @@ export default function GetPosts({ user }) {
       </MenuItem>
     </Menu>
   );
-
+//==================================
+  //==================================
+  //get profile photo from firebase storage
+  //==================================
+  //==================================
+  const [imageList, setimageList] = useState([])
+  const storage = getStorage();
+  const listRef = ref(storage, `postImage/${user.uid}/`);
+  useEffect(() => {
+    listAll(listRef).then((res) => {
+      res.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          if (!imageList.includes(url)) {
+            setimageList((prev) => [...prev, url]);
+            console.log(imageList)
+          }
+        });
+      });
+    });
+  }, []);
+  console.log(imageList)
   if (loading) {
     return <Loading />;
   }
@@ -140,6 +163,14 @@ export default function GetPosts({ user }) {
                 title={user.displayName}
                 subheader={"2 years ago"}
               />
+               <CardMedia
+                  component="img"
+                  height="194"
+
+                  image={imageList.find((url)=>`${ref(storage, url)}` === item.id) && url}
+
+                  alt="Paella dish"
+                />
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
                   {item.data().post}

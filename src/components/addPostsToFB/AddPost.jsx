@@ -24,6 +24,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { CalendarMonth } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Loading from "./../Loading";
+import { getStorage,ref,uploadBytes } from "firebase/storage";
 export default function AddPost({handleClick}) {
   const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = useState(false);
@@ -31,6 +32,18 @@ export default function AddPost({handleClick}) {
   const handleClose = () => setOpen(false);
   const [post, setPost] = useState("");
   const theme = useTheme();
+  const postId = new Date().getTime();
+  //start send post image
+  const [image,setImage]=useState(null)
+  const storage = getStorage();
+  const imageRef = ref(storage, `postImage/${user.uid}/${postId}.jpg`);
+
+// 'file' comes from the Blob or File API
+const sendPostImage = ()=>{
+  uploadBytes(imageRef, image).then((snapshot) => {
+    console.log('Uploaded a blob or file!');
+  });
+}
   const style = {
     position: "absolute",
     top: "50%",
@@ -44,7 +57,7 @@ export default function AddPost({handleClick}) {
   };
 
   // firestore send data functions
-  const postId = new Date().getTime();
+  
   const sendData = async () => {
     await setDoc(doc(db, user.uid, `${postId}`), {
       name: "Housam",
@@ -59,6 +72,8 @@ export default function AddPost({handleClick}) {
   if (loading) {
     return <Loading/>;
   }
+
+
   return (
     <Box>
       <Tooltip
@@ -87,6 +102,7 @@ export default function AddPost({handleClick}) {
           onSubmit={(e) => {
             e.preventDefault();
             sendData();
+            sendPostImage()
             handleClick()
             
           }}
@@ -114,7 +130,10 @@ export default function AddPost({handleClick}) {
           />
           <Stack direction={"row"}>
             <InsertEmoticonIcon color="primary" sx={{ mx: 1 }} />
-            <PhotoIcon color="secondary" sx={{ mx: 1 }} />
+            <label htmlFor="post"><PhotoIcon color="secondary" sx={{ mx: 1 }} /></label>
+            <input onChange={(e)=>{
+              setImage(e.target.files[0])
+            }} style={{display:"none"}} type="file" id='post'/>
             <VideocamIcon color="success" sx={{ mx: 1 }} />
             <PersonAddIcon color="error" sx={{ mx: 1 }} />
           </Stack>
