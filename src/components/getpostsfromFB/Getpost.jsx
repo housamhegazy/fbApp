@@ -123,6 +123,11 @@ export default function GetPosts({ user }) {
   if (loading) {
     return <Loading />;
   }
+
+  const urlfunc = (id)=>{
+    const urlRef = ref(storage, url)
+    const url = imageList.find((item)=>item)
+  }
   if (value) {
     return (
       <Box sx={{ flexGrow: "3" }} component="main">
@@ -167,7 +172,7 @@ export default function GetPosts({ user }) {
                   component="img"
                   height="194"
 
-                  image={imageList.find((url)=>`${ref(storage, url)}` === item.id) && url}
+                  image={urlfunc(item.id)}
 
                   alt="Paella dish"
                 />
