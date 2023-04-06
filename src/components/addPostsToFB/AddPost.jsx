@@ -24,7 +24,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { CalendarMonth } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Loading from "./../Loading";
-import { getStorage,ref,uploadBytes } from "firebase/storage";
+import { getDownloadURL, getStorage,ref,uploadBytes } from "firebase/storage";
 export default function AddPost({handleClick}) {
   const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = useState(false);
@@ -41,6 +41,7 @@ export default function AddPost({handleClick}) {
 // 'file' comes from the Blob or File API
 const sendPostImage = ()=>{
   uploadBytes(imageRef, image).then((snapshot) => {
+   
     console.log('Uploaded a blob or file!');
   });
 }
@@ -73,7 +74,6 @@ const sendPostImage = ()=>{
     return <Loading/>;
   }
 
-
   return (
     <Box>
       <Tooltip
@@ -102,7 +102,7 @@ const sendPostImage = ()=>{
           onSubmit={(e) => {
             e.preventDefault();
             sendData();
-            sendPostImage()
+            {image !== null && sendPostImage()}
             handleClick()
             
           }}

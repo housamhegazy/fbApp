@@ -1,13 +1,7 @@
 // firebase get data
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../../firebase/config";
-import {
-  doc,
-  deleteDoc,
-  collection,
-  orderBy,
-  query,
-} from "firebase/firestore";
+import {  collection, orderBy, query } from "firebase/firestore";
 import {
   Avatar,
   Box,
@@ -16,17 +10,13 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-
   CardMedia,
-
   Checkbox,
   IconButton,
   Menu,
   MenuItem,
-
   Stack,
   Typography,
-  useTheme
 } from "@mui/material";
 
 import {
@@ -36,37 +26,26 @@ import {
   Bookmark,
 } from "@mui/icons-material";
 
-
-import { useEffect, useState } from "react";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Loading from "../Loading";
 import { confirm } from "react-confirm-box";
-import { getDownloadURL,getStorage,listAll,ref } from "firebase/storage";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-export default function GetPosts({ user }) {
+export default function GetPosts({
+  user,
+  anchorEl,
+  open,
+  handleClose,
+  theme,
+  handelDelete,
+  handleClick,
+  urlfunc
+}) {
   const [value, loading, error] = useCollection(
     query(collection(db, user.uid), orderBy("id", "desc"))
   );
-  //icon menu
-  const [anchorEl, setAnchorEl] = useState(null);
-  const theme=useTheme()
-
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  //delete item from firebase
-  const handelDelete = async (val) => {
-    await deleteDoc(doc(db, user.uid, val));
-  };
-
-  //confirmation message option
   const options = {
     labels: {
       confirmable: "Confirm",
@@ -99,42 +78,30 @@ export default function GetPosts({ user }) {
       </MenuItem>
     </Menu>
   );
-//==================================
-  //==================================
-  //get profile photo from firebase storage
-  //==================================
-  //==================================
-  const [imageList, setimageList] = useState([])
-  const storage = getStorage();
-  const listRef = ref(storage, `postImage/${user.uid}/`);
-  useEffect(() => {
-    listAll(listRef).then((res) => {
-      res.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          if (!imageList.includes(url)) {
-            setimageList((prev) => [...prev, url]);
-            console.log(imageList)
-          }
-        });
-      });
-    });
-  }, []);
-  console.log(imageList)
+  
   if (loading) {
     return <Loading />;
-  }
-
-  const urlfunc = (id)=>{
-    const urlRef = ref(storage, url)
-    const url = imageList.find((item)=>item)
   }
   if (value) {
     return (
       <Box sx={{ flexGrow: "3" }} component="main">
         {value.docs.length < 1 && (
-          <Stack direction={"column"} sx={{height:"200px",alignItems:"center",justifyContent:"center"}}>
-            <Typography sx={{ textAlign: "center" ,color:theme.palette.primary.main,fontSize:"25px"}}>
-              Welcome To META {" "}
+          <Stack
+            direction={"column"}
+            sx={{
+              height: "200px",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Typography
+              sx={{
+                textAlign: "center",
+                color: theme.palette.primary.main,
+                fontSize: "25px",
+              }}
+            >
+              Welcome To META{" "}
             </Typography>
             <Typography sx={{ textAlign: "center" }}>
               no posts yet , start adding new posts ...{" "}
@@ -168,14 +135,15 @@ export default function GetPosts({ user }) {
                 title={user.displayName}
                 subheader={"2 years ago"}
               />
-               <CardMedia
+              {urlfunc(item.id) !== undefined && (
+                <CardMedia
                   component="img"
                   height="194"
-
                   image={urlfunc(item.id)}
-
                   alt="Paella dish"
                 />
+              )}
+
               <CardContent>
                 <Typography variant="body2" color="text.secondary">
                   {item.data().post}

@@ -22,6 +22,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 
 export default function Profile() {
+  
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
