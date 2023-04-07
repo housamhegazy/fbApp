@@ -7,6 +7,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+
 import Signin from "pages/Signin";
 import Signup from "pages/Signup";
 import ErrorPage from "pages/Errorpage";
@@ -14,6 +15,9 @@ import Profile from "pages/Profile";
 import Articles from "pages/Articles";
 import Groups from 'pages/Groups';
 import Marketplace from 'pages/Marketplace'
+import Friends from 'pages/Friends';
+
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
@@ -23,6 +27,7 @@ const router = createBrowserRouter(
       <Route path="profile" element={<Profile />} />
       <Route path="articles" element={<Articles />} />
       <Route path="groups" element={<Groups />} />
+      <Route path="friends" element={<Friends />} />
       <Route path="Marketplace" element={<Marketplace />} />
 
       <Route path="*" element={<ErrorPage />} />
@@ -31,12 +36,17 @@ const router = createBrowserRouter(
   )
 );
 
+
+
 function App() {
+
   return (
-    
+
     <div className="App">
           <RouterProvider router={router} />
     </div>
+ 
+
    
   );
 }
