@@ -16,7 +16,7 @@ import Articles from "pages/Articles";
 import Groups from 'pages/Groups';
 import Marketplace from 'pages/Marketplace'
 import Friends from 'pages/Friends';
-
+import ListProvider from 'context/PostimageList';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,13 +41,11 @@ const router = createBrowserRouter(
 function App() {
 
   return (
-
+    <ListProvider>
     <div className="App">
           <RouterProvider router={router} />
     </div>
- 
-
-   
+    </ListProvider>
   );
 }
 

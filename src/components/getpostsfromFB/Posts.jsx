@@ -2,9 +2,10 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../firebase/config";
 import GetPosts from "./Getpost";
 import { useTheme } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, getDownloadURL, getStorage, listAll, ref } from "firebase/storage";
+import { listContext } from "context/PostimageList";
 
 export default function Posts() {
   //icon menu
@@ -29,9 +30,13 @@ export default function Posts() {
   //get profile photo from firebase storage
   //==================================
   //==================================
+
+  // const {imageList} = useContext(listContext)
+  
   const [imageList, setimageList] = useState([]);
   const storage = getStorage();
   const listRef = ref(storage, `postImage/${user.uid}/`);
+  console.log(user.uid);
   useEffect(() => {
     listAll(listRef).then((res) => {
       res.items.forEach((item) => {
