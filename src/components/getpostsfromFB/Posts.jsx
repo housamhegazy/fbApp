@@ -4,7 +4,7 @@ import GetPosts from "./Getpost";
 import { useTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { deleteDoc, doc } from "firebase/firestore";
-import { getDownloadURL, getStorage, listAll, ref } from "firebase/storage";
+import { deleteObject, getDownloadURL, getStorage, listAll, ref } from "firebase/storage";
 
 export default function Posts() {
   //icon menu
@@ -42,13 +42,29 @@ export default function Posts() {
         });
       });
     });
-  }, []);
+  }, [imageList,listRef]);
 
   const urlfunc = (id) => {
     const myUrl = imageList.find((ele) => {
       return ele.includes(id) ? ele : null;
     });
     return myUrl;
+  };
+  //delete images function
+  const deleteFromFirebase = (url) => {
+    //1.
+    let pictureRef = ref(storage, url);
+    //2.
+    deleteObject(pictureRef)
+      .then(() => {
+        // File deleted successfully
+        //3.
+        setimageList(imageList.filter((image) => image !== url));
+        alert("Picture is deleted successfully!");
+      })
+      .catch((error) => {
+        // Uh-oh, an error occurred!
+      });
   };
   return (
     <GetPosts
@@ -61,6 +77,7 @@ export default function Posts() {
         handelDelete,
         handleClick,
         urlfunc,
+        deleteFromFirebase
       }}
     />
   );

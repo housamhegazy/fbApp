@@ -41,7 +41,7 @@ export default function GetPosts({
   theme,
   handelDelete,
   handleClick,
-  urlfunc
+  urlfunc,deleteFromFirebase
 }) {
   const [value, loading, error] = useCollection(
     query(collection(db, user.uid), orderBy("id", "desc"))
@@ -173,6 +173,7 @@ export default function GetPosts({
                   const result = await confirm(message, options);
                   if (result) {
                     handelDelete(item.id);
+                    deleteFromFirebase(urlfunc(item.id))
                     return;
                   }
                   return;

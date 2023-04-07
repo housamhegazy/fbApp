@@ -21,8 +21,8 @@ import Snackbar from "@mui/material/Snackbar";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 
-export default function Profile() {
-  
+export default function Profile({myname}) {
+  console.log(myname);
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();

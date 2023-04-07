@@ -12,7 +12,7 @@ import ResponsiveDrawer from "components/myDrawer";
 
 export default function Root() {
   const [user, loading, error] = useAuthState(auth);
-
+  const [name, setname] = useState("housam")
   //showlist
 
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -35,18 +35,20 @@ export default function Root() {
     );
     setmode(theme.palette.mode === "light" ? "dark" : "light");
   };
+  
   if (error) {
     return <Typography>error......</Typography>;
   }
   if (loading) {
     return <Loading />;
   }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box className={`${theme.palette.mode}`}>
         <Appbar {...{ handleDrawerToggle, drawerWidth }} />
-        <ResponsiveDrawer
+        <ResponsiveDrawer 
           {...{
             handleDrawerToggle,
             mobileOpen,
@@ -54,7 +56,7 @@ export default function Root() {
             theme,
             user,
             drawerWidth,
-            setMobileOpen
+            setMobileOpen,
           }}
         />
       </Box>
@@ -66,7 +68,7 @@ export default function Root() {
           mt: { xs: "56px", sm: "64px" },
         }}
       >
-        <Outlet />
+        <Outlet/>
       </Box>
     </ThemeProvider>
   );
