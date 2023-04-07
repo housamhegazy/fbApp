@@ -16,7 +16,7 @@ import Articles from "pages/Articles";
 import Groups from 'pages/Groups';
 import Marketplace from 'pages/Marketplace'
 import Friends from 'pages/Friends';
-import ListProvider from 'context/PostimageList';
+import ListProvider from './Context/PostimageList';
 
 const router = createBrowserRouter(
   createRoutesFromElements(

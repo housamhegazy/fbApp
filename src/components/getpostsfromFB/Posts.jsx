@@ -5,7 +5,6 @@ import { useTheme } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { deleteDoc, doc } from "firebase/firestore";
 import { deleteObject, getDownloadURL, getStorage, listAll, ref } from "firebase/storage";
-import { listContext } from "context/PostimageList";
 
 export default function Posts() {
   //icon menu

@@ -1,48 +1,37 @@
-import { auth } from '../firebase/config';
-import { getDownloadURL, getStorage, listAll, ref } from 'firebase/storage';
-import React, { useEffect, useState } from 'react'
-import { createContext } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth';
+import { createContext, useReducer } from "react";
+
 // @ts-ignore
-export const listContext = createContext()
-export default function ListProvider(props) {
+export const FirstContext = createContext()
+const initialData = {
+  count:0,
+  housam:4,
+  hassan:5,
+  profileimage:null
+};
+const INCREAMENT = 'INCREAMENT'
+const DECREAMENT = 'DECREAMENT'
+function reducer(state, action) {
+  switch (action.type) {
+    case INCREAMENT:
+      return {...state,count: initialData.count += action.payload}
+    case DECREAMENT:
+      return {...state,count: initialData.count -= action.payload}
+    default:
+      return initialData.count;
+  }
+}
 
-
-
-    const [user, loading, error] = useAuthState(auth);
-    //==================================
-    //==================================
-    //get profile photo from firebase storage
-    //==================================
-    //==================================
-const [userid , setuserid] = useState('')
-    useEffect(()=>{
-        if(user){
-            setuserid(user.uid)
-        }else{
-            return;
-        }
-    },[user])
-    const [imageList, setimageList] = useState([]);
-    const storage = getStorage();
-    const listRef = ref(storage, `postImage/${userid}/`);
-
-    useEffect(() => {
-      listAll(listRef).then((res) => {
-        res.items.forEach((item) => {
-          getDownloadURL(item).then((url) => {
-            if (!imageList.includes(url)) {
-              setimageList((prev) => [...prev, url]);
-            }
-          });
-        });
-      });
-    }, [imageList,listRef]);
-
+export default function ListProvider({children}) {
+  const [{...state}, dispatch] = useReducer(reducer, initialData);
+  const increaseNumber = ()=>{
+    dispatch({type:INCREAMENT,payload:5})
+  }
+  const decreaseNumber = ()=>{
+    dispatch({type:DECREAMENT,payload:5})
+  }
   return (
-    <listContext.Provider value={{imageList}}>
-         {props.children}
-    </listContext.Provider>
-   
-  )
+    <FirstContext.Provider value={{...state,increaseNumber,decreaseNumber}}>
+      {children}
+    </FirstContext.Provider>
+  );
 }

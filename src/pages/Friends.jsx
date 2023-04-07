@@ -1,32 +1,20 @@
-// test context
+import { FirstContext } from 'Context/PostimageList'
+import React, { useContext } from 'react'
 
-import React from "react";
-import { useContext } from "react";
-import { listContext } from "context/PostimageList";
-import { useEffect } from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "../firebase/config";
-import { useNavigate } from "react-router-dom";
 export default function Friends() {
-  const [user, loading, error] = useAuthState(auth);
-  const navigate = useNavigate()
-
-  // console.log(imageList)
-  useEffect(()=>{
-    if(!user &&!loading){
-      navigate("/")
-    }
-  })
-  const {imageList} = useContext(listContext)
+  const {housam,count,increaseNumber,decreaseNumber} = useContext(FirstContext)
   return (
-    <div> {imageList.map((item)=>{
-      return(
-        <img key={item} src={item} alt="listimages"/> 
-      )
-    })}
-    <button onClick={()=>{
-         
-        }}>click</button>
+    <div>
+    <button onClick={() => increaseNumber()}>
+      {" "}
+      increament
+    </button>
+    <button onClick={() => decreaseNumber()}>
+      {" "}
+      decreament
+    </button>
+    <h1>{count}</h1>
+    <h1>{housam}</h1>
     </div>
-  );
+  )
 }
