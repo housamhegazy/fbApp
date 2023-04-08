@@ -3,37 +3,34 @@ import Rightbar from "components/Rightbar";
 import AddPost from "components/addPostsToFB/AddPost";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useTheme } from "@mui/system";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { auth } from "../firebase/config";
 
-import { Stack, Box, Divider, Typography } from "@mui/material";
+import { Stack, Box, Divider, Typography, Button } from "@mui/material";
 import Loading from "components/Loading";
 
+import Snackbar from "@mui/material/Snackbar";
 
-import Snackbar from '@mui/material/Snackbar';
-
-import {  useState } from "react";
+import { useState } from "react";
 import React from "react";
 // import { Url } from '../Context/PostimageList'
 export default function HomePage() {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
 
-
-//start snackbar
+  //start snackbar
   const [open, setOpen] = useState(false);
   const handleClick = () => {
     setOpen(true);
   };
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
     setOpen(false);
   };
 
-  
   const snackbar = (
     <div>
       {/* <Button onClick={handleClick}>Open simple snackbar</Button> */}
@@ -42,13 +39,12 @@ export default function HomePage() {
         autoHideDuration={6000}
         onClose={handleClose}
         message="added succesfully"
-        sx={{backgroundColor:"green"}}
+        sx={{ backgroundColor: "green" }}
       />
     </div>
-  )
+  );
 
-//end snack bar
-
+  //end snack bar
 
   if (error) {
     return <Typography>error......</Typography>;
@@ -69,7 +65,7 @@ export default function HomePage() {
             textAlign: "center",
             color: theme.palette.primary.main,
             fontSize: "25px",
-            mb:2
+            mb: 2,
           }}
         >
           Welcome To META{" "}
@@ -82,10 +78,14 @@ export default function HomePage() {
             fontSize: "18px",
           }}
         >
-          {` please  `}
-          <NavLink style={{ color: theme.palette.info.main }} to={"/signin"}>
-            {` -  log in`}
-          </NavLink>
+          <Button variant='outlined'>
+            <Link
+              style={{ color: theme.palette.info.main, textDecoration: "none" }}
+              to={"/signin"}
+            >
+              {`log in`}
+            </Link>
+          </Button>
         </Typography>
       </Box>
     );
@@ -105,7 +105,7 @@ export default function HomePage() {
         <Posts />
 
         <Rightbar />
-        <AddPost {...{handleClick}}/>
+        <AddPost {...{ handleClick }} />
         {snackbar}
       </Stack>
     );

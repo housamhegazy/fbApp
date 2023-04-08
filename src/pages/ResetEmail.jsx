@@ -58,7 +58,7 @@ export default function ResetEmail() {
     <Box>
       {/* forget password modal */}
       <Button
-        variant="outlined"
+        // variant="outlined"
         onClick={() => {
           handleOpen1();
         }}

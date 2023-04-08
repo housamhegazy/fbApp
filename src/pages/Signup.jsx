@@ -1,4 +1,11 @@
-import { Box, Button, Skeleton, Stack, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Skeleton,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../firebase/config";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -10,7 +17,7 @@ import Loading from "components/Loading";
 export default function Signup() {
   const [user, loading, error] = useAuthState(auth);
   const navigate = useNavigate();
-  const theme = useTheme()
+  const theme = useTheme();
   const [erroeMessage, seterroeMessage] = useState("");
   const {
     register,
@@ -19,7 +26,7 @@ export default function Signup() {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) =>
-  createUserWithEmailAndPassword(auth, data.email, data.password)
+    createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
@@ -27,10 +34,10 @@ export default function Signup() {
           displayName: data.username,
         })
           .then(() => {
-            navigate("/profile")
+            navigate("/profile");
           })
           .catch((error) => {
-            seterroeMessage(error.message)
+            seterroeMessage(error.message);
             // ...
           });
         // ...
@@ -38,23 +45,20 @@ export default function Signup() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        seterroeMessage(errorCode)
+        seterroeMessage(errorCode);
         // ..
       });
- 
 
-  useEffect(()=>{
-    if(user){
-      navigate("/")
+  useEffect(() => {
+    if (user) {
+      navigate("/");
     }
-  })
+  });
   {
-    loading && (
-      <Loading/>
-    );
+    loading && <Loading />;
   }
 
-if(!user){
+  if (!user) {
     return (
       <Box
         sx={{
@@ -68,15 +72,18 @@ if(!user){
         <Typography sx={{ my: "20px" }} variant="h5">
           Create account
         </Typography>
-        <Box onSubmit={handleSubmit(onSubmit)}
+        <Box
+          onSubmit={handleSubmit(onSubmit)}
           component="form"
           sx={{
             display: "flex",
             flexDirection: "column",
             "& .MuiTextField-root": { m: 1, width: "25ch" },
-            width: "50%",
+            width: { xs: "100%" },
             mx: "auo",
             alignItems: "center",
+            px: 2,
+            textAlign: "center",
           }}
           noValidate
           autoComplete="off"
@@ -88,7 +95,8 @@ if(!user){
             })}
             error={Boolean(errors.username)}
             helperText={
-              Boolean(errors.username) ? `${errors.username.message}` : null}
+              Boolean(errors.username) ? `${errors.username.message}` : null
+            }
             label="username"
             placeholder="username:"
           />
@@ -99,7 +107,8 @@ if(!user){
             })}
             error={Boolean(errors.email)}
             helperText={
-              Boolean(errors.email) ? `${errors.email.message}` : null}
+              Boolean(errors.email) ? `${errors.email.message}` : null
+            }
             label="email"
             placeholder="email:"
           />
@@ -110,26 +119,27 @@ if(!user){
             })}
             error={Boolean(errors.password)}
             helperText={
-              Boolean(errors.password) ? `${errors.password.message}` : null}
+              Boolean(errors.password) ? `${errors.password.message}` : null
+            }
             label="Password"
             type="password"
             autoComplete="current-password"
           />
-          <Button
-            type="submit"
-            variant="contained"
-          >
+          <Button type="submit" variant="contained">
             Sign up
           </Button>
           <Typography sx={{ my: "20px" }} variant="body1">
             {" "}
-            you already have account? <NavLink style={{color:theme.palette.text.primary}} to="/signin">sign in </NavLink>
+            you already have account?{" "}
+            <NavLink style={{ color: theme.palette.text.primary }} to="/signin">
+              <Button>sign up</Button>{" "}
+            </NavLink>
           </Typography>
         </Box>
-        <Typography sx={{ my: "20px",color:"red" }} variant="body1">
+        <Typography sx={{ my: "20px", color: "red" }} variant="body1">
           {erroeMessage}
         </Typography>
       </Box>
-    )
-}
+    );
+  }
 }

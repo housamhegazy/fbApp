@@ -1,6 +1,6 @@
 // send list of images to local storage and download it to page and delete
 import React from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Stack } from "@mui/material";
 import {
   getStorage,
   ref,
@@ -12,14 +12,25 @@ import {
 } from "firebase/storage";
 import { useEffect, useState } from "react";
 import { v4 } from "uuid";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase/config";
+import { useNavigate } from "react-router-dom";
 export default function Marketplace() {
+  const navigate = useNavigate();
+  const [user, loading, error] = useAuthState(auth);
+  useEffect(() => {
+    if (!user && !loading) {
+      navigate("/");
+    }
+  }, [user, loading, navigate]);
+
   //get image from input
   const [image, setimages] = useState(null);
   const storage = getStorage();
   //get images from database
   const [imageList, setImageList] = useState([]);
   // imagesListRef to download list
-  const listRef = ref(storage, "imagesList/");
+  const listRef = ref(storage, `imagesList/${user.uid}`);
 
   //upload image function
   const sendimagesList = () => {
@@ -28,7 +39,10 @@ export default function Marketplace() {
     }
     //image ref to upload image
     // هنا بنشئ اسم للثوره عند رفعها
-    const imageRef = ref(storage, `imagesList/${image.name} + v4()`);
+    const imageRef = ref(
+      storage,
+      `imagesList/${user.uid}/${image.name} + v4()`
+    );
     // @ts-ignore
     const upload = uploadBytesResumable(imageRef, image);
     progress(upload);
@@ -105,13 +119,18 @@ export default function Marketplace() {
   };
 
   return (
-    <div>
-      <form>
+    <div style={{ padding: "10px" }}>
+      <form style={{ marginBottom: "20px", textAlign: "center" }}>
+        <Button>
+          <label htmlFor="uplodPhoto">upload photo</label>
+        </Button>
         <input
+          id="uplodPhoto"
           onChange={(e) => {
             setimages(e.target.files[0]);
           }}
           type="file"
+          style={{ display: "none" }}
         />
         <Button
           onClick={() => {
@@ -122,26 +141,34 @@ export default function Marketplace() {
           send
         </Button>
       </form>
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "row",
+          flexWrap:"wrap"
+        }}
+      >
         {imageList.map((image) => {
           return (
-            <div>
+            <Stack key={image}>
               <img
                 key={image}
                 alt="profile"
                 src={`${image}`}
                 width="200px"
                 height={"200px"}
-                style={{ borderRadius: "50%" }}
+                style={{ borderRadius: "10px" }}
               />
-              <button
+              <Button
                 onClick={() => {
                   deleteFromFirebase(image);
                 }}
               >
                 delete
-              </button>
-            </div>
+              </Button>
+            </Stack>
           );
         })}
       </Box>

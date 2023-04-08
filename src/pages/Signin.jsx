@@ -69,9 +69,11 @@ export default function Signin() {
             display: "flex",
             flexDirection: "column",
             "& .MuiTextField-root": { m: 1, width: "25ch" },
-            width: "50%",
-            mx: "auo",
+            width: {xs:"100%"},
+            mx: "auto",
             alignItems: "center",
+            px:2,
+            textAlign:"center"
           }}
           noValidate
           autoComplete="off"
@@ -108,9 +110,9 @@ export default function Signin() {
 
           <Typography sx={{ my: "20px" }} variant="body1">
             {" "}
-            you dont have account{" "}
-            <NavLink style={{ color: theme.palette.text.primary }} to="/signup">
-              sign up{" "}
+            if you dont have account : {" "}
+            <NavLink style={{ color: theme.palette.text.primary,textDecoration:"none" }} to="/signup">
+              <Button>sign up</Button>
             </NavLink>
           </Typography>
           <Typography sx={{ my: "20px", color: "red" }} variant="body1">
@@ -118,8 +120,8 @@ export default function Signin() {
           </Typography>
           {/* forget password */}
         </Box>
-        <ResetEmail />
         <SigninGoogle />
+        <ResetEmail />
       </Box>
     );
   }

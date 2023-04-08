@@ -61,6 +61,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function Appbar({ drawerWidth, handleDrawerToggle }) {
   const [user, loading, error] = useAuthState(auth);
+  const navigate = useNavigate()
   const [showMobilemenu, setshowMobilemenu] = useState(false);
   const rerfmenuMobile = useRef(null);
   const [showMenu, setshowMenu] = useState(false);
@@ -167,7 +168,10 @@ export default function Appbar({ drawerWidth, handleDrawerToggle }) {
           variant="h6"
           noWrap
           component="div"
-          sx={{ display: { xs: "none", sm: "block" } }}
+          sx={{ display: { xs: "none", sm: "block",cursor:"pointer" } }}
+          onClick={()=>{
+            navigate('/')
+          }}
         >
           META
         </Typography>
