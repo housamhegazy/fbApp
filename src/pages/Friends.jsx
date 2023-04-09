@@ -27,15 +27,28 @@ const initialData = [
 let nextId = 3;
 export default function Friends() {
   const [data, setData] = useState(initialData);
-  const [inputData, setinputData] = useState();
+  const [inputData, setinputData] = useState("");
+  const [dataobj, setdataobj] = useState();
   function onChanges(e) {
-    setinputData({ text: e.target.value, done: true });
+    setinputData(e.target.value);
   }
   function addData() {
-    setData([...data, { ...inputData, id: nextId++ }]);
+    setdataobj({ text: inputData, id: nextId++, done: false });
+    setData([...data, dataobj]);
+
+    // data.find((ele) => ele.id !== dataobj.id) && setData([...data, dataobj]);
+  }
+  function handleDelete(id) {
+    const newData = data.filter((item) => item.id !== id);
+    setData(newData);
+  }
+
+  function handleEdite(text, id) {
+    setinputData(text);
+    handleDelete(id)
+    setdataobj({ text: text, id: id, done: false });
   }
   console.log(data);
-
   return (
     <div>
       <input
@@ -43,10 +56,12 @@ export default function Friends() {
           onChanges(e);
         }}
         type="text"
+        value={inputData}
       />
       <button
         onClick={() => {
           addData();
+          setinputData("");
         }}
       >
         add
@@ -55,9 +70,20 @@ export default function Friends() {
         return (
           <div key={t.id}>
             <p>{t.text}</p>
-            <button>save</button>
-            <button>edite</button>
-            <button>delete</button>
+            <button
+              onClick={() => {
+                handleDelete(t.id);
+              }}
+            >
+              delete
+            </button>
+            <button
+              onClick={() => {
+                handleEdite(t.text, t.id);
+              }}
+            >
+              edit
+            </button>
           </div>
         );
       })}
