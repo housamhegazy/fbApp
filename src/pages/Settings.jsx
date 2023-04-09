@@ -70,7 +70,7 @@ export default function Settings() {
         </Button>
       </Box>
       <Box>
-        {state.initialData.map((t) => {
+        {state.initialDatate.map((t) => {
           return (
             <Paper
               key={t.id}
