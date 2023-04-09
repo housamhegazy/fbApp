@@ -18,6 +18,15 @@
 //     </div>
 //   )
 // }
+import {
+  Button,
+  TextField,
+  Typography,
+  Box,
+  Stack,
+  Paper,
+} from "@mui/material";
+
 import React, { useState } from "react";
 const initialData = [
   { id: 0, text: "Visit Kafka Museum", done: true },
@@ -36,7 +45,6 @@ export default function Friends() {
       setData([...data, { text: inputData, done: true, id: nextId++ }]);
       setinputData("");
     }
-    
   }
   function handledelete(id) {
     setData(
@@ -46,39 +54,59 @@ export default function Friends() {
     );
   }
   return (
-    <div>
-      <form>
-        <input
+    <Stack sx={{ justifyContent: "center", alignItems: "center", pt: 3 }}>
+      <Typography variant="h3" sx={{ py: 2 }}>
+        {" "}
+        Todo List
+      </Typography>
+      <Box component="form" sx={{ display: "flex", justifyContent: "center" }}>
+        <TextField
           onChange={(e) => {
             onChanges(e);
           }}
           type="text"
           value={inputData}
         />
-        <button
-        type="submit"
+        <Button
+          variant="contained"
+          type="submit"
           onClick={(e) => {
-            e.preventDefault()
+            e.preventDefault();
             addData();
           }}
         >
           add
-        </button>
-      </form>
-      {data.map((t) => {
-        return (
-          <div key={t.id}>
-            <p>{t.text}</p>
-            <button
-              onClick={() => {
-                handledelete(t.id);
+        </Button>
+      </Box>
+      <Box>
+        {data.map((t) => {
+          return (
+            <Paper
+              key={t.id}
+              sx={{
+                display: "flex",
+                p: 2,
+                my: 2,
+                flexDirection: "row",
+                flexWrap: "nowrap",
+                justifyContent: "space-between",
+                alignItems: "center",
+                minWidth: "200px",
               }}
             >
-              delete
-            </button>
-          </div>
-        );
-      })}
-    </div>
+              <Typography>{t.text}</Typography>
+              <Button
+                color="error"
+                onClick={() => {
+                  handledelete(t.id);
+                }}
+              >
+                delete
+              </Button>
+            </Paper>
+          );
+        })}
+      </Box>
+    </Stack>
   );
 }
