@@ -27,37 +27,55 @@ const initialData = [
 let nextId = 3;
 export default function Friends() {
   const [data, setData] = useState(initialData);
-  const [inputData, setinputData] = useState();
+  const [inputData, setinputData] = useState("");
   function onChanges(e) {
-    setinputData({ text: e.target.value, done: true });
+    setinputData(e.target.value);
   }
   function addData() {
-    setData([...data, { ...inputData, id: nextId++ }]);
+    if (inputData.length > 0) {
+      setData([...data, { text: inputData, done: true, id: nextId++ }]);
+      setinputData("");
+    }
+    
   }
-  console.log(data);
-
+  function handledelete(id) {
+    setData(
+      data.filter((item) => {
+        return item.id !== id;
+      })
+    );
+  }
   return (
     <div>
-      <input
-        onChange={(e) => {
-          onChanges(e);
-        }}
-        type="text"
-      />
-      <button
-        onClick={() => {
-          addData();
-        }}
-      >
-        add
-      </button>
+      <form>
+        <input
+          onChange={(e) => {
+            onChanges(e);
+          }}
+          type="text"
+          value={inputData}
+        />
+        <button
+        type="submit"
+          onClick={(e) => {
+            e.preventDefault()
+            addData();
+          }}
+        >
+          add
+        </button>
+      </form>
       {data.map((t) => {
         return (
           <div key={t.id}>
             <p>{t.text}</p>
-            <button>save</button>
-            <button>edite</button>
-            <button>delete</button>
+            <button
+              onClick={() => {
+                handledelete(t.id);
+              }}
+            >
+              delete
+            </button>
           </div>
         );
       })}
