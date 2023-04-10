@@ -4,6 +4,8 @@ import {
   Button,
   Stack,
   Typography,
+  FormLabel,
+  IconButton,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -19,14 +21,18 @@ import AddPost from "../components/addPostsToFB/AddPost";
 import Divider from "@mui/material/Divider";
 import Snackbar from "@mui/material/Snackbar";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-
-
+import { Close } from "@mui/icons-material";
+import { useContext } from "react";
+import { ProfileImageContext } from "context/ProfileImage";
 export default function Profile() {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
+  //get profile image from context file
+  const {myURL,setUrl} = useContext(ProfileImageContext)
+
   const navigate = useNavigate();
   useEffect(() => {
-    if (!user && !loading) {
+    if (!user && !loading) { 
       navigate("/");
     }
   }, [user, loading, navigate]);
@@ -92,13 +98,7 @@ export default function Profile() {
 
   // start profile photo
   const [profileimage, setprofileimage] = useState(null);
-  // store image from firebase link (from db to local)
-  const [profileUrl, setprofileUrl] = useState(
-    user
-      ? user.photoURL ||
-          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
-      : null
-  );
+  const [preview, setpreviw] = useState(null);
   // Get a reference to the storage service, which is used to create references in your storage bucket
   const storage = getStorage();
 
@@ -115,53 +115,20 @@ export default function Profile() {
     // send file to storage
     uploadBytes(imageRef, profileimage)
       .then((snapshot) => {
-        getDownloadURL(
-          ref(storage, `UsersProfileImage/${user.uid}/profimage`)
-        ).then((url) => {
-          setprofileUrl(url);
-        });
+       
+          getDownloadURL(
+            ref(storage, `UsersProfileImage/${user.uid}/profimage`)
+          ).then((url) => {
+            setUrl(url);
+            setprofileimage(null)
+            setpreviw(null);
+          });
+        
       })
-      .then(() => console.log("uploaded")).catch((err)=>console.log(err.message))
+      .then(() => console.log("uploaded"))
+      .catch((err) => console.log(err.message));
   };
-
-  //==================================
-  //==================================
-  //get profile photo from firebase storage
-  //==================================
-  //==================================
-
-  useEffect(() => {
-    if (!user && !loading) {
-      navigate("/");
-    }
-    if (user) {
-      getDownloadURL(ref(storage, `UsersProfileImage/${user.uid}/profimage`))
-        .then((url) => {
-          setprofileUrl(url);
-        })
-        .catch((error) => {
-          switch (error.code) {
-            case "storage/object-not-found":
-              console.log("File doesnt exist");
-              break;
-            case "storage/unauthorized":
-              console.log(" User doesnt have permission to access the object");
-              break;
-            case "storage/canceled":
-              console.log(" storage/canceled");
-              break;
-            case "storage/unknown":
-              console.log(
-                " Unknown error occurred, inspect the server response"
-              );
-              break;
-            default:
-              console.log(" downloaded succesfully");
-          }
-        });
-    }
-  }, []);
-
+ 
   if (error) {
     return <Typography>error......</Typography>;
   }
@@ -190,6 +157,7 @@ export default function Profile() {
             }}
             className="profileback"
           />
+          {/* start profile image */}
           <Stack
             direction={"row"}
             sx={{
@@ -200,11 +168,93 @@ export default function Profile() {
               mb: 2,
             }}
           >
-            <Avatar
-              sx={{ width: "80px", height: "80px" }}
-              alt="Travis Howard"
-              src={profileUrl}
+            <FormLabel
+              htmlFor="upload"
+              sx={{
+                position: "relative",
+                cursor: "pointer",
+                width: "100px",
+                height: "100px",
+              }}
+            >
+              <Avatar
+                sx={{ width: "100px", height: "100px" }}
+                alt="Travis Howard"
+                src={myURL}
+              />
+              <Box
+                className="overlay"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  top: "0px",
+                  left: "0px",
+                  borderRadius: "50%",
+                  opacity: "0",
+                  "&:hover": { backgroundColor: "#1f1812bf", opacity: "1" },
+                  fontSize: "8px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {" "}
+                change
+              </Box>
+            </FormLabel>
+            <input
+              style={{ display: "none" }}
+              onChange={(e) => {
+                setprofileimage(e.target.files[0]);
+                setpreviw(URL.createObjectURL(e.target.files[0]));
+              }}
+              type="file"
+              id="upload"
             />
+            {preview && (
+              <Box
+                sx={{
+                  position: "fixed",
+                  width: "100%",
+                  height: "100%",
+                  top: "0px",
+                  left: "0px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#21171fab",
+                  zIndex: "1000000",
+                  
+                }}
+              >
+                <img style={{ maxHeight: "80%" ,maxWidth:"90%"}} alt="prev" src={preview} />
+                <Button
+                  variant="contained"
+                  sx={{ mt: 2 }}
+                  onClick={sendprofileImage}
+                >
+                  submit
+                </Button>
+                <IconButton
+                onClick={() => {
+                  setpreviw(null);
+                  setprofileimage(null)
+                }}
+                color='error'
+                  sx={{
+                    position: "absolute",
+                    top: "80px",
+                    right: "20px",
+                    cursor: "pointer",
+                    backgroundColor: "white",
+                  }}
+                >
+                  <Close/>
+                </IconButton>
+              </Box>
+            )}
 
             <Typography
               sx={{ mx: "20px", mt: "30px", color: theme.palette.text.main }}
@@ -212,25 +262,6 @@ export default function Profile() {
             >
               {user.displayName}
             </Typography>
-          </Stack>
-          <Stack>
-            <label htmlFor="upload">choose image</label>
-
-            <input
-              style={{ display: "none" }}
-              onChange={(e) => {
-                setprofileimage(e.target.files[0]);
-              }}
-              type="file"
-              id="upload"
-            />
-            <Button
-              onClick={() => {
-                sendprofileImage();
-              }}
-            >
-              submit
-            </Button>
           </Stack>
           <Divider
             sx={{ width: "100%" }}

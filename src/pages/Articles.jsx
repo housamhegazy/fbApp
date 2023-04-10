@@ -1,10 +1,15 @@
 //send only one image to local storage and download url
 
 import { Button } from "@mui/material";
+import { auth } from "../firebase/config";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Articles() {
+  const [user, loading, error] = useAuthState(auth);
+  const navigate = useNavigate()
   //=========================
   //== profile image variables
   //==========================
@@ -14,20 +19,22 @@ export default function Articles() {
   const [profileUrl, setprofileUrl] = useState("");
   // Get a reference to the storage service, which is used to create references in your storage bucket
   const storage = getStorage();
-  const imageRef = ref(storage, `profile/profimage.jpg`);
+ 
   //==================================
   //==================================
   //send profile photo to reference in storage
   //==================================
-  //==================================
+  //==================================   
   const sendprofileImage = () => {
     // send file to storage
+    const imageRef = ref(storage, `Articles/${user.uid}/profimage.jpg`);
     uploadBytes(imageRef, profileimage)
       .then((snapshot) => {
         // هنا بنحصل على الرابط حتى يحدث تحديث فوري للصوره
-        getDownloadURL(ref(storage, `profile/profimage.jpg`)).then((url) => {
-          setprofileUrl(url);
-        });
+          getDownloadURL(ref(storage, `Articles/${user.uid}/profimage.jpg`)).then((url) => {
+            setprofileUrl(url);
+          });
+        
       })
       .then(() => console.log("uploaded"));
   };
@@ -39,7 +46,11 @@ export default function Articles() {
   //==================================
 
   useEffect(() => {
-    getDownloadURL(ref(storage, `images/profile`))
+    if(!user&&!loading){
+      navigate('/')
+    }
+    if(user){
+      getDownloadURL(ref(storage, `Articles/${user.uid}/profimage.jpg`))
       .then((url) => {
         // Insert url into an <img> tag to "download"
         setprofileUrl(url);
@@ -71,6 +82,8 @@ export default function Articles() {
           console.log(" downloaded succesfully");
         }
       });
+    }
+    
   }, []);
 
   return (

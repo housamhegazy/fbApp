@@ -6,49 +6,17 @@ import {
   Stack,
   Paper,
 } from "@mui/material";
+import { useContext } from "react";
+import { TodoListContext } from "context/PostimageList";
 
-import React, { useReducer, useState } from "react";
-const initialData = [
-  { id: 0, text: "Visit Kafka Museum", done: true },
-  { id: 1, text: "Watch a puppet show", done: false },
-  { id: 2, text: "Lennon Wall pic", done: false },
-];
-let nextId = 3;
-function reducerExample(state, action) {
-  switch (action.type) {
-    case "ADDTASK":
-      return (state.initialData = [
-        ...state.initialData,
-        { text: action.payload, done: true, id: nextId++ },
-      ]);
-    case "DELETETASK":
-      return (state.initialData = state.initialData.filter((item) => {
-        return item.id !== action.payload;
-      }));
-    default:
-      return state;
-  }
-}
 export default function Settings() {
-  const [state, dispatch] = useReducer(reducerExample, initialData);
-  const [inputData, setinputData] = useState("");
-  function onChanges(e) {
-    setinputData(e.target.value);
-  }
-  function addData() {
-    if (inputData.length > 0) {
-      dispatch({ type: "ADDTASK", payload: inputData });
-      setinputData("");
-    }
-  }
-  function handledelete(id) {
-    dispatch({ type: "DELETETASK", payload: id });
-  }
+ 
+  const {state,handledelete,addData,onChanges,inputData} = useContext(TodoListContext)
   return (
     <Stack sx={{ justifyContent: "center", alignItems: "center", pt: 3 }}>
-      <Typography variant="h3" sx={{ py: 2 }}>
+      <Typography variant="h5" sx={{ py: 2 }}>
         {" "}
-        Todo List
+        useReducer Todo List
       </Typography>
       <Box component="form" sx={{ display: "flex", justifyContent: "center" }}>
         <TextField
@@ -70,7 +38,7 @@ export default function Settings() {
         </Button>
       </Box>
       <Box>
-        {state.initialDatate.map((t) => {
+        {state.map((t) => {
           return (
             <Paper
               key={t.id}

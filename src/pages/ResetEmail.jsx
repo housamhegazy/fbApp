@@ -52,7 +52,6 @@ export default function ResetEmail() {
         const errorCode = error.code;
         const errorMessage = error.message;
         setresetpass(errorCode);
-        console.log(data);
       });
   return (
     <Box>

@@ -16,8 +16,8 @@ import Groups from "pages/Groups";
 import Marketplace from "pages/Marketplace";
 import Friends from "pages/Friends";
 import Settings from "./pages/Settings";
-// import ListProvider from './Context/PostimageList';
-
+import ListProvider from './context/PostimageList';
+import { ProfileImageProvider } from "./context/ProfileImage";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
@@ -39,11 +39,13 @@ const router = createBrowserRouter(
 
 function App() {
   return (
-    // <ListProvider>
+    <ProfileImageProvider>
+    <ListProvider>
     <div className="App">
       <RouterProvider router={router} />
     </div>
-    // </ListProvider>
+    </ListProvider>
+    </ProfileImageProvider>
   );
 }
 
