@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { styled, alpha } from "@mui/material/styles";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -20,7 +20,7 @@ import { useState } from "react";
 import { Avatar, Link } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config";
-import { NavLink, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { ProfileImageContext } from "../context/ProfileImage";
 const Search = styled("div")(({ theme }) => ({
