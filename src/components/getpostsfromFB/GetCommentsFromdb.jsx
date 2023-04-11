@@ -67,7 +67,7 @@ export default function GetCommentsFromdb({
                       <Stack
                         sx={{ mr: 1, justifyContent: "center", alignItems: "center" }}
                       >
-                        <Avatar sizes="small" sx={{ mr: 1 }}></Avatar>
+                        <Avatar src="https://mui.com/static/images/avatar/2.jpg" sizes="small" sx={{ mr: 1 }}></Avatar>
                         {/* <Typography variant="body1" sx={{fontSize:"12px"}}>{item.data().name}</Typography> */}
                       </Stack>
                       <Divider light={true} orientation="vertical" flexItem />

@@ -24,6 +24,7 @@ import {
   Favorite,
   BookmarkBorder,
   Bookmark,
+  Close,
 } from "@mui/icons-material";
 
 
@@ -58,8 +59,8 @@ export default function GetPosts({
   const navigate = useNavigate()
   const options = {
     labels: {
-      confirmable: "Confirm",
-      cancellable: "Cancel",
+      confirmable: <Button variant="contained" size='small'>Confirm</Button>,
+      cancellable: <Button variant="contained" size='small'>Cancel</Button>,
     },
   };
   const message = (
@@ -82,6 +83,7 @@ export default function GetPosts({
       <MenuItem
         onClick={() => {
           handleClose();
+          handelDelete();
         }}
       >
         delete
@@ -123,8 +125,24 @@ export default function GetPosts({
           return (
             <Card
               key={item.id}
-              sx={{ maxWidth: { xs: "97%", sm: 444 }, mx: "auto", my: 5 }}
+              sx={{ maxWidth: { xs: "97%", sm: 444 }, mx: "auto", my: 5 ,position:'relative'}}
             >
+               {/* delete card btn */}
+               <IconButton
+                sx={{position:'absolute',right:'40px',top:'5px'}}
+                onClick={async (id) => {
+                  // @ts-ignore
+                  const result = await confirm(message, options);
+                  if (result) {
+                    handelDelete(item.id);
+                    deleteFromFirebase(urlfunc(item.id))
+                    return;
+                  }
+                  return;
+                }}
+              >
+                <Close color={'error'}/>
+              </IconButton>
               <CardHeader
                 avatar={
                   <Avatar
@@ -178,21 +196,7 @@ export default function GetPosts({
                   checkedIcon={<Bookmark />}
                 />
               </CardActions>
-              {/* delete card btn */}
-              <Button
-                onClick={async (id) => {
-                  // @ts-ignore
-                  const result = await confirm(message, options);
-                  if (result) {
-                    handelDelete(item.id);
-                    deleteFromFirebase(urlfunc(item.id))
-                    return;
-                  }
-                  return;
-                }}
-              >
-                delete
-              </Button>
+             
               <Comments id={item.id}/>
               {renderMenu()}
             </Card>

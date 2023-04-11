@@ -18,7 +18,7 @@ export default function Posts() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  //delete item from firebase
+  //delete post from firebase
   const handelDelete = async (val) => {
     await deleteDoc(doc(db, user.uid, val));
   };

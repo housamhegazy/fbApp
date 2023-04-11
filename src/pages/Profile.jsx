@@ -238,7 +238,10 @@ export default function Profile() {
                   submit
                 </Button>
                 <IconButton
-                
+                onClick={() => {
+                  setpreviw(null);
+                  setprofileimage(null)
+                }}
                 color='error'
                   sx={{
                     position: "absolute",
@@ -248,10 +251,7 @@ export default function Profile() {
                     backgroundColor: "white",
                   }}
                 >
-                  <Close onClick={() => {
-                  setpreviw(null);
-                  setprofileimage(null)
-                }}/>
+                  <Close />
                 </IconButton>
               </Box>
             )}
