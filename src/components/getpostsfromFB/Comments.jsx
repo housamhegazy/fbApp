@@ -15,12 +15,15 @@ export default function Comments({id}) {
 
 //send comments to firebase db
   const sendDatatoFireBase = async () => {
+    if(commentInput.trim().length > 0 ){
       await setDoc(doc(db, `comments${user.uid}`, `${idforComment}`), {
         name: user.displayName,
         post: commentInput,
         commentid: id,
       });
       setcommentInput('')
+    }
+      
   };
 
   const deletecomment = async(itemid)=>{
