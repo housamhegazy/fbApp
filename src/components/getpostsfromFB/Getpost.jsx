@@ -26,10 +26,16 @@ import {
   Bookmark,
 } from "@mui/icons-material";
 
-import ShareIcon from "@mui/icons-material/Share";
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Loading from "../Loading";
 import { confirm } from "react-confirm-box";
+import { useContext } from "react";
+import { ProfileImageContext } from "context/ProfileImage";
+import { useNavigate } from "react-router-dom";
+import ShareComponent from "components/ShareComponent/WebShare";
+import Comments from "./Comments";
+
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -46,6 +52,8 @@ export default function GetPosts({
   const [value, loading, error] = useCollection(
     query(collection(db, user.uid), orderBy("id", "desc"))
   );
+  const {myURL} = useContext(ProfileImageContext) 
+  const navigate = useNavigate()
   const options = {
     labels: {
       confirmable: "Confirm",
@@ -84,7 +92,7 @@ export default function GetPosts({
   }
   if (value) {
     return (
-      <Box sx={{ flexGrow: "3" }} component="main">
+      <Box sx={{ flexGrow: "3"}} component="main">
         {value.docs.length < 1 && (
           <Stack
             direction={"column"}
@@ -118,11 +126,15 @@ export default function GetPosts({
               <CardHeader
                 avatar={
                   <Avatar
+                  onClick={()=>{
+                    navigate('/profile')
+                  }}
                     sx={{
                       bgcolor: "red",
                       color: "white",
+                      cursor:"pointer"
                     }}
-                    src={user.photoURL}
+                    src={myURL}
                   >
                     {`${user.displayName}`.charAt(0)}
                   </Avatar>
@@ -155,10 +167,7 @@ export default function GetPosts({
                   icon={<FavoriteBorder />}
                   checkedIcon={<Favorite sx={{ color: "red" }} />}
                 />
-
-                <IconButton aria-label="share">
-                  <ShareIcon />
-                </IconButton>
+                  <ShareComponent/>
                 <Box sx={{ flexGrow: "1" }} />
                 <Checkbox
                   {...label}
@@ -181,6 +190,7 @@ export default function GetPosts({
               >
                 delete
               </Button>
+              <Comments id={item.id}/>
               {renderMenu()}
             </Card>
           );

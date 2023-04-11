@@ -1,0 +1,30 @@
+.web-share{
+    position:relative;
+}
+.web-share .shareMenu{
+    opacity:1;
+    visibility: visible;
+    position:absolute;
+    bottom:100%;
+    background-color: white;
+    min-width:100px;
+    height:200px;
+    padding: 10px;
+    border-radius: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+.web-share .shareMenu.active{
+    transform: translateY(0px);
+    transition: all .3s ease-in-out;
+}
+.web-share .shareMenu.inActive{
+    opacity:0;
+    visibility: hidden;
+    
+    transform: translateY(-20px);
+    transition: all .3s ease-in-out;
+}

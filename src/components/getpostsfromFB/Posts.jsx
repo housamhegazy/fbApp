@@ -35,7 +35,6 @@ export default function Posts() {
   const [imageList, setimageList] = useState([]);
   const storage = getStorage();
   const listRef = ref(storage, `postImage/${user.uid}/`);
-  console.log(user.uid);
   useEffect(() => {
     listAll(listRef).then((res) => {
       res.items.forEach((item) => {

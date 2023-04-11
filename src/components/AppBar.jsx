@@ -21,6 +21,8 @@ import { Avatar, Link } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { ProfileImageContext } from "context/ProfileImage";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -66,6 +68,8 @@ export default function Appbar({ drawerWidth, handleDrawerToggle }) {
   const rerfmenuMobile = useRef(null);
   const [showMenu, setshowMenu] = useState(false);
   const rerfmenu = useRef(null);
+//get profile photo url from context
+  const {myURL} = useContext(ProfileImageContext)
   //menu mobile screan
   const renderMobileMenu = (
     <Menu
@@ -224,7 +228,7 @@ export default function Appbar({ drawerWidth, handleDrawerToggle }) {
                 <Avatar
                   sx={{ width: "37px", height: "37px" }}
                   alt="housam"
-                  src={user.photoURL}
+                  src={myURL}
                 />
               </IconButton>
             </Box>

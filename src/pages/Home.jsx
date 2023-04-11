@@ -102,6 +102,7 @@ export default function HomePage() {
         divider={<Divider orientation="vertical" flexItem />}
         direction="row"
       >
+        
         <Posts />
 
         <Rightbar />

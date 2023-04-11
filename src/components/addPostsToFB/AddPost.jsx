@@ -24,7 +24,9 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { CalendarMonth } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Loading from "./../Loading";
-import { getDownloadURL, getStorage,ref,uploadBytes } from "firebase/storage";
+import { getStorage,ref,uploadBytes } from "firebase/storage";
+import { useContext } from "react";
+import { ProfileImageContext } from "context/ProfileImage";
 export default function AddPost({handleClick}) {
   const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = useState(false);
@@ -37,7 +39,7 @@ export default function AddPost({handleClick}) {
   const [image,setImage]=useState(null)
   const storage = getStorage();
   const imageRef = ref(storage, `postImage/${user.uid}/${postId}.jpg`);
-
+  const {myURL} = useContext(ProfileImageContext)
 // 'file' comes from the Blob or File API
 const sendPostImage = ()=>{
   uploadBytes(imageRef, image).then((snapshot) => {
@@ -111,7 +113,7 @@ const sendPostImage = ()=>{
             Creat Post
           </Typography>
           <Stack direction="row" sx={{ alignItems: "center", my: "10px" }}>
-            <Avatar alt="Remy Sharp" src={user.photoURL} />
+            <Avatar alt="Remy Sharp" src={myURL} />
             <Typography id="modal-modal-description" sx={{ mx: "10px" }}>
               {user.displayName}
             </Typography>

@@ -7,7 +7,7 @@ import {
   Paper,
 } from "@mui/material";
 import { useContext } from "react";
-import { TodoListContext } from "context/PostimageList";
+import { TodoListContext } from "context/TodoList";
 
 export default function Settings() {
  
