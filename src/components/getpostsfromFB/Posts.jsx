@@ -46,7 +46,7 @@ export default function Posts() {
       });
     });
   }, [imageList,listRef]);
-
+// if url media not undefiend show mediain card
   const urlfunc = (id) => {
     const myUrl = imageList.find((ele) => {
       return ele.includes(id) ? ele : null;

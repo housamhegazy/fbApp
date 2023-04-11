@@ -31,7 +31,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Loading from "../Loading";
 import { confirm } from "react-confirm-box";
 import { useContext } from "react";
-import { ProfileImageContext } from "../../Context/ProfileImage";
+import { ProfileImageContext } from "../../context/ProfileImage";
 import { useNavigate } from "react-router-dom";
 import ShareComponent from "components/ShareComponent/WebShare";
 import Comments from "./Comments";
@@ -52,6 +52,7 @@ export default function GetPosts({
   const [value, loading, error] = useCollection(
     query(collection(db, user.uid), orderBy("id", "desc"))
   );
+  //profile photo url from context
   const {myURL} = useContext(ProfileImageContext) 
   const navigate = useNavigate()
   const options = {

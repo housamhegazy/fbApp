@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { deleteDoc, doc, setDoc } from "firebase/firestore";
 import { useContext } from "react";
-import  { CommentsContext } from "../../Context/comments";
+import  { CommentsContext } from "../../context/comments";
 
 import GetCommentsFromdb from "./GetCommentsFromdb";
 
