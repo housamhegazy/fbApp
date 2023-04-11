@@ -23,7 +23,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { Close } from "@mui/icons-material";
 import { useContext } from "react";
-import { ProfileImageContext } from "../context/ProfileImage.jsx";
+import { ProfileImageContext } from "../Context/ProfileImage";
 export default function Profile() {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);

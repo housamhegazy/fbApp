@@ -31,6 +31,7 @@ export default function GetCommentsFromdb({
             e.preventDefault()
         }}>
           <TextField
+          required
             onChange={(e) => {
               setcommentInput(e.target.value);
             }}

@@ -22,7 +22,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/config";
 import {  useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { ProfileImageContext } from "../context/ProfileImage";
+import { ProfileImageContext } from "../Context/ProfileImage";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
