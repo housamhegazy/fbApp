@@ -23,7 +23,7 @@ import Snackbar from "@mui/material/Snackbar";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { Close } from "@mui/icons-material";
 import { useContext } from "react";
-import { ProfileImageContext } from "context/ProfileImage";
+import { ProfileImageContext } from "../Context/ProfileImage";
 export default function Profile() {
   const theme = useTheme();
   const [user, loading, error] = useAuthState(auth);
@@ -225,7 +225,7 @@ export default function Profile() {
                   justifyContent: "center",
                   alignItems: "center",
                   backgroundColor: "#21171fab",
-                  zIndex: "1000000",
+                  zIndex: "100000000",
                   
                 }}
               >
@@ -238,10 +238,7 @@ export default function Profile() {
                   submit
                 </Button>
                 <IconButton
-                onClick={() => {
-                  setpreviw(null);
-                  setprofileimage(null)
-                }}
+                
                 color='error'
                   sx={{
                     position: "absolute",
@@ -251,7 +248,10 @@ export default function Profile() {
                     backgroundColor: "white",
                   }}
                 >
-                  <Close/>
+                  <Close onClick={() => {
+                  setpreviw(null);
+                  setprofileimage(null)
+                }}/>
                 </IconButton>
               </Box>
             )}

@@ -31,7 +31,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Loading from "../Loading";
 import { confirm } from "react-confirm-box";
 import { useContext } from "react";
-import { ProfileImageContext } from "context/ProfileImage";
+import { ProfileImageContext } from "../../Context/ProfileImage";
 import { useNavigate } from "react-router-dom";
 import ShareComponent from "components/ShareComponent/WebShare";
 import Comments from "./Comments";

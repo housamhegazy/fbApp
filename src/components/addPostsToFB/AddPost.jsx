@@ -26,7 +26,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import Loading from "./../Loading";
 import { getStorage,ref,uploadBytes } from "firebase/storage";
 import { useContext } from "react";
-import { ProfileImageContext } from "context/ProfileImage";
+import { ProfileImageContext } from "../../Context/ProfileImage";
 export default function AddPost({handleClick}) {
   const [user, loading, error] = useAuthState(auth);
   const [open, setOpen] = useState(false);

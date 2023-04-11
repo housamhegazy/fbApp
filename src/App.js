@@ -16,9 +16,9 @@ import Groups from "pages/Groups";
 import Marketplace from "pages/Marketplace";
 import Friends from "pages/Friends";
 import Settings from "./pages/Settings";
-import ListProvider from "./context/TodoList";
-import { ProfileImageProvider } from "./context/ProfileImage";
-import CommentsProvider from "context/comments";
+import ListProvider from "./Context/TodoList";
+import { ProfileImageProvider } from "./Context/ProfileImage";
+import CommentsProvider from "./Context/comments";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
