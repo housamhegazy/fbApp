@@ -42,7 +42,9 @@ export default function Posts() {
           if (!imageList.includes(url)) {
             setimageList((prev) => [...prev, url]);
           }
-        });
+        })
+
+
       });
     });
   }, [imageList,listRef]);
@@ -80,7 +82,7 @@ export default function Posts() {
         handelDelete,
         handleClick,
         urlfunc,
-        deleteFromFirebase
+        deleteFromFirebase,
       }}
     />
   );

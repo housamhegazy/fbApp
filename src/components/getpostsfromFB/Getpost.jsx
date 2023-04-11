@@ -35,6 +35,7 @@ import { ProfileImageContext } from "../../context/ProfileImage";
 import { useNavigate } from "react-router-dom";
 import ShareComponent from "components/ShareComponent/WebShare";
 import Comments from "./Comments";
+import Moment from "react-moment";
 
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -47,7 +48,7 @@ export default function GetPosts({
   theme,
   handelDelete,
   handleClick,
-  urlfunc,deleteFromFirebase
+  urlfunc,deleteFromFirebase,
 }) {
   const [value, loading, error] = useCollection(
     query(collection(db, user.uid), orderBy("id", "desc"))
@@ -146,7 +147,8 @@ export default function GetPosts({
                   </IconButton>
                 }
                 title={user.displayName}
-                subheader={"2 years ago"}
+                subheader={<Moment fromNow>{Number(item.id)}</Moment>}
+                
               />
               {urlfunc(item.id) !== undefined && (
                 <CardMedia

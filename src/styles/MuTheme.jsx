@@ -12,6 +12,7 @@ const getDesignTokens = (mode) => ({
               faveColor: {
                 main: "rgb(247,247,247)",
               },
+             
             }
           : {
               // palette values for dark mode
@@ -21,6 +22,9 @@ const getDesignTokens = (mode) => ({
               faveColor: {
                 main: "null",
               },
+              background:{
+                default:"#f50057",
+              }
             }),
       },
   });
